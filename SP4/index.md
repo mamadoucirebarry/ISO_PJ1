@@ -1,3 +1,3 @@
 ### Sprint 4: ____
 
-![Portada](images/sp4/portada.png)
+![Portada](images/sp4/portada.jpg)
