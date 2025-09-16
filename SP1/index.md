@@ -1,6 +1,6 @@
 ### Sprint 1: ____
 
-![Portada](images/sp1/portada.jpg)
+![Portada](/images/sp1/portada.jpg)
 
 ## Todo 
 - [x] [Iniciar amb el markdown](#inici)
