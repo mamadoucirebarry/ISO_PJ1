@@ -22,6 +22,7 @@ Fent servir la teoria de `https://www.markdownguide.org/cheat-sheet`
 ![Proves](/comprovacions/sp1_testing.gif)(#proves)
 
 > Aqui podem veure una tabla de les eines:
+
 | Programa | Like | Dislike |
 |----------|----------|----------|
 | Vscode    | Es facil   | Requereix fer molts clicks   |
