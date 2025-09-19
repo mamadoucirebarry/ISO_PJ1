@@ -19,6 +19,8 @@ Tasca: crear màquina virtual per instal·lar Ubuntu 24
 
 Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/index.ca.html)) molt popular (en servidors) de codi obert. En aquest document, explicaré el procediment d'instal·lació, configuració i algunes comandes bàsiques.
 
+Té una llicència GPL (GNU General Public License), que permet modificar, distribuir i utilitzar el sistema de manera lliure.
+
 ## Configuració VirtualBox
 En iniciar, el programari de VirtualBox creem una nova màquina virtual, amb la següent configuració minima es prou
 * Ram: 4 GB, en l'experiencia d'usar les maquina virtual, 
