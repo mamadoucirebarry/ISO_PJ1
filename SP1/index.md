@@ -38,7 +38,7 @@ En iniciar seguim els passos que mostra al vídeo, fins arribar al particionat.
 
 ![ConfiguracióMaquina](/images/sp1/instalacioAnimada_1.gif)
 
-En el particioniat s'ha creat l'arrel i el swap
+En el particioniat s'ha creat l'arrel, que és la partició a on es troba tot el sistema de fitxers i el swap que és la partició arxiu que és fara servir en cas que la ram no sigui prou.
 
 ![ConfiguracióMaquina](/images/sp1/instalacioAnimada_2.gif)
 
