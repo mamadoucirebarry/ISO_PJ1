@@ -13,7 +13,7 @@ Aquest repositori conté els projectes realitzat a **Implantació de sistemes op
 
 Este repositorio está preparado para ser publicado con GitHub Pages.  
 Puedes ver la versión web pública en:  
-https://mireiaconsarnau.github.io/machine_learning/
+https://mamadoucirebarry.github.io/ISO_PJ1
 
 ## Licencia
 
