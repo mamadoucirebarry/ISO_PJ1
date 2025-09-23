@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Curso aa Machine Learning"
+title: "Curso de Machine Learning"
 ---
 
 Este repositorio contiene el material del curso de Machine Learning desarrollado por Mireia Consarnau.
