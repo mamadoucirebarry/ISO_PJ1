@@ -1,4 +1,4 @@
-# Curso de Administracio Sistemes
+# Curs de Administracio Sistemes
 
 Aquest repositori conté els projectes realitzat a **Implantació de sistemes operatius**
 ## Contingut
