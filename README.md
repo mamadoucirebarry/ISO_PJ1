@@ -2,7 +2,7 @@
 layout: default
 title: "Curso de Machine Learning"
 ---
-
+## Editado
 Este repositorio contiene el material del curso de Machine Learning desarrollado por Mireia Consarnau.
 
 - Índice y enlaces a las unidades del curso.
