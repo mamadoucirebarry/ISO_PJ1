@@ -19,8 +19,6 @@ Tasca: crear màquina virtual per instal·lar Ubuntu 24
 
 Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/index.ca.html)) molt popular (en servidors) de codi obert. En aquest document, explicaré el procediment d'instal·lació, configuració i algunes comandes bàsiques.
 
-Té una llicència GPL (GNU General Public License), que permet modificar, distribuir i utilitzar el sistema de manera lliure.
-
 ## Configuració VirtualBox
 En iniciar, el programari de VirtualBox creem una nova màquina virtual, amb la següent configuració minima es prou
 * Ram: 4 GB, en l'experiencia d'usar les maquina virtual, 
@@ -65,6 +63,18 @@ Fent servir el sistema de fitxers ext4 que és el més comú fet servir en Ubunt
 ![particionat](/images/sp1/particionat.png)
 
 ## Llicenciament
+Ubuntu té una llicència GPL (GNU General Public License), que permet modificar, distribuir i utilitzar el sistema de manera lliure.
+
+Hi han diverses tipus de llicencies en linux, per exemple
+- **MIT license**: similar a la GPL, permet modificar, distribuir i usar el programari de forma lliure, peró a diferencia de la GPL, s'ha redistribuir el codi amb mínimes restriccions, sempre incloent-hi l'avís de **copyright** original i la renúncia de responsabilitat
+- **Apache License**: permet als desenvolupadors utilitzar, modificar i redistribuir el programari, obligant d'esmentar cadascun dels canvis que es facin.
+
+Alguns dels conceptes que més es mencionen en licencies són:
+- **copyleft**: els usuaris poden utilitzar, modificar i distribuir lliurement l'obra. Requereix que les obres derivades estiguin subjectes a la mateixa llicència de copyright.
+    * Promou la col·laboració i l'intercanvi en la comunitat creativa, com per exemple GPL o Creative Commons licenses.
+- **copyright**: protegeix els drets del creador de controlar l'ús, la distribució i la modificació de l'obra, no requereix que les obres derivades siguin llicenciades sota els mateixos termes.
+    * Protegeix els drets dels creadors i incentivar la innovació. Exemple: All Rights Reserved, Public Domain Dedication, copyright
+  
 ## Gestors d'arrencada per a instal·lacions dual
 ## Punts de restauració
 ## Configuració de la xarxa
