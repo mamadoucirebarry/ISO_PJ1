@@ -62,6 +62,10 @@ Fent servir el sistema de fitxers ext4 que és el més comú fet servir en Ubunt
 
 ![particionat](/images/sp1/particionat.png)
 
+
+I finalment després d'acabar l'instal·lació tindrem l'instal·lació feta:
+
+![instalat](/images/sp1/instalat.png)
 ## Llicenciament
 Ubuntu té una llicència GPL (GNU General Public License), que permet modificar, distribuir i utilitzar el sistema de manera lliure.
 
@@ -76,6 +80,13 @@ Alguns dels conceptes que més es mencionen en licencies són:
     * Protegeix els drets dels creadors i incentivar la innovació. Exemple: All Rights Reserved, Public Domain Dedication, copyright
   
 ## Gestors d'arrencada per a instal·lacions dual
+En primer lloc hem de realitzar canvis en la configuració de VirtualBox degut a que requereix una configuració específica.
+Els canvis duts a terme són:
+- Canviar el tipus de sistema a Windows
+- Habilitar el EF
+
+Afegir la ISO de Windows i seguidament inciar
+
 ## Punts de restauració
 ## Configuració de la xarxa
 ## Commandes generals i isntalacions
