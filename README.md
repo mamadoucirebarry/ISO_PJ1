@@ -1,6 +1,7 @@
 # Curs de Administracio Sistemes
 
 Aquest repositori conté els projectes realitzat a **Implantació de sistemes operatius**
+
 ## Contingut
 
 - [Sprint 1: Instal·lació, Configuració Inicial i Programari de Base (13h)](SP1/index.md)
@@ -18,7 +19,6 @@ https://mamadoucirebarry.github.io/ISO_PJ1
 ## Licencia
 
 El contenido está bajo licencia [Creative Commons BY-NC-SA 3.0 ES](LICENSE.md).
-
 
 ---
 
