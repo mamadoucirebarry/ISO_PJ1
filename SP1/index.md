@@ -118,17 +118,15 @@ Afegida la ISO de Windows i iniciat.
 
 Realitzem el procés d'instal·lació normal fins a la finestra de particions a on seleccionem la buida. I esperem fins que finalitzi i continuem el procés d'instal·lació.
 
-| Pas 1                                                                        | Pas 2                                                                               |
-| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 1, continuem endavant](../images/sp1/installWin1.png) | ![Instal·lació Windows 2, seleccionem personalitzat](../images/sp1/installWin2.png) |
-
-| Pas 3                                                                          | Pas 4                                                                             |
-| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 3, seleccionem la buida](../images/sp1/installWin3.png) | ![Instal·lació Windows 4, esperem que s'instal·li](../images/sp1/installWin4.png) |
-
-| Pas 5                                                                       | Pas 6                                                                              |
-| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 5, seguim els passos](../images/sp1/installWin5.png) | ![Instal·lació Windows 6, instal·lació finalitzada](../images/sp1/installWin6.png) |
+| Pas 1                                                                          | Pas 2                                                                               |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| ![Instal·lació Windows 1, continuem endavant](../images/sp1/installWin1.png)   | ![Instal·lació Windows 2, seleccionem personalitzat](../images/sp1/installWin2.png) |
+| Pas 3                                                                          | Pas 4                                                                               |
+| ------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------   |
+| ![Instal·lació Windows 3, seleccionem la buida](../images/sp1/installWin3.png) | ![Instal·lació Windows 4, esperem que s'instal·li](../images/sp1/installWin4.png)   |
+| Pas 5                                                                          | Pas 6                                                                               |
+| ---------------------------------------------------------------------------    | ----------------------------------------------------------------------------------  |
+| ![Instal·lació Windows 5, seguim els passos](../images/sp1/installWin5.png)    | ![Instal·lació Windows 6, instal·lació finalitzada](../images/sp1/installWin6.png)  |
 
 ### Recuperació escenari 1
 
