@@ -5,13 +5,13 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
 
 # Index
 
-- [Virtualització i instal·lació del so Ubuntu](#virtualització-i-installació-del-so-ubuntu)
+- [Virtualització i instal·lació del so Ubuntu](#virtualització-i-instal·lació-del-so-ubuntu)
   - [Llicenciament](#llicenciament)
   - [Configuració VirtualBox](#configuració-virtualbox)
   - [Procediment animat](#procediment-animat)
-  - [Instal·lació guiada](#installació-guiada)
+  - [Instal·lació guiada](#instal·lació-guiada)
   - [Gestors d'arrencada](#gestors-darrencada-per-a-installacions-dual)
-    - [Instal·lació dual](#installació-dual)
+    - [Instal·lació dual](#instal·lació-dual)
     - [Recuperació escenari 1](#recuperació-escenari-1)
       - [SuperGrub](#super-grub-disk)
       - [Live ISO](#live-iso)
@@ -26,25 +26,25 @@ Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/
 
 Ubuntu té una llicència GPL (GNU General Public License), que permet modificar, distribuir i utilitzar el sistema de manera lliure.
 
-Hi han diverses tipus de llicencies en linux, per exemple
+N'Hi han de diverses tipus de llicències en Linux, per exemple:
 
-- **MIT license**: similar a la GPL, permet modificar, distribuir i usar el programari de forma lliure, peró a diferencia de la GPL, s'ha redistribuir el codi amb mínimes restriccions, sempre incloent-hi l'avís de **copyright** original i la renúncia de responsabilitat
-- **Apache License**: permet als desenvolupadors utilitzar, modificar i redistribuir el programari, obligant d'esmentar cadascun dels canvis que es facin.
+- **MIT license**: similar a la GPL, permet modificar, distribuir i usar el programari de manera lliure, però a diferencia de la GPL, s'ha de redistribuir el codi amb mínimes restriccions, sempre incloent-hi l'avís de **copyright** original i la renúncia de responsabilitat
+- **Apache License**: permet als desenvolupadors utilitzar, modificar i redistribuir el programari, obligant de mencionar cadascun dels canvis que es facin.
 
-Alguns dels conceptes que més es mencionen en licencies són:
+Alguns dels conceptes que més es mencionen en llicencies són:
 
 - **copyleft**: els usuaris poden utilitzar, modificar i distribuir lliurement l'obra. Requereix que les obres derivades estiguin subjectes a la mateixa llicència de copyright.
   - Promou la col·laboració i l'intercanvi en la comunitat creativa, com per exemple GPL o Creative Commons licenses.
 - **copyright**: protegeix els drets del creador de controlar l'ús, la distribució i la modificació de l'obra, no requereix que les obres derivades siguin llicenciades sota els mateixos termes.
-  - Protegeix els drets dels creadors i incentivar la innovació. Exemple: All Rights Reserved, Public Domain Dedication, copyright
+  - Protegeix els drets dels creadors i incentiva la innovació. Exemple: All Rights Reserved, Public Domain Dedication, copyright
 
 ## Configuració VirtualBox
 
-En iniciar, el programari de VirtualBox creem una nova màquina virtual, amb la següent configuració minima es prou
+En iniciar, el programari de VirtualBox creem una nova màquina virtual, amb la següent configuració mínima es prou.
 
-- Ram: 4 GB, en l'experiencia d'usar les maquina virtual,
-- Processador: en 4 fils de CPU anira fluid, encara que en 2 funcionara, al ser una maquina que creixara, necessitarem més potencia
-- Xarxa: Nat, l'entorn que farem servir será un de proves i degut a que permet aïllar la màquina virtual.
+- RAM: 4 GB, en l'experiència d'usar les maquines virtuals.
+- Processador: en 4 fils de CPU anirà fluid, encara que en 2 funcionarà, al ser una maquina que creixerà, necessitarem més potència.
+- Xarxa: NAT, l'entorn que farem servir serà un de proves i degut a que permet aïllar la màquina virtual.
 - Posem la ISO d'ubuntu.
 
 ![ConfiguracioMaquina](../images/sp1/ConfiguracioMaquina.png)
@@ -55,13 +55,13 @@ En iniciar seguim els passos que mostra al vídeo, fins arribar al particionat.
 
 ![ConfiguracióMaquina](../images/sp1/instalacioAnimada_1.gif)
 
-En el particioniat s'ha creat l'arrel, que és la partició a on es troba tot el sistema de fitxers i el swap que és la partició arxiu que és fara servir en cas que la ram no sigui prou.
+En el particionat s'ha creat l'arrel, que és la partició a on es troba tot el sistema de fitxers i el swap que és la partició arxiu que és farà servir en cas que la ram no sigui prou.
 
 ![ConfiguracióMaquina](../images/sp1/instalacioAnimada_2.gif)
 
 ## Instal·lació guiada
 
-Posteriorment d'inicar, pressionem Enter per iniciar el instal·lador
+Posteriorment d'inicar, pressionem **Enter** per iniciar el instal·lador.
 
 ![Inici instal·lador](../images/sp1/pressEnter.png)
 
@@ -73,8 +73,8 @@ Seguim el procés d'instal·lació seleccionant les nostres opcions.
 
 En les particions he creat les següents bàsiques:
 
-- **'/'**: per al sistema i aplicacions. Ocupant tot el disco
-- **'/efi'**: es crea automáticament (és la de menor mida) actua com el lloc d'emmagatzematge per als carregadors d'arrencada EFI, les aplicacions i els controladors que seran llançats pel firmware UEFI.
+- **'/'**: per al sistema i aplicacions. Ocupant tot el disc.
+- **'/efi'**: es crea automàticament (és la de menor mida) actua com el lloc d'emmagatzematge per als carregadors d'arrencada EFI, les aplicacions i els controladors que seran llançats pel firmware UEFI.
 - **'swap'**: memòria virtual per evitar bloquejos amb 4 GB de RAM.
 
 Fent servir el sistema de fitxers ext4 que és el més comú fet servir en Ubuntu, que menys problemes dona.
@@ -94,7 +94,7 @@ Els discos poden tenir
 - **MBR**: antic, limitat a **4 particions** primaries o pots tenir **3 primàries + 1 estesa**, i dins l’estesa crear particions lògiques.
 - **GPT**: moderna, més flexible.
 
-En cás de realitzar instal·lació dual amb un sistema com Windows (**BOOTMGR**) que no evita _"trencar"_ els altres gestors, és "perdrà" l'accés, degut a que:
+En cas de realitzar instal·lació dual amb un sistema com Windows (**BOOTMGR**) que no evita _"trencar"_ els altres gestors, és "perdrà" l'accés, degut a que:
 
 - **BOOTMGR**: sobrescriu MBR/EFI, només arrenca Windows, no detecta Linux.
 - **GRUB**: gestiona múltiples SO, detecta Windows, s’instal·la a MBR/EFI i mostra menú d’arrencada.
@@ -105,23 +105,6 @@ En aquest apartat explicaré com realitzar l'instal·lació dual i com recuperar
 - supergrub2 + iso ubuntu
 
 ### Instal·lació dual
-
-<!-- En primer lloc, entrant en l'Ubuntu amb **Gnome Disks** he formatat el volum.
-![GParted-Partitioning-1](../images/sp1/gpartedPartitioning.png)
-
-I **fdisk** canviem l'estil de la partició a GPT.
-- Amb **"n"** s'ha creat una nova partició que fa servir tot el disk, de tipus **primaria** **"p"**.
-- Posteriorment amb **"t"** he canviat el tipus a **GPT**.
-
-![ParticionatAmbFdisk1](../images/sp1/fdiskPartitioning1.png)
-![ParticionatAmbFdisk2](../images/sp1/fdiskPartitioning2.png)
-
-I guardat amb **"w"**:
-
-![ParticionatAmbFdisk3](../images/sp1/fdiskPartitioning3.png)
-
-> _L'error que surt de **ioctl()**, és normal després de canviar particion; el kernel no reconoceix els canvis. S'arreglaria amb **sudo partprobe /dev/sda5** o amb un **reinici**._ > ![alt text](../images/sp1/preconfiguracio.png)
--->
 
 En primer lloc hem de realitzar canvis en la configuració de VirtualBox degut a que requereix una configuració específica. Els canvis duts a terme són:
 
@@ -135,21 +118,22 @@ Afegida la ISO de Windows i iniciat.
 
 Realitzem el procés d'instal·lació normal fins a la finestra de particions a on seleccionem la buida. I esperem fins que finalitzi i continuem el procés d'instal·lació.
 
-| Pas 1                                                                          | Pas 2                                                                               |
-| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 1, continuem endavant](../images/sp1/installWin1.png)   | ![Instal·lació Windows 2, seleccionem personalitzat](../images/sp1/installWin2.png) |
-| Pas 3                                                                          | Pas 4                                                                               |
-| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 3, seleccionem la buida](../images/sp1/installWin3.png) | ![Instal·lació Windows 4, esperem que s'instal·li](../images/sp1/installWin4.png)   |
-| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
-| Pas 5                                                                          | Pas 6                                                                               |
-| ---------------------------------------------------------------------------    | ----------------------------------------------------------------------------------  |
-| ![Instal·lació Windows 5, seguim els passos](../images/sp1/installWin5.png)    | ![Instal·lació Windows 6, instal·lació finalitzada](../images/sp1/installWin6.png)  |
+| Pas 1                                                                        | Pas 2                                                                               |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| ![Instal·lació Windows 1, continuem endavant](../images/sp1/installWin1.png) | ![Instal·lació Windows 2, seleccionem personalitzat](../images/sp1/installWin2.png) |
+
+| Pas 3                                                                          | Pas 4                                                                             |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| ![Instal·lació Windows 3, seleccionem la buida](../images/sp1/installWin3.png) | ![Instal·lació Windows 4, esperem que s'instal·li](../images/sp1/installWin4.png) |
+
+| Pas 5                                                                       | Pas 6                                                                              |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| ![Instal·lació Windows 5, seguim els passos](../images/sp1/installWin5.png) | ![Instal·lació Windows 6, instal·lació finalitzada](../images/sp1/installWin6.png) |
 
 ### Recuperació escenari 1
 
-En cás d'haver instal·lat primer Ubuntu i posteriorment Windows, aquestes són algunes formas de recuperar-ho.
-Podem comprovar que el GRUB no es troba degut a que inicia automaticament i surt "**grub rescue**".
+En cas d'haver instal·lat primer Ubuntu i posteriorment Windows, aquestes són algunes formes de recuperar-ho.
+Podem comprovar que el GRUB no es troba degut a que inicia automàticament i surt "**grub rescue**".
 
 | Comprovació que grub no inicia                                        | Imatge grub rescue error                                          |
 | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
@@ -157,7 +141,7 @@ Podem comprovar que el GRUB no es troba degut a que inicia automaticament i surt
 
 #### Super Grub Disk
 
-Aquesta eina ens permet detectar i inicia el sistema que no es troba, posteriorment hem de seguit els passos a partir del **punt 5** en **[Live ISO](#live-iso)**
+Aquesta eina ens permet detectar i inicia el sistema que no es troba, posteriorment hem de seguir els passos a partir del **punt 5** en **[Live ISO](#live-iso)**
 
 | Pas 1                                                | Pas 2                                                           |
 | ---------------------------------------------------- | --------------------------------------------------------------- |
@@ -211,7 +195,7 @@ grub-install /dev/sda; update-grub; exit
 
 | Desmuntem tot amb `umount -a`             | Comprovem que el grub es troba recuperat            |
 | ----------------------------------------- | --------------------------------------------------- |
-| ![Desmontem](../images/sp1/desmuntem.png) | ![Grub Recuperat](../images/sp1/grub-recuperat.png) |
+| ![Desmuntem](../images/sp1/desmuntem.png) | ![Grub Recuperat](../images/sp1/grub-recuperat.png) |
 
 ## Punts de restauració
 
@@ -219,50 +203,50 @@ Les instantànies són còpies puntuals de l‟estat d‟un sistema o disc que p
 
 ### Instal·lació i creació partició
 
-TimeShift és una eina Linux que crea aquestes instantànies per protegir dades i facilitar recuperacions; la farem servir per fer una copia aun disc extern i recuperar un document posteriorment.
+TimeShift és una eina Linux que crea aquestes instantànies per protegir dades i facilitar recuperacions; la farem servir per fer una còpia aun disc extern i recuperar un document posteriorment.
 
-Afegim un nou disc a on guardarem la instantanea.
+Afegim un nou disc a on guardarem la instantánea.
 
-![Disc instantanea](../images/sp1/discInstantanea.png)
+![Disc instantánea](../images/sp1/discInstantanea.png)
 
 Instal·lem **timeshift** amb `sudo apt install timeshift -y"
 
-![installTimeshif](../images/sp1/installTimeshift.png)
+![installTimeshift](../images/sp1/installTimeshift.png)
 
 Amb **`fdisk`** creem la partició (`n`) al disc nou identificat (sdb) amb `**lsblk**` .
 
-- De tipus primaria (`p`), fent ús de tot l'espai. I escrivim els canvis amb `w`
+- De tipus primària (`p`), fent ús de tot l'espai. I escrivim els canvis amb `w`
 
-![Creació particion instantanea](../images/sp1/creacioParticioInstant.png)
+![Creació partició instantánea](../images/sp1/creacioParticioInstant.png)
 
-> L'error que surt de **ioctl()**, és normal després de canviar particion; el kernel no reconoceix els canvis. S'arreglaria amb **sudo partprobe /dev/sda5** o amb un **reinici**
+> L'error que surt de **ioctl()**, és normal després de canviar particion; el kernel no reconeix els canvis. S'arreglaria amb **sudo partprobe /dev/sda5** o amb un **reinici**
 
 I l'he formatat a **ext4** amb `sudo mkfs.ext4 /dev/sdb1`.
 
 ![Format ext4](../images/sp1/formatExt4.png)
 
-### Creació copia
+### Creació còpia
 
 He creat l'arxiu `"test.txt"` amb el contingut `"Hola"`.
 
-I posteriorment fent la còpia, excloent-hi totes les que no volem.
+I posteriorment fent la còpia, excloent els directoris no volem.
 
 - Posterior d'esborrar l'arxiu l'he recuperat fent clic en **Restaurar**
 - Podem observar que s'ha recuperat
 
 ![Creació arxiu](../images/sp1/creaciotxt.png)
 
-Aquest és el destí de la copia (la partició que hem "creat").
+Aquest és el destí de la còpia (la partició que hem "creat").
 
 | ![SeleccionarDesti1](../images/sp1/seleccioDesti1.png) | ![SeleccionarDesti2](../images/sp1/seleccioDesti2.png) |
 | ------------------------------------------------------ | ------------------------------------------------------ |
 
-Podem veure que la copia s'ha fet i he esborrar l'arxiu.
+Podem veure que la còpia s'ha fet i he esborrar l'arxiu.
 
 | ![CopiaFeta](../images/sp1/copiaFeta.png) | ![EliminantArxiu](../images/sp1/eliminarArxiu.png) |
 | ----------------------------------------- | -------------------------------------------------- |
 
-Posterior he recuperat (el program reinicia el sistema) i podem observar que l'arxiu s'ha recuperat
+Posterior he recuperat (el program reinicia el sistema) i podem observar que l'arxiu s'ha recuperat.
 
 | ![Recuperació 1](../images/sp1/recuperacio1.png) | ![Recuperació 2](../images/sp1/recuperacio2.png)   |
 | ------------------------------------------------ | -------------------------------------------------- |
