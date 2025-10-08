@@ -5,13 +5,13 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
 
 # Index
 
-- [Virtualització i instal·lació del so Ubuntu](#virtualització-i-instal·lació-del-so-ubuntu)
+- [Virtualització i instal·lació del so Ubuntu](#virtualització-i-installació-del-so-ubuntu)
   - [Llicenciament](#llicenciament)
   - [Configuració VirtualBox](#configuració-virtualbox)
   - [Procediment animat](#procediment-animat)
-  - [Instal·lació guiada](#instal·lació-guiada)
+  - [Instal·lació guiada](#installació-guiada)
   - [Gestors d'arrencada](#gestors-darrencada-per-a-installacions-dual)
-    - [Instal·lació dual](#instal·lació-dual)
+    - [Instal·lació dual](#installació-dual)
     - [Recuperació escenari 1](#recuperació-escenari-1)
       - [SuperGrub](#super-grub-disk)
       - [Live ISO](#live-iso)
@@ -20,7 +20,7 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
 
 ## Tasca: crear màquina virtual per instal·lar Ubuntu 24
 
-Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/index.ca.html)) molt popular (en servidors) de codi obert. En aquest document, explicaré el procediment d'instal·lació, configuració i algunes comandes bàsiques.
+Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/index.ca.html){:target="\_blank"} ) molt popular (en servidors) de codi obert. En aquest document, explicaré el procediment d'instal·lació, configuració i algunes comandes bàsiques.
 
 ## Llicenciament
 
@@ -101,7 +101,6 @@ En cas de realitzar instal·lació dual amb un sistema com Windows (**BOOTMGR**)
 
 En aquest apartat explicaré com realitzar l'instal·lació dual i com recuperar el GRUB, fent ús de:
 
-- msconfig
 - supergrub2 + iso ubuntu
 
 ### Instal·lació dual
