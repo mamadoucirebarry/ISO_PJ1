@@ -12,11 +12,9 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
   - [Instal·lació guiada](#installació-guiada)
   - [Gestors d'arrencada](#gestors-darrencada-per-a-installacions-dual)
     - [Instal·lació dual](#installació-dual)
-    - [Recuperació escenari 1](#recuperacio-escenari-1)
-      - [SuperGrub](#supergrub)
+    - [Recuperació escenari 1](#recuperació-escenari-1)
+      - [SuperGrub](#super-grub-disk)
       - [Live ISO](#live-iso)
-    - [Recuperació escenari 2](#recuperació-escenari-2)
-      - [EFIBootmgr](#efibootmgr)
 
 # Virtualització i instal·lació del so Ubuntu
 
@@ -49,29 +47,29 @@ En iniciar, el programari de VirtualBox creem una nova màquina virtual, amb la 
 - Xarxa: Nat, l'entorn que farem servir será un de proves i degut a que permet aïllar la màquina virtual.
 - Posem la ISO d'ubuntu.
 
-![ConfiguracioMaquina](/images/sp1/ConfiguracioMaquina.png)
+![ConfiguracioMaquina](../images/sp1/ConfiguracioMaquina.png)
 
 ## Procediment animat
 
 En iniciar seguim els passos que mostra al vídeo, fins arribar al particionat.
 
-![ConfiguracióMaquina](/images/sp1/instalacioAnimada_1.gif)
+![ConfiguracióMaquina](../images/sp1/instalacioAnimada_1.gif)
 
 En el particioniat s'ha creat l'arrel, que és la partició a on es troba tot el sistema de fitxers i el swap que és la partició arxiu que és fara servir en cas que la ram no sigui prou.
 
-![ConfiguracióMaquina](/images/sp1/instalacioAnimada_2.gif)
+![ConfiguracióMaquina](../images/sp1/instalacioAnimada_2.gif)
 
 ## Instal·lació guiada
 
 Posteriorment d'inicar, pressionem Enter per iniciar el instal·lador
 
-![Inici instal·lador](/images/sp1/pressEnter.png)
+![Inici instal·lador](../images/sp1/pressEnter.png)
 
 Seguim el procés d'instal·lació seleccionant les nostres opcions.
 
 > Per mes informació mirar la part del [procediment animat](#procediment-animat)
 
-![Pantalla llenguatge 1](/images/sp1/pantallaLlenguatge.png)
+![Pantalla llenguatge 1](../images/sp1/pantallaLlenguatge.png)
 
 En les particions he creat les següents bàsiques:
 
@@ -81,11 +79,11 @@ En les particions he creat les següents bàsiques:
 
 Fent servir el sistema de fitxers ext4 que és el més comú fet servir en Ubuntu, que menys problemes dona.
 
-![particionat](/images/sp1/particionat.png)
+![particionat](../images/sp1/particionat.png)
 
 I finalment després d'acabar l'instal·lació tindrem l'instal·lació feta:
 
-![instalat](/images/sp1/instalat.png)
+![instalat](../images/sp1/instalat.png)
 
 ## Gestors d'arrencada per a instal·lacions dual
 
@@ -137,34 +135,33 @@ Afegida la ISO de Windows i iniciat.
 
 Realitzem el procés d'instal·lació normal fins a la finestra de particions a on seleccionem la buida. I esperem fins que finalitzi i continuem el procés d'instal·lació.
 
-| Pas 1                                                                        | Pas 2                                                                               |
-| ---------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 1, continuem endavant](../images/sp1/installWin1.png) | ![Instal·lació Windows 2, seleccionem personalitzat](../images/sp1/installWin2.png) |
-
-| Pas 3                                                                          | Pas 4                                                                             |
-| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 3, seleccionem la buida](../images/sp1/installWin3.png) | ![Instal·lació Windows 4, esperem que s'instal·li](../images/sp1/installWin4.png) |
-
-| Pas 5                                                                       | Pas 6                                                                               |
-| --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| ![Instal·lacio Windows 5, seguim els passos](../images/sp1/installWin5.png) | ![Instal·lació Windows 6, instal·lació finalitzada ](../images/sp1/installWin6.png) |
+| Pas 1                                                                          | Pas 2                                                                               |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| ![Instal·lació Windows 1, continuem endavant](../images/sp1/installWin1.png)   | ![Instal·lació Windows 2, seleccionem personalitzat](../images/sp1/installWin2.png) |
+| Pas 3                                                                          | Pas 4                                                                               |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| ![Instal·lació Windows 3, seleccionem la buida](../images/sp1/installWin3.png) | ![Instal·lació Windows 4, esperem que s'instal·li](../images/sp1/installWin4.png)   |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| Pas 5                                                                          | Pas 6                                                                               |
+| ---------------------------------------------------------------------------    | ----------------------------------------------------------------------------------  |
+| ![Instal·lació Windows 5, seguim els passos](../images/sp1/installWin5.png)    | ![Instal·lació Windows 6, instal·lació finalitzada](../images/sp1/installWin6.png)  |
 
 ### Recuperació escenari 1
 
 En cás d'haver instal·lat primer Ubuntu i posteriorment Windows, aquestes són algunes formas de recuperar-ho.
+Podem comprovar que el GRUB no es troba degut a que inicia automaticament i surt "**grub rescue**".
 
-Podem comprovar que el GRUB no es troba degut a que inicia automaticament i surt "**grub rescue**"
-![Comprovació que grub no inicia](../images/sp1/grub-notstarting.png)
-![Imatge grub rescue error](../images/sp1/grub_rescue_prompt.png)
+| Comprovació que grub no inicia                                        | Imatge grub rescue error                                          |
+| --------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| ![Comprovació que grub no inicia](../images/sp1/grub-notstarting.png) | ![Imatge grub rescue error](../images/sp1/grub_rescue_prompt.png) |
 
-#### Supergrub
+#### Super Grub Disk
 
-Aquesta eina ens permet detectar i inicia el sistema que no es troba, posteriorment hem de seguit els passos a partir del **punt 5** en **[Iso Ubuntu](#iso-ubuntu)**
+Aquesta eina ens permet detectar i inicia el sistema que no es troba, posteriorment hem de seguit els passos a partir del **punt 5** en **[Live ISO](#live-iso)**
 
-| Pas | **Super Grub Disk**                                             |
-| --- | --------------------------------------------------------------- |
-| 1   | ![Fem clic a detectar](../images/sp1/supergrub1.png)            |
-| 2   | ![Baixem fins l'entrada d'Ubuntu](../images/sp1/supergrub2.png) |
+| Pas 1                                                | Pas 2                                                           |
+| ---------------------------------------------------- | --------------------------------------------------------------- |
+| ![Fem clic a detectar](../images/sp1/supergrub1.png) | ![Baixem fins l'entrada d'Ubuntu](../images/sp1/supergrub2.png) |
 
 #### Live ISO
 
@@ -212,7 +209,9 @@ grub-install /dev/sda; update-grub; exit
 
 6. Desmuntem i podem comprovar al reiniciar que el grub és troba recuperat.
 
-![Desmontem](../images/sp1/desmuntem.png) | ![Grub Recuperat](../images/sp1/grub-recuperat.png) |
+| Desmuntem tot amb `umount -a`             | Comprovem que el grub es troba recuperat            |
+| ----------------------------------------- | --------------------------------------------------- |
+| ![Desmontem](../images/sp1/desmuntem.png) | ![Grub Recuperat](../images/sp1/grub-recuperat.png) |
 
 ## Punts de restauració
 
@@ -224,7 +223,7 @@ TimeShift és una eina Linux que crea aquestes instantànies per protegir dades 
 
 Afegim un nou disc a on guardarem la instantanea.
 
-![Disc instantanea](./discInstantanea.png)
+![Disc instantanea](../images/sp1/discInstantanea.png)
 
 Instal·lem **timeshift** amb `sudo apt install timeshift -y"
 
@@ -236,7 +235,9 @@ Amb **`fdisk`** creem la partició (`n`) al disc nou identificat (sdb) amb `**ls
 
 ![Creació particion instantanea](../images/sp1/creacioParticioInstant.png)
 
-I l'he formatat a **ext4** amb `sudo mkfs.ext4 /dev/sdb1`
+> L'error que surt de **ioctl()**, és normal després de canviar particion; el kernel no reconoceix els canvis. S'arreglaria amb **sudo partprobe /dev/sda5** o amb un **reinici**
+
+I l'he formatat a **ext4** amb `sudo mkfs.ext4 /dev/sdb1`.
 
 ![Format ext4](../images/sp1/formatExt4.png)
 
@@ -251,21 +252,20 @@ I posteriorment fent la còpia, excloent-hi totes les que no volem.
 
 ![Creació arxiu](../images/sp1/creaciotxt.png)
 
-Aquest és el destí de la copia (la partició que hem "creat")
+Aquest és el destí de la copia (la partició que hem "creat").
 
-![SeleccionarDesti1](../images/sp1/seleccioDesti1.png)
-![SeleccionarDesti2](../images/sp1/seleccioDesti2.png)
+| ![SeleccionarDesti1](../images/sp1/seleccioDesti1.png) | ![SeleccionarDesti2](../images/sp1/seleccioDesti2.png) |
+| ------------------------------------------------------ | ------------------------------------------------------ |
 
-Podem veure que la copia s'ha fet i he esborrar l'arxiu
+Podem veure que la copia s'ha fet i he esborrar l'arxiu.
 
-![CopiaFeta](../images/sp1/copiaFeta.png)
-![EliminantArxiu](../images/sp1/eliminarArxiu.png)
+| ![CopiaFeta](../images/sp1/copiaFeta.png) | ![EliminantArxiu](../images/sp1/eliminarArxiu.png) |
+| ----------------------------------------- | -------------------------------------------------- |
 
 Posterior he recuperat (el program reinicia el sistema) i podem observar que l'arxiu s'ha recuperat
 
-|                     Imagen 1                     |                      Imagen 2                      |
-| :----------------------------------------------: | :------------------------------------------------: |
-| ![Recuperació 1](../images/sp1/recuperacio1.png) |  ![Recuperació 2](../images/sp1/recuperacio2.png)  |
+| ![Recuperació 1](../images/sp1/recuperacio1.png) | ![Recuperació 2](../images/sp1/recuperacio2.png)   |
+| ------------------------------------------------ | -------------------------------------------------- |
 | ![Recuperació 3](../images/sp1/recuperacio4.png) | ![Recuperació 4](../images/sp1/arxiuRecuperat.png) |
 
 ## Configuració de la xarxa
@@ -275,10 +275,12 @@ La configuració de la xarxa és essencial per garantir la connexió a Internet 
 ### Interfície gràfica Ubuntu
 
 En la configuració, creem un nou perfil, especifiquem la IP, mascara (pot ser decimal o CIDR) i la porta d'enllaç (passarela).
-![Configuració IP interfície gràfica](../images/sp1/confIPGrafica.png)
 
-I podem comprovar que tinc internet
-![ComprovacioInternet1](../images/sp1/internet1.png)
+- I podem comprovar que tinc internet
+
+| Configuració IP                                                        | Comprovació d'Internet                                 |
+| ---------------------------------------------------------------------- | ------------------------------------------------------ |
+| ![Configuració IP interfície gràfica](../images/sp1/confIPGrafica.png) | ![Comprovació Internet 1](../images/sp1/internet1.png) |
 
 ### Netplan
 
@@ -289,7 +291,7 @@ El **netplan** és un arxiu ubicat a **`/etc/netplan/01-network-manager-all.yaml
 | `network`     | Arrel de la configuració de xarxa.                        |
 | `version`     | Versió de l’esquema YAML (normalment `2`).                |
 | `ethernets`   | Defineix interfícies Ethernet (per cable).                |
-| `addresses`   | Assigna IP estàtica. Format: `[192.168.1.100/24]`.        |
+| `addresses`   | Assigna IP estàtica. Format: `[192.168.203.233/24]`.      |
 | `nameservers` | Servidors DNS, ex: `[8.8.8.8, 1.1.1.1]`.                  |
 | `dhcp4`/dhcp6 | Activa/desactiva DHCP IPv4 (`true` o `false`).            |
 | `routes`      | Defineix rutes estàtiques.                                |
@@ -297,8 +299,10 @@ El **netplan** és un arxiu ubicat a **`/etc/netplan/01-network-manager-all.yaml
 | `via`         | IP de la passarel·la per a la ruta.                       |
 | `renderer`    | Indica quina eina gestionarà la configuració de la xarxa. |
 
-![Configuració netplan i ](../images/sp1/netplanAplicat.png)
+Apliquem la configuració amb **`netplan apply`** i comprovem que tenim internet.
 
-![ComprovacióInternet2](../images/sp1/internet2.png)
+| Configuració netplan                                       | Comprovacio d'Internet                               |
+| ---------------------------------------------------------- | ---------------------------------------------------- |
+| ![Configuració netplan ](../images/sp1/netplanAplicat.png) | ![ComprovacióInternet2](../images/sp1/internet2.png) |
 
 ## Comandes generals i instal·lacions
