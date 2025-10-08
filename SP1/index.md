@@ -276,7 +276,7 @@ El **netplan** és un arxiu ubicat a **`/etc/netplan/01-network-manager-all.yaml
 | `ethernets`   | Defineix interfícies Ethernet (per cable).                |
 | `addresses`   | Assigna IP estàtica. Format: `[192.168.203.233/24]`.      |
 | `nameservers` | Servidors DNS, ex: `[8.8.8.8, 1.1.1.1]`.                  |
-| `dhcp4`/dhcp6 | Activa/desactiva DHCP IPv4 (`true` o `false`).            |
+| `dhcp4`/`dhcp6` | Activa/desactiva DHCP IPv4 (`true` o `false`).            |
 | `routes`      | Defineix rutes estàtiques.                                |
 | `to`          | IP o xarxa de destinació de la ruta.                      |
 | `via`         | IP de la passarel·la per a la ruta.                       |
