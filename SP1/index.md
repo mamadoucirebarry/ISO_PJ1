@@ -194,25 +194,31 @@ grub-install /dev/sda; update-grub; exit
 
 ![Reinstal·lació Grub](../images/sp1/grub-reinstall.png)
 
-6. Desmuntem i podem comprovar al reiniciar que el GRUB es troba recuperat.
+6. Entrada **Windows**, error amb EFI
 
-| Desmuntem tot amb `umount -a`             | Comprovem que el grub es troba recuperat            |
-| ----------------------------------------- | --------------------------------------------------- |
-| ![Desmuntem](../images/sp1/desmuntem.png) | ![Grub Recuperat](../images/sp1/grub-recuperat.png) |
+En cas de realitzar allò i reiniciar i no veure l'entrada de Windows (al tenir EFI), realitzem el següent.
 
-### Extra
-
-En cas que posterior a realitzar allò i reiniciar i no veure l'entrada de Windows, realitzem el següent.
-Ho muntem novament tot, però en aquest cas d'extra muntem l'EFI que és el **sda5** en el meu cas.
+- Ho muntem novament tot, però en aquest cas d'extra muntem l'EFI que és el **sda5** en el meu cas.
+- I també instal·lem el paquet **`grub-efi-amd64`** per posteriorment al **grub-install** no doni error en l'arquitectura **`x86_64-efi`** i la ruta **`--efi-directory`**.
 
 ```bash
 sudo mount /dev/sda2 /mnt
+sudo mkdir -p /mnt/boot/efi
 sudo mount /dev/sda5 /mnt/boot/efi
-for i in /sys /proc /run /dev; do sudo mount --rbind "$i" "/mnt$i"; done
+for i in /sys /proc /run /dev; do sudo mount --bind "$i" "/mnt$i"; done
 chroot /mnt
-grub-install --target=x86_64-efi --efi-directory=/mnt/boot/efi --bootloader-id=GRUB
+sudo apt install -y grub-efi-amd64
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 update-grub
 ```
+
+![Grub EFI](../images/sp1/grubEFI.png)
+
+7. Desmuntem i podem comprovar en reiniciar que el GRUB es troba recuperat.
+
+| Desmuntem tot amb **`umount -a`**         | Comprovem que el grub es troba recuperat            |
+| ----------------------------------------- | --------------------------------------------------- |
+| ![Desmuntem](../images/sp1/desmuntem.png) | ![Grub Recuperat](../images/sp1/grub-recuperat.png) |
 
 ## Punts de restauració
 
