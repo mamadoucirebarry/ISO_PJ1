@@ -196,6 +196,20 @@ grub-install /dev/sda; update-grub; exit
 | ----------------------------------------- | --------------------------------------------------- |
 | ![Desmuntem](../images/sp1/desmuntem.png) | ![Grub Recuperat](../images/sp1/grub-recuperat.png) |
 
+### Extra
+
+En cás que posterior a realitzar alló i reiniciar i no veure l'entrada de Windows, realitzem el següent.
+Muntem novament tot, peró en aquest cás d'extra muntem l'EFI que és el **sda5** en el meu cás.
+
+```bash {5}
+sudo mount /dev/sda2 /mnt
+sudo mount /dev/sda5 /mnt/boot/efi
+for i in /sys /proc /run /dev; do sudo mount --rbind "$i" "/mnt$i"; done
+chroot /mnt
+grub-install --target=x86_64-efi --efi-directory=/mnt/boot/efi --bootloader-id=GRUB
+update-grub
+```
+
 ## Punts de restauració
 
 Les instantànies són còpies puntuals de l‟estat d‟un sistema o disc que permeten restaurar-lo fàcilment en el futur sense perdre dades.
