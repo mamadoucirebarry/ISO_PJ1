@@ -20,7 +20,7 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
 
 ## Tasca: crear màquina virtual per instal·lar Ubuntu 24
 
-Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/index.ca.html){:target="\_blank"} ) molt popular (en servidors) de codi obert. En aquest document, explicaré el procediment d'instal·lació, configuració i algunes comandes bàsiques.
+Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/index.ca.html)) molt popular (en servidors) de codi obert. En aquest document, explicaré el procediment d'instal·lació, configuració i algunes comandes bàsiques.
 
 ## Llicenciament
 
@@ -201,7 +201,7 @@ grub-install /dev/sda; update-grub; exit
 En cás que posterior a realitzar alló i reiniciar i no veure l'entrada de Windows, realitzem el següent.
 Muntem novament tot, peró en aquest cás d'extra muntem l'EFI que és el **sda5** en el meu cás.
 
-```bash {5}
+```bash
 sudo mount /dev/sda2 /mnt
 sudo mount /dev/sda5 /mnt/boot/efi
 for i in /sys /proc /run /dev; do sudo mount --rbind "$i" "/mnt$i"; done
@@ -283,18 +283,18 @@ En la configuració, creem un nou perfil, especifiquem la IP, mascara (pot ser d
 
 El **netplan** és un arxiu ubicat a **`/etc/netplan/01-network-manager-all.yaml`**. Algunes de les paraules claus de Netplan, són:
 
-| Keyword       | Descripció                                                |
-| ------------- | --------------------------------------------------------- |
-| `network`     | Arrel de la configuració de xarxa.                        |
-| `version`     | Versió de l’esquema YAML (normalment `2`).                |
-| `ethernets`   | Defineix interfícies Ethernet (per cable).                |
-| `addresses`   | Assigna IP estàtica. Format: `[192.168.203.233/24]`.      |
-| `nameservers` | Servidors DNS, ex: `[8.8.8.8, 1.1.1.1]`.                  |
-| `dhcp4`/dhcp6 | Activa/desactiva DHCP IPv4 (`true` o `false`).            |
-| `routes`      | Defineix rutes estàtiques.                                |
-| `to`          | IP o xarxa de destinació de la ruta.                      |
-| `via`         | IP de la passarel·la per a la ruta.                       |
-| `renderer`    | Indica quina eina gestionarà la configuració de la xarxa. |
+| Keyword         | Descripció                                                |
+| --------------- | --------------------------------------------------------- |
+| `network`       | Arrel de la configuració de xarxa.                        |
+| `version`       | Versió de l’esquema YAML (normalment `2`).                |
+| `ethernets`     | Defineix interfícies Ethernet (per cable).                |
+| `addresses`     | Assigna IP estàtica. Format: `[192.168.203.233/24]`.      |
+| `nameservers`   | Servidors DNS, ex: `[8.8.8.8, 1.1.1.1]`.                  |
+| `dhcp4`/`dhcp6` | Activa/desactiva DHCP IPv4 (`true` o `false`).            |
+| `routes`        | Defineix rutes estàtiques.                                |
+| `to`            | IP o xarxa de destinació de la ruta.                      |
+| `via`           | IP de la passarel·la per a la ruta.                       |
+| `renderer`      | Indica quina eina gestionarà la configuració de la xarxa. |
 
 Apliquem la configuració amb **`netplan apply`** i comprovem que tenim internet.
 
