@@ -5,7 +5,7 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
 
 # Índex
 
-- [Virtualització i instal·lació del so Ubuntu](#virtualització-i-installació-del-so-ubuntu)
+- [Virtualització i instal·lació del SO Ubuntu](#virtualització-i-installació-del-so-ubuntu)
   - [Llicenciament](#llicenciament)
   - [Configuració VirtualBox](#configuració-virtualbox)
   - [Procediment animat](#procediment-animat)
@@ -15,20 +15,24 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
     - [Recuperació escenari 1](#recuperació-escenari-1)
       - [SuperGrub](#super-grub-disk)
       - [Live ISO](#live-iso)
+  - [Comandes generals i instal·lacions](#comandes-generals-i-installacions)
+    - [Llista versions](#llista-versions)
+    - [Afegir repositori](#afegir-repositori)
+    - [Pinning i instal·lació](#pinning-i-installació)
 
-# Virtualització i instal·lació del so Ubuntu
+# Virtualització i instal·lació del SO Ubuntu
 
 ## Tasca: crear màquina virtual per instal·lar Ubuntu 24
 
-Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/index.ca.html)) molt popular (en servidors) de codi obert. En aquest document, explicaré el procediment d'instal·lació, configuració i algunes comandes bàsiques.
+Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/index.ca.html) molt popular (en servidors) de codi obert. En aquest document, explicaré el procediment d'instal·lació, configuració i algunes comandes bàsiques.
 
 ## Llicenciament
 
 Ubuntu té una llicència GPL (GNU General Public License), que permet modificar, distribuir i utilitzar el sistema de manera lliure.
 
-N'Hi han de diverses tipus de llicències en Linux, per exemple:
+N'hi ha de diversos tipus de llicències en Linux, per exemple:
 
-- **MIT license**: similar a la GPL, permet modificar, distribuir i usar el programari de manera lliure, però a diferencia de la GPL, s'ha de redistribuir el codi amb mínimes restriccions, sempre incloent-hi l'avís de **copyright** original i la renúncia de responsabilitat
+- **MIT License**: similar a la GPL, permet modificar, distribuir i usar el programari de manera lliure, però a diferència de la GPL, s'ha de redistribuir el codi amb mínimes restriccions, sempre incloent-hi l'avís de **copyright** original i la renúncia de responsabilitat.
 - **Apache License**: permet als desenvolupadors utilitzar, modificar i redistribuir el programari, obligant de mencionar cadascun dels canvis que es facin.
 
 Alguns dels conceptes que més es mencionen en llicencies són:
@@ -36,38 +40,38 @@ Alguns dels conceptes que més es mencionen en llicencies són:
 - **copyleft**: els usuaris poden utilitzar, modificar i distribuir lliurement l'obra. Requereix que les obres derivades estiguin subjectes a la mateixa llicència de copyright.
   - Promou la col·laboració i l'intercanvi en la comunitat creativa, com per exemple GPL o Creative Commons licenses.
 - **copyright**: protegeix els drets del creador de controlar l'ús, la distribució i la modificació de l'obra, no requereix que les obres derivades siguin llicenciades sota els mateixos termes.
-  - Protegeix els drets dels creadors i incentiva la innovació. Exemple: All Rights Reserved, Public Domain Dedication, copyright
+  - Protegeix els drets dels creadors i incentiva la innovació. Exemple: All Rights Reserved, Public Domain Dedication, copyright.
 
 ## Configuració VirtualBox
 
-En iniciar, el programari de VirtualBox creem una nova màquina virtual, amb la següent configuració mínima es prou.
+En iniciar, el programari de VirtualBox creem una nova màquina virtual, amb la següent configuració mínima és prou.
 
-- RAM: 4 GB, en l'experiència d'usar les maquines virtuals.
-- Processador: en 4 fils de CPU anirà fluid, encara que en 2 funcionarà, al ser una maquina que creixerà, necessitarem més potència.
-- Xarxa: NAT, l'entorn que farem servir serà un de proves i degut a que permet aïllar la màquina virtual.
-- Posem la ISO d'ubuntu.
+- RAM: 4 GB, en l'experiència d'usar les màquines virtuals.
+- Processador: en 4 fils de CPU anirà fluid, encara que en 2 funcionarà, com que creixerà, necessitarem més potència.
+- Xarxa: NAT, l'entorn que farem servir serà un de proves i perquè permet aïllar la màquina virtual.
+- Posem l'ISO d'Ubuntu.
 
 ![ConfiguracioMaquina](../images/sp1/ConfiguracioMaquina.png)
 
 ## Procediment animat
 
-En iniciar seguim els passos que mostra al vídeo, fins arribar al particionat.
+En iniciar seguim els passos que mostra al vídeo, fins a arribar al particionat.
 
 ![ConfiguracióMaquina](../images/sp1/instalacioAnimada_1.gif)
 
-En el particionat s'ha creat l'arrel, que és la partició a on es troba tot el sistema de fitxers i el swap que és la partició arxiu que és farà servir en cas que la ram no sigui prou.
+En el particionat s'ha creat l'arrel, que és la partició a on es troba tot el sistema de fitxers i el **swap** que és la partició arxiu que es farà servir en cas que la RAM no sigui prou.
 
 ![ConfiguracióMaquina](../images/sp1/instalacioAnimada_2.gif)
 
 ## Instal·lació guiada
 
-Posteriorment d'inicar, pressionem **Enter** per iniciar el instal·lador.
+Posteriorment d'iniciar, pressionem **Enter** per iniciar l'instal·lador.
 
 ![Inici instal·lador](../images/sp1/pressEnter.png)
 
 Seguim el procés d'instal·lació seleccionant les nostres opcions.
 
-> Per mes informació mirar la part del [procediment animat](#procediment-animat)
+> Per més informació mirar la part del [procediment animat](#procediment-animat)
 
 ![Pantalla llenguatge 1](../images/sp1/pantallaLlenguatge.png)
 
@@ -81,39 +85,39 @@ Fent servir el sistema de fitxers ext4 que és el més comú fet servir en Ubunt
 
 ![particionat](../images/sp1/particionat.png)
 
-I finalment després d'acabar l'instal·lació tindrem l'instal·lació feta:
+I finalment tenim l'Ubuntu:
 
 ![instalat](../images/sp1/instalat.png)
 
 ## Gestors d'arrencada per a instal·lacions dual
 
-Un gestor d’arrencada és un programa que permet triar quin sistema operatiu iniciar al engegar l’ordinador. A Linux normalment es fa servir **GRUB**, mentre que Windows té el seu propi gestor (**BOOTMGR**).
+Un gestor d’arrencada és un programa que permet triar quin sistema operatiu iniciar en engegar l’ordinador. A Linux normalment es fa servir **GRUB**, mentre que Windows té el seu propi gestor (**BOOTMGR**).
 
-Els discos poden tenir
+Els discos poden tenir:
 
-- **MBR**: antic, limitat a **4 particions** primaries o pots tenir **3 primàries + 1 estesa**, i dins l’estesa crear particions lògiques.
+- **MBR**: antic, limitat a **4 particions** primàries o pots tenir **3 primàries + 1 estesa**, i dins l’estesa crear particions lògiques.
 - **GPT**: moderna, més flexible.
 
-En cas de realitzar instal·lació dual amb un sistema com Windows (**BOOTMGR**) que no evita _"trencar"_ els altres gestors, és "perdrà" l'accés, degut a que:
+En cas de realitzar instal·lació dual amb un sistema com Windows (**BOOTMGR**) que no evita _"trencar"_ els altres gestors, és "perdrà" l'accés, ja que:
 
-- **BOOTMGR**: sobrescriu MBR/EFI, només arrenca Windows, no detecta Linux.
+- **BOOTMGR**: sobreescriu MBR/EFI, només arrenca Windows, no detecta Linux.
 - **GRUB**: gestiona múltiples SO, detecta Windows, s’instal·la a MBR/EFI i mostra menú d’arrencada.
 
-En aquest apartat explicaré com realitzar l'instal·lació dual i com recuperar el GRUB, fent ús de:
+En aquest apartat explicaré com instal·lar dualment i com recuperar el GRUB, fent ús de:
 
-- supergrub2 + iso ubuntu
+- supergrub2 i iso ubuntu
 
 ### Instal·lació dual
 
-En primer lloc hem de realitzar canvis en la configuració de VirtualBox degut a que requereix una configuració específica. Els canvis duts a terme són:
+En primer lloc, hem de realitzar canvis en la configuració de VirtualBox perquè a que requereix una configuració específica. Els canvis duts a terme són:
 
 - Habilitar el EFI.
-- Traure la xarxa per no haver-hi de iniciar sessió.
+- Traure la xarxa per no haver d'iniciar sessió.
 - Canviar el tipus de sistema a Windows i la pantalla (per no tenir-hi problemes).
 
-Afegida la ISO de Windows i iniciat.
+Afegida l'ISO de Windows i iniciat.
 
-![Pre-configuracio](../images/sp1/preconfiguracio.png)
+![Preconfiguració](../images/sp1/preconfiguracio.png)
 
 Realitzem el procés d'instal·lació normal fins a la finestra de particions a on seleccionem la buida. I esperem fins que finalitzi i continuem el procés d'instal·lació.
 
@@ -132,7 +136,7 @@ Realitzem el procés d'instal·lació normal fins a la finestra de particions a 
 ### Recuperació escenari 1
 
 En cas d'haver instal·lat primer Ubuntu i posteriorment Windows, aquestes són algunes formes de recuperar-ho.
-Podem comprovar que el GRUB no es troba degut a que inicia automàticament i surt "**grub rescue**".
+Podem comprovar que el GRUB no es troba perquè inicia automàticament i surt "**grub rescue**".
 
 | Comprovació que grub no inicia                                        | Imatge grub rescue error                                          |
 | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
@@ -152,9 +156,9 @@ Inserim la imatge i iniciem el sistema en **mode Live**.
 
 1. Identifiquem la partició arrel de Linux amb **`lsblk`** o **`fdisk -l`**.
 
-![Identifiquem particio arrel](../images/sp1/lsblk_fdisk.png)
+![Identifiquem partició arrel](../images/sp1/lsblk_fdisk.png)
 
-2. Montem la partició:
+2. Muntem la partició:
 
 ```bash
 sudo mount /dev/sda2 /mnt
@@ -169,12 +173,12 @@ for i in /sys /proc /run /dev; do sudo mount --rbind "$i" "/mnt$i"; done
 sudo chroot /mnt
 ```
 
-| Directori | Contingut                                                       | Per què és necessari en chroot                                                               |
-| --------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| /dev      | Conté els dispositius (sda, tty, null, etc.)                    | Sense /dev no es pot interactuar amb discs, terminals ni instal·lar GRUB correctament        |
-| /proc     | Pseudo-sistema de fitxers amb informació del kernel i processos | GRUB i `update-grub` necessiten llegir informació del kernel, UUID dels discs, memòria, etc. |
-| /sys      | Pseudo-sistema que mostra dispositius i controladors del kernel | Permet detectar particions, controladors i configuracions de maquinari reals                 |
-| /run      | Conté fitxers d’estat temporals i sockets actius                | Necessari per serveis que esperen que aquests sockets existeixin mentre estem en chroot      |
+| Directori | Contingut                                                      | Per què és necessari en chroot                                                               |
+| --------- | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| /dev      | Conté els dispositius (sda, tty, null, etc.)                   | Sense /dev no es pot interactuar amb discs, terminals ni instal·lar GRUB correctament        |
+| /proc     | Pseudosistema de fitxers amb informació del kernel i processos | GRUB i `update-grub` necessiten llegir informació del kernel, UUID dels discs, memòria, etc. |
+| /sys      | Pseudosistema que mostra dispositius i controladors del kernel | Permet detectar particions, controladors i configuracions de maquinari reals                 |
+| /run      | Conté fitxers d’estat temporals i sockets actius               | Necessari per serveis que esperen que aquests sockets existeixin mentre estem en chroot      |
 
 ![Muntatge i Chroot](../images/sp1/mountChroot.png)
 
@@ -190,7 +194,7 @@ grub-install /dev/sda; update-grub; exit
 
 ![Reinstal·lació Grub](../images/sp1/grub-reinstall.png)
 
-6. Desmuntem i podem comprovar al reiniciar que el grub és troba recuperat.
+6. Desmuntem i podem comprovar al reiniciar que el GRUB es troba recuperat.
 
 | Desmuntem tot amb `umount -a`             | Comprovem que el grub es troba recuperat            |
 | ----------------------------------------- | --------------------------------------------------- |
@@ -198,8 +202,8 @@ grub-install /dev/sda; update-grub; exit
 
 ### Extra
 
-En cás que posterior a realitzar alló i reiniciar i no veure l'entrada de Windows, realitzem el següent.
-Muntem novament tot, peró en aquest cás d'extra muntem l'EFI que és el **sda5** en el meu cás.
+En cas que posterior a realitzar allò i reiniciar i no veure l'entrada de Windows, realitzem el següent.
+Ho muntem novament tot, però en aquest cas d'extra muntem l'EFI que és el **sda5** en el meu cas.
 
 ```bash
 sudo mount /dev/sda2 /mnt
@@ -212,17 +216,17 @@ update-grub
 
 ## Punts de restauració
 
-Les instantànies són còpies puntuals de l‟estat d‟un sistema o disc que permeten restaurar-lo fàcilment en el futur sense perdre dades.
+Les instantànies són còpies puntuals de l'estat d'un sistema o disc que permeten restaurar-lo fàcilment en el futur sense perdre dades.
 
 ### Instal·lació i creació partició
 
-TimeShift és una eina Linux que crea aquestes instantànies per protegir dades i facilitar recuperacions; la farem servir per fer una còpia aun disc extern i recuperar un document posteriorment.
+Timeshift és una eina Linux que crea aquestes instantànies per protegir dades i facilitar recuperacions; la farem servir per fer una còpia a un disc extern i recuperar un document posteriorment.
 
-Afegim un nou disc a on guardarem la instantánea.
+Afegim un nou disc a on guardarem la instantània.
 
-![Disc instantánea](../images/sp1/discInstantanea.png)
+![Disc instantània](../images/sp1/discInstantanea.png)
 
-Instal·lem **timeshift** amb `sudo apt install timeshift -y"
+Instal·lem **timeshift** amb `sudo apt install timeshift -y`
 
 ![installTimeshift](../images/sp1/installTimeshift.png)
 
@@ -230,7 +234,7 @@ Amb **`fdisk`** creem la partició (`n`) al disc nou identificat (sdb) amb `**ls
 
 - De tipus primària (`p`), fent ús de tot l'espai. I escrivim els canvis amb `w`
 
-![Creació partició instantánea](../images/sp1/creacioParticioInstant.png)
+![Creació partició instantània](../images/sp1/creacioParticioInstant.png)
 
 > L'error que surt de **ioctl()**, és normal després de canviar particion; el kernel no reconeix els canvis. S'arreglaria amb **sudo partprobe /dev/sda5** o amb un **reinici**
 
@@ -244,22 +248,22 @@ He creat l'arxiu `"test.txt"` amb el contingut `"Hola"`.
 
 I posteriorment fent la còpia, excloent els directoris no volem.
 
-- Posterior d'esborrar l'arxiu l'he recuperat fent clic en **Restaurar**
-- Podem observar que s'ha recuperat
+- Després d’esborrar l'arxiu l'he recuperat fent clic en **Restaurar**
+- Podem observar que s'ha recuperat.
 
 ![Creació arxiu](../images/sp1/creaciotxt.png)
 
-Aquest és el destí de la còpia (la partició que hem "creat").
+Aquest és el destí de la còpia (la partició que creada).
 
 | ![SeleccionarDesti1](../images/sp1/seleccioDesti1.png) | ![SeleccionarDesti2](../images/sp1/seleccioDesti2.png) |
 | ------------------------------------------------------ | ------------------------------------------------------ |
 
-Podem veure que la còpia s'ha fet i he esborrar l'arxiu.
+Podem veure que la còpia s'ha fet i he esborrat l'arxiu.
 
 | ![CopiaFeta](../images/sp1/copiaFeta.png) | ![EliminantArxiu](../images/sp1/eliminarArxiu.png) |
 | ----------------------------------------- | -------------------------------------------------- |
 
-Posterior he recuperat (el program reinicia el sistema) i podem observar que l'arxiu s'ha recuperat.
+Posterior he recuperat (el programa reinicia el sistema) i podem observar que l'arxiu s'ha recuperat.
 
 | ![Recuperació 1](../images/sp1/recuperacio1.png) | ![Recuperació 2](../images/sp1/recuperacio2.png)   |
 | ------------------------------------------------ | -------------------------------------------------- |
@@ -271,7 +275,7 @@ La configuració de la xarxa és essencial per garantir la connexió a Internet 
 
 ### Interfície gràfica Ubuntu
 
-En la configuració, creem un nou perfil, especifiquem la IP, mascara (pot ser decimal o CIDR) i la porta d'enllaç (passarela).
+En la configuració, creem un nou perfil, especifiquem la IP, màscara (pot ser decimal o CIDR) i la porta d'enllaç (passarel·la).
 
 - I podem comprovar que tinc internet
 
@@ -298,17 +302,17 @@ El **netplan** és un arxiu ubicat a **`/etc/netplan/01-network-manager-all.yaml
 
 Apliquem la configuració amb **`netplan apply`** i comprovem que tenim internet.
 
-| Configuració Netplan                                      | Comprovacio d'Internet                               |
+| Configuració Netplan                                      | Comprovació d'Internet                               |
 | --------------------------------------------------------- | ---------------------------------------------------- |
 | ![Configuració Netlan ](../images/sp1/netplanAplicat.png) | ![ComprovacióInternet2](../images/sp1/internet2.png) |
 
 ## Comandes generals i instal·lacions
 
-Apart de l'instal·lació habitual de "**apt install**" i "**dpkg**", tenim l'opció d'instal·lar una versió específica que desitgem.
+A banda de la instal·lació habitual de "**apt install**" i "**dpkg**", tenim l'opció d'instal·lar una versió específica que desitgem.
 
 ### Llista versions
 
-1. En primer lloc per llistar les versions del paquet que tenim als repositoris, hi han diverses formes. A continuació faré servir d'exemple el paquet "`grep`" a la versió 3.8-5.
+1. En primer lloc, per llistar les versions del paquet que tenim als repositoris, hi ha diverses formes. A continuació faré servir d'exemple el paquet "`grep`" a la versió 3.8-5.
 
 ![Grep amb color](../images/sp1/grepColor.png)
 
@@ -323,7 +327,7 @@ Amb el `apt-cache policy`, a on:
 ![Apt list i cache policy](../images/sp1/aptListCache.png)
 
 - apt-cache: mostra gran part de la informació emmagatzemada a la base de dades interna d'APT.
-- policy: mostra les prioritats dels repositoris o dels paquets
+- policy: mostra les prioritats dels repositoris o dels paquets.
 
 ### Afegir repositori
 
@@ -335,17 +339,19 @@ En les captures podem observar que no tenim la versió desitjada, per aquesta ra
 
 He afegit el repositori a `/etc/apt/source.list.d/` i afegit l'arxiu amb el nom de `lunar-grep.list` (el nom pot ser qualsevol) i actualitzat amb `**apt update**` sent `root` en tot moment.
 
-> També ho podriem afegit amb `sudo add-apt-repository "deb http://old-releases.ubuntu.com/ubuntu lunar main restricted universe multiverse"`
-> El subdomini **`old-releases`** es on es troben les versions Ubuntu 'no' suportades.
+> També ho podríem afegir amb `sudo add-apt-repository "deb http://old-releases.ubuntu.com/ubuntu lunar main restricted universe multiverse"`
+
+> El subdomini **`old-releases`** es on és troben les versions Ubuntu 'no' suportades.
 
 ![Afegint repositori i actualitzant](../images/sp1/addOldRelease.png)
 
 ### Pinning i instal·lació
 
-Al ser un repositori més antic o experimental, hem d'usar pinning per evitar que altres paquets s'actualitzin accidentalment.
+[VídeoTutorial](https://www.canva.com/design/DAG1TF8kA9w/qHMLoXRPapPzkEqxEXA-BA/edit?utm_content=DAG1TF8kA9w&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
-Editant l'arxiu **`/etc/apt/preferences.d/lunar-grep`**
-I afegint la configuració:
+El ser un repositori més antic o experimental, hem d'usar pinning per evitar que altres paquets s'actualitzin/ instal·lin accidentalment.
+
+Editant l'arxiu **`/etc/apt/preferences.d/lunar-grep`**. I afegint la configuració:
 
 ```
 Package: *
@@ -355,7 +361,7 @@ Pin-Priority: 100
 
 ![Preferences Lunar Grep](../images/sp1/preferenceLunarGrep.png)
 
-I ja podem instal·lar.
+i ja podem instal·lar.
 
 ```bash
 sudo apt install grep=3.8-5build1
@@ -363,5 +369,5 @@ sudo apt install grep=3.8-5build1
 
 ![Instal·lació Grep](../images/sp1/grepInstall.png)
 
-Podem comprovar que efectivament aquesta versió no té color mitjançant **pipes** `|`
+Comprovem que efectivament tenim la versió correcta.
 ![Grep comprovació](../images/sp1/grepComprovacio.png)
