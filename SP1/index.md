@@ -310,10 +310,6 @@ Apart de l'instal·lació habitual de "**apt install**" i "**dpkg**", tenim l'op
 
 1. En primer lloc per llistar les versions del paquet que tenim als repositoris, hi han diverses formes. A continuació faré servir d'exemple el paquet "`grep`" a la versió 3.8-5.
 
-La diferencia entre aquesta versió i la més nova és que, posterior a 3.8-5, és va introduïr per exemple:
-
-- Optimització de --color=auto i detecció de TTY, mostrant colors correctament fins i tot en tuberies.
-
 ![Grep amb color](../images/sp1/grepColor.png)
 
 Amb l'opció `list` i el paràmetre `-a` (que mostra tots):
@@ -332,7 +328,8 @@ Amb el `apt-cache policy`, a on:
 ### Afegir repositori
 
 2. Seguidament hem d'afegir el repositori
-   En les captures podem observar que no tenim la versió desitjada, per aquesta raó hem d'afegir un repositori que sapiguem que el tingui, mirant el [LaunchPad](https://launchpad.net/ubuntu/+source/grep/3.8-5).
+
+En les captures podem observar que no tenim la versió desitjada, per aquesta raó hem d'afegir un repositori que sapiguem que el tingui, mirant el [LaunchPad](https://launchpad.net/ubuntu/+source/grep/3.8-5).
 
 > Segons el LaunchPad la versió d'Ubuntu que la té és `"Lunar"`
 
@@ -347,14 +344,16 @@ He afegit el repositori a `/etc/apt/source.list.d/` i afegit l'arxiu amb el nom 
 
 Al ser un repositori més antic o experimental, hem d'usar pinning per evitar que altres paquets s'actualitzin accidentalment.
 
-Editant l'arxiu **`sudo nano /etc/apt/preferences.d/lunar-grep`**
+Editant l'arxiu **`/etc/apt/preferences.d/lunar-grep`**
 I afegint la configuració:
 
-```conf
+```
 Package: *
 Pin: release n=lunar
 Pin-Priority: 100
 ```
+
+![Preferences Lunar Grep](../images/sp1/preferenceLunarGrep.png)
 
 I ja podem instal·lar.
 
@@ -362,4 +361,7 @@ I ja podem instal·lar.
 sudo apt install grep=3.8-5build1
 ```
 
+![Instal·lació Grep](../images/sp1/grepInstall.png)
+
 Podem comprovar que efectivament aquesta versió no té color mitjançant **pipes** `|`
+![Grep comprovació](../images/sp1/grepComprovacio.png)
