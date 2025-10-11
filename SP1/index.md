@@ -376,4 +376,5 @@ sudo apt install grep=3.8-5build1
 ![Instal·lació Grep](../images/sp1/grepInstall.png)
 
 Comprovem que efectivament tenim la versió correcta.
+
 ![Grep comprovació](../images/sp1/grepComprovacio.png)
