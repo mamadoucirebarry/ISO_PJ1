@@ -4,6 +4,7 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
 ---
 
 # Virtualització i instal·lació del SO Ubuntu
+<img width="1680" height="840" alt="image" src="https://github.com/user-attachments/assets/79893fa9-e556-4565-8dc8-7d8c3467cca1" />
 
 # Índex
 
