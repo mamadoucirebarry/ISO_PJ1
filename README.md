@@ -22,5 +22,6 @@ El contingut es troba baix llicència [Creative Commons BY-NC-SA 3.0 ES](LICENSE
 
 ---
 
-[© 2025 Mireia Consarnau]#
+[© 2025 Mireia Consarnau]: #
+
 © 2025 Mamadou Cire Barry
