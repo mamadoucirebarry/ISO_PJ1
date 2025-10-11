@@ -3,6 +3,8 @@ layout: default
 title: 'Sprint 1: Instal·lació i configuració inicial'
 ---
 
+# Virtualització i instal·lació del SO Ubuntu
+
 # Índex
 
 - [Virtualització i instal·lació del SO Ubuntu](#virtualització-i-installació-del-so-ubuntu)
@@ -20,7 +22,6 @@ title: 'Sprint 1: Instal·lació i configuració inicial'
     - [Afegir repositori](#afegir-repositori)
     - [Pinning i instal·lació](#pinning-i-installació)
 
-# Virtualització i instal·lació del SO Ubuntu
 
 ## Tasca: crear màquina virtual per instal·lar Ubuntu 24
 
@@ -332,8 +333,8 @@ Amb el `apt-cache policy`, a on:
 
 ![Apt list i cache policy](../images/sp1/aptListCache.png)
 
-- apt-cache: mostra gran part de la informació emmagatzemada a la base de dades interna d'APT.
-- policy: mostra les prioritats dels repositoris o dels paquets.
+- **apt-cache**: mostra gran part de la informació emmagatzemada a la base de dades interna d'APT.
+- **policy**: mostra les prioritats dels repositoris o dels paquets.
 
 ### Afegir repositori
 
