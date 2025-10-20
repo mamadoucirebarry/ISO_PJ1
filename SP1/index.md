@@ -30,7 +30,7 @@ Ubuntu és una distribució de Linux (basada en [Debian](https://www.debian.org/
 
 ## Llicenciament
 
-Ubuntu té una llicència GPL (GNU General Public License), que permet modificar, distribuir i utilitzar el sistema de manera lliure.
+Ubuntu té una llicència **GPL (GNU General Public License)**, que permet modificar, distribuir i utilitzar el sistema de manera lliure.
 
 N'hi ha de diversos tipus de llicències en Linux, per exemple:
 
