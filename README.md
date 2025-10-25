@@ -18,7 +18,7 @@ https://mamadoucirebarry.github.io/ISO_PJ1
 
 ## Llicència
 
-El contingut es troba baix llicència [Creative Commons BY-NC-SA 3.0 ES](LICENSE.md).
+El contingut es troba baix llicència [Creative Commons BY-NC-SA 4.0 ES](LICENSE.md).
 
 ---
 
