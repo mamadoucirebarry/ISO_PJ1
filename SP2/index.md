@@ -698,10 +698,3 @@ La "terminal" que hem estat fent servir, realment no ho és, es una pseudotermin
 - Resum tècnic: control d'accés, autenticació i mecanismes del sistema per administració avançada.
 
 ### PAM
-
-PAM és un sistema modular que gestiona l’autenticació, autorització i auditoria en Linux.
-— Pluggable Authentication Modules: model modular d'autenticació; fitxers a `/etc/pam.d`; tipus de control: `required`, `requisite`, `sufficient`, `optional`. Exemple d'entrada: `auth required pam_unix.so try_first_pass`; verificar canvis amb `su - <usuari>` o sessionar via SSH abans d'aplicar en producció.
-
-```
-
-```
