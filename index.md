@@ -1,6 +1,6 @@
-# Curs de Administracio Sistemes
+# Curs de Administració Sistemes
 
-Aquest repositori conté els projectes realitzat a **Implantació de sistemes operatius**
+Aquest repositori conté els projectes elaborats a **Implantació de sistemes operatius**
 
 ## Contingut
 
@@ -10,16 +10,16 @@ Aquest repositori conté els projectes realitzat a **Implantació de sistemes op
 - [Sprint 4: Configuració del Programari de Base i Sistemes d’Emmagatzematge en Ubuntu (13h)](SP4/index.md)
 - [Sprint 5: Monitoratge, Auditories i Programari Client/Servidor (20h)](SP4/index.md)
 
-## Uso
+## Ús
 
-Este repositorio está preparado para ser publicado con GitHub Pages.
-Puedes ver la versión web pública en:
-https://mireiaconsarnau.github.io/machine_learning/
+Aquest repositori es troba preparat para ser publicat amb GitHub Pages.
+Pots veure la versió web pública en:
+https://mamadoucirebarry.github.io/ISO_PJ1
 
-## Licencia
+## Llicència
 
-El contenido está bajo licencia [Creative Commons BY-NC-SA 3.0 ES](LICENSE.md).
+El contingut es troba baix llicència [Creative Commons BY-NC-SA 4.0 ES](LICENSE.md).
 
 ---
 
-© 2025 Mireia Consarnau
+© 2025 Mamadou Cire Barry
