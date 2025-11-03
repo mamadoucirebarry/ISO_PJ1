@@ -12,8 +12,8 @@ Aquest repositori conté els projectes elaborats a **Implantació de sistemes op
 
 ## Ús
 
-Aquest repositori es troba preparat para ser publicat amb GitHub Pages.  
-Pots veure la versió web pública en:  
+Aquest repositori es troba preparat para ser publicat amb GitHub Pages.
+Pots veure la versió web pública en:
 https://mamadoucirebarry.github.io/ISO_PJ1
 
 ## Llicència
