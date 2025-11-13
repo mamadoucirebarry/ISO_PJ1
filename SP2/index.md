@@ -818,9 +818,9 @@ Una prova que podem fer és la de forçar que caduqui la contrasenya. Aixó en e
 - Amb el paràmetre `-E` posa com que el `compte` va caducar el 01 de gener del 1970, per lo tant l'usuari no pot entrar
 - El `-l` ens permet veure l'informació.
 
-| Acció                        | Captura                                                                    |
-| ---------------------------- | -------------------------------------------------------------------------- |
-| Execució `chage -E 0`        | ![Execució chage -E 0](../images/sp2/sp2-execucio-chage-E.png)             |
+| Acció                        |                                  Captura                                   |
+| ---------------------------- | :------------------------------------------------------------------------: |
+| Execució `chage -E 0`        |       ![Execució chage -E 0](../images/sp2/sp2-execucio-chage-E.png)       |
 | Comprovació compte bloquejat | ![Comprovació compte bloquejat](../images/sp2/sp2-comprovacio-chage-E.png) |
 
 > Per traure la caducitat seria `chage -E -1 `
