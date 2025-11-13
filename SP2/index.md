@@ -18,7 +18,8 @@ title: 'Sprint 2: Instal·lació, configuració de programari de base i gestió 
 - [Gestió de processos](#gestió-de-processos)
 - [Gestió d'usuaris i grups i permisos](#gestió-dusuaris-i-grups-i-permisos)
   - [Directoris i fitxers importants](#directoris-i-fitxers-importants)
-  - [Fitxers usuaris i grups](#fitxers-usuaris-i-grups)
+    - [Directoris importants](#directoris-importants)
+    - [Fitxers usuaris i grups](#fitxers-usuaris-i-grups)
   - [Comandes bàsiques / gestió](#comandes-bàsiques--gestió)
     - [Exercis](#exercis)
       - [Canvia nom usuari](#canvia-nom-usuari)
@@ -29,6 +30,7 @@ title: 'Sprint 2: Instal·lació, configuració de programari de base i gestió 
     - [usermod / grupmod](#usermod-grupmod)
     - [adduser / gpasswd](#adduser-gpasswd)
     - [userdel/ grupdel](#userdel-grupdel)
+    - [chage](#chage)
   - [Gestió avançada](#gestió-avançada)
     - [TTY](#tty)
     - [PAM](#pam)
@@ -169,7 +171,7 @@ I una altra en el que resta, comprovem amb `fdisk` que ho tenim creat.
 ![Creant particio 2 fdisk](../images/sp2/sp2-partitioningdb2.png)
 ![Comprovació particions creadesfdisk](../images/sp2/comprovacioExisteix.png)
 
-Posteriorment, amb `mkfs.exta4 -b 2048 /dev/sdb1`estem formatant amb una mida de block diferent a la partició 1
+Posteriorment, amb `mkfs.ext4 -b 2048 /dev/sdb1`estem formatant amb una mida de block diferent a la partició 1
 
 ![Formatant particio 1 mida bloc 2048 i en EXT4](../images/sp2/sp2-formatExt4-2048bytes.png)
 
@@ -290,7 +292,124 @@ Els grups permeten definir permisos col·lectius, per exemple, donar accés a un
 
 En Linux, la informació d’usuaris i grups està centralitzada en fitxers de configuració de text dins /etc.
 
+### Directoris importants
+
+#### /etc/skel
+
+El directori **/etc/skel** (de skeleton) conté els fitxers i carpetes base que es copien automàticament al directori personal de qualsevol nou usuari creat al sistema.
+
+Quan executem `adduser` o `useradd -m`, el contingut d’aquest directori es replica dins de /home/nom_usuari, garantint que cada compte disposi d’un entorn mínim de configuració per a la shell i altres programes.
+
+- **.bash_logout**: el script s’executa quan l'usuari tanca sessió.
+- **.profile**: s'executa quan l'usuari inicia sessió.
+- **.bashrc**: s'executa per afegir una configuració a la nostra sessió el .bashrc.
+
+**1. Proves del skel**
+A mode d'exemple, la prova mes simple que podem fer es crear una carpeta/ arxiu que vulguem que tots els usuaris tinguin.
+I podrem observar que als _nous_ usuaris, tenen aquesta carpeta.
+
+![Proves SKEL](../images/sp2/sp2-skel-test1.png)
+
+**2. Proves .bash_logout**
+
+En sortir, potser a l'usuari l'interessa que és moguin Captures, Baixades a una carpeta de sessió, que identifica quantes vegades ha entrat i sortit (per si l'hi agrada tindreu net cada vega).
+
+Això, ho he aconseguit afegint unes quantes linies en aquest arxiu
+
+```bash
+ORIGEN="$HOME/Imágenes/Capturas de pantalla/"
+DESTI="$HOME/sessions/session_$(date +%d_%Y)"
+mkdir -p "$DESTI"
+mv "$ORIGEN"/* "$DESTI"
+```
+
+Així es troba l'estructura previ a sortir.
+
+![Configuració logout, previ sortir](../images/sp2/sp2-configuracio-bashlogout.png)
+
+I aquesta es l'estructura més `neta`:
+
+![Comprovació .bash_logout](../images/sp2/sp2-comprovacio-bashlogout.png)
+
+**3. Proves .profile**
+Una de les coses que un usuari podria valorar, és que en iniciar sessió , se l'obrir el navegador, hi han molts formes de fer-ho-
+
+- Una d'elles és fent servir la comanda `xdg-open` del paquet `xdg-utils`. I tambe afegim un log per demostrar que s'ha obert
+
+![Configuració .profile](../images/sp2/sp2-conf-profile.png)
+
+I podem comprovar que s'obri.
+
+![Comprovació profile](../images/sp2/sp2-comprovacio-profile.png)
+
+**4. Proves .bashrc**
+Com a admin, per a quedar amigables amb l'usuaris, podriem fer que en obrir la terminal s'envie una notificació deien "**Un gran poder, convella una gran responsabilitat**". I també podem afegir una eina que és _**cowsay**_ (una vaca ASCII) amb fortune (frases de `fortuna`)
+
+Ho podem fer, fent ús **`notify-send`**
+
+```bash
+notify-send "Un gran poder, convella una gran responsabilitat"
+cowsay $(whoami)
+```
+
+| Descripció                | Captura                                                               |
+| ------------------------- | --------------------------------------------------------------------- |
+| Configuració test .bashrc | ![Configuració test .bashrc](../images/sp2/sp2-conf-bashrc.png)       |
+| Comprovació test .bashrc  | ![Comprovació test .bashrc](../images/sp2/sp2-comprovacio-bashrc.png) |
+
+D'aquesta forma cada cop que s'obri una terminal amb bash, li surten els missatges.
+
 ### Fitxers usuaris i grups
+
+El comportament per defecte en la creació i gestió d’usuaris es defineix en diversos fitxers de configuració del sistema.
+
+Aquests controlen paràmetres com l’UID inicial, el directori personal, els permisos predeterminats, la caducitat de contrasenyes o el grup primari assignat.
+
+Els principals són:
+
+- /etc/adduser.conf: conté els valors per defecte dels programes adduser(8), addgroup(8), deluser(8) i delgroup(8).
+- /etc/login.defs: defineix la configuració específica del lloc per a el conjunt de shadow password.
+- /etc/default/useradd: configura els valors per defecte que useradd utilitza per a nous usuaris
+
+Ara veurem algunes proves que podem fer.
+
+**Arxiu `/etc/login.defs`**
+En aquest arxiu podem configurar coses respecte a la contrasenya de l'usuari, com la duració.
+
+Un test simple es limitar els dies màxims abans de canviar la contrasenya (`PASS_MAX_DAYS`) i el maxim de canvi en un dia `PASS_MIN_DAYS`.
+
+- Per als nous usuaris.
+
+![Configuració login.def](../images/sp2/sp2-conf-loginDefs.png)
+
+Podem comprovar que tenim 3 dies abans que caduqui la contrasenya, això, en una empresa ho podriem realitzar mensualment.
+
+![Comprovació 3 dies caducitat login.defs](../images/sp2/sp2-comprovacio-loginDefs1.png)
+
+I també que al intentar canviar la contrasenya amb `passwd`, per corroborar que efectivament no permet després del 1r intent
+
+> Nota: un altre usuari li pot canviar la contrasenya si es troba al mateix sistema sense les limitacions d'esperar
+
+![Comprovació limit canvi contrasenya login.defs](../images/sp2/sp2-comprovacio-loginDefs2.png)
+
+**Arxiu `/etc/adduser.conf`**
+Podriem afegir que tinguin permisos de root, afegit la opció de `ADD_EXTRA_GROUPS`, més `EXTRA_GROUPS` a on posem `root`
+
+![Configuració adduser](../images/sp2/sp2-adduser-conf.png)
+
+Podem comprovar que és troba al grup de superusuaris
+
+![Comprovació adduser sudo](../images/sp2/sp2-comprovacio-adduser-sudo.png)
+
+**Arxiu `/etc/default/useradd`**
+Podriem canviar el $HOME per a que el posi a una carpeta muntada, que perfectament podria ser un recurs xarxa muntat del servidor.
+Així els perfils d'usuari es troben guardats ahi.
+
+```bash
+HOME=/mnt/particio-linux
+```
+
+![Configuració i comprovacions useradd](../images/sp2/sp2-conf-comprovacions-useradd.png)
 
 **Arxiu `/etc/passwd`**
 
@@ -549,7 +668,7 @@ En resum, per crear un usuari amb useradd minim hem d'afegir, ja sigui amb els p
 
 > També podem `iniciar` sessió amb `su`, encara que no compta com inici grafic.
 
-| Login amb su a jesus                                          | Login gràfic jesus                                                 |
+| Login amb `su` a jesus                                        | Login gràfic jesus                                                 |
 | ------------------------------------------------------------- | ------------------------------------------------------------------ |
 | ![Login amb su a jesus](../images/sp2/sp2-su-login-jesus.png) | ![Login gràfic jesus](../images/sp2/sp2-graphic-login-jesus-1.png) |
 
@@ -681,11 +800,37 @@ sudo groupdel nomgrup
 
 ![Eliminació basica amb delgroup i groupdel ](../images/sp2/sp2-grupdel-delgroup-basic.png)
 
-També podem fer servir **`deluser`** amb `--remove-all-files` o `--remove-home`, normalment si esborrem un usuari, és problable que vulguem tots els seus arxius fora.
+També podem fer servir **`deluser`** amb `--remove-all-files` (per sols arxiu) o `--remove-home`.
+Normalment si esborrem un usuari, és problable que vulguem tots els seus arxius repartits en el sistema fora.
 
 ```bash
-sudo deluser --remove-all-files nomusuari
+sudo deluser --remove-all-files --remove-home nomusuari
 ```
+
+![Eliminació d'usuari amb deluser](../images/sp2/sp2-deluser-basic.png)
+
+### chage
+
+La comanda `chage` ens permet visualitzar i modificar les polítiques de caducitat i expiració d’usuaris.
+
+Una prova que podem fer és la de forçar que caduqui la contrasenya. Aixó en el cás d'un despit d'empleat, és possible que ho hàgim de fer.
+
+- Amb el paràmetre `-E` posa com que el `compte` va caducar el 01 de gener del 1970, per lo tant l'usuari no pot entrar
+- El `-l` ens permet veure l'informació.
+
+| Acció                        | Captura                                                                    |
+| ---------------------------- | -------------------------------------------------------------------------- |
+| Execució `chage -E 0`        | ![Execució chage -E 0](../images/sp2/sp2-execucio-chage-E.png)             |
+| Comprovació compte bloquejat | ![Comprovació compte bloquejat](../images/sp2/sp2-comprovacio-chage-E.png) |
+
+> Per traure la caducitat seria `chage -E -1 `
+
+Hi ha un altre interessant que és el `-d` que posa la data de caducitat de la `contrasenya` a 0.
+Obligant a que en el proxim inici de sessió, es canvïi.
+
+> per si volem fer rotació contrasenya a un usuari en específic.
+
+![Comprovació canvi contrasenya](../images/sp2/sp2-comprovacio-chage-d-canviPass.png)
 
 ## Gestió avançada
 
