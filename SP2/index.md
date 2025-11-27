@@ -15,7 +15,6 @@ title: 'Sprint 2: Instal·lació, configuració de programari de base i gestió 
     - [Amb GPARTED](#amb-gparted)
     - [Via linia comandes](#via-linia-comandes)
   - [Muntatge](#muntatge)
-- [Gestió de processos](#gestió-de-processos)
 - [Gestió d'usuaris i grups i permisos](#gestió-dusuaris-i-grups-i-permisos)
   - [Directoris i fitxers importants](#directoris-i-fitxers-importants)
     - [Directoris importants](#directoris-importants)
@@ -31,25 +30,11 @@ title: 'Sprint 2: Instal·lació, configuració de programari de base i gestió 
     - [adduser / gpasswd](#adduser-gpasswd)
     - [userdel/ grupdel](#userdel-grupdel)
     - [chage](#chage)
+  - [Permissos](#permissos)
+    - [icacls](#icacls)
+    - [Exercici](#exercici)
   - [Gestió avançada](#gestió-avançada)
     - [TTY](#tty)
-    - [PAM](#pam)
-
-<!--
-- [Còpies de seguretat i automatització de tasques](#copies-de-seguretat-i-automatitzacio-de-tasques)
-
-- [Eines de còpia: rsync, tar, dd](#eines-de-copia)
-- [Estratègies: complet, incremental, diferencial](#estrategies-de-copia)
-- [Scripts i planificació: cron, crontab, systemd timers](#scripts-i-planificacio)
-- [Verificació i proves de restauració (checksums)](#verificacio-i-proves-de-restauracio)
-- [Còpies remotes i sincronització (ssh, scp, rclone)](#copies-remotes-i-sincronitzacio)
-
-- [Quotes d'usuari](#quotes-dusuari)
-- [Activació i comprovació de quotes (quotaon, quotacheck)](#activacio-i-comprovacio-de-quotes)
-- [Configuració per usuari i per grup (edquota)](#configuracio-per-usuari-i-per-grup)
-- [Informes i límits (repquota, quota)](#informes-i-limits)
-- [Gestió d'excediments i notificacions](#gestio-dexcediments-i-notificacions)
--->
 
 # Conceptes bàsics
 
@@ -832,6 +817,177 @@ Obligant a que en el proxim inici de sessió, es canvïi.
 
 ![Comprovació canvi contrasenya](../images/sp2/sp2-comprovacio-chage-d-canviPass.png)
 
+## Permissos
+
+En sistemes UNIX, els permisos fan part del sistema. Sense ells no podem visualitzar, alterar o executar fitxers, entrar en directoris o llistar-ne el contingut.
+És basen en tres atributs fonamentals:
+
+- Lectura (**r**): permet veure el contingut d'un fitxer o llistar els continguts d'un directori, té el **valor numèric de 4**.
+- Escriptura (**w**): Permet modificar un fitxer o crear i eliminar fitxers dins d'un directori, té el **valor numèric de 2**.
+- Execució (**x**): Permet executar scripts o programes. Sense aquest permís, no es pot executar programari ni accedir a directoris, té el **valor numèric de 1**.
+
+> Nota: si surt `-` és que no te permissos
+
+La seva estructura es la següent:
+
+![Estructura permissos](../images/sp2/sp2-permissos-guia.png)
+
+```bash
+[d/-][rwx][rwx][rwx]
+│    │    │    └── Altres (others)
+│    │    └──────── Grup
+│    └───────────── Propietari (owner)
+└────────────────── Tipus: d = directori, - = fitxer
+```
+
+- El primer indica si es directori (d) o fitxer (-)
+- Els tres primers atributs després del primer (que identifica directoris), són per a **propietaris**
+- Els tres següents són per a **grup**
+- Els ultims són per als altres usuaris/ grups
+
+A banda existeixen permissos especials, com:
+
+**SUID**, user + s (pecial)
+
+Un fitxer amb SUID sempre s'executa com a l'usuari propietari del fitxer, independentment de si l'usuari passa l'ordre. Si el propietari del fitxer no té permisos d'execució, feu servir una S majúscula aquí.
+
+**SGID**, other + t (sticky)
+
+- Si es defineix en un fitxer, permet que el fitxer s'executi com el grup propietari del fitxer (similar a SUID).
+- Si es defineix en un directori, qualsevol fitxer creat al directori tindrà la propietat del grup definida com la del propietari del directori.
+
+**Sticky bit**, other + t (sticky)
+L'últim permís especial s'ha anomenat `bit fix`. Aquest permís no afecta els fitxers individuals.
+A nivell de directori, restringeix l'eliminació de fitxers. Només el propietari (i root) d'un fitxer pot eliminar el fitxer dins d'aquest directori.
+
+Tots estos permissos (ja sigui els octal o en forma llegible) i grups podem canviarlos amb `chmod` e `chown`.
+
+Per defecte el sistema operatius tenen uns `permissos` teorics base de fitxer i directoris, per exemple en Ubuntu:
+
+- Fitxers: 666 (rw-rw-rw-)
+- Directori: 777 (rwxrwxrwx)
+
+> Nota: no s'apliquen directament perquè serien massa permissius (tothom podria llegir, escriure o entrar a tot).
+
+Dit alló, posteriorment fan servir el _umask_ (**user file-creation mode mask**), que és un número octal de quatre dígits. Aixó per obtenir permisos finals.
+
+Es pot calcular el resultat final de dues formes diferents:
+
+| 1. Restant el permís teòric amb el umask, per exemple: | 2. Convertint en binari i realitzant l'operació AND                                               |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| 666 - 022 = 644 (rw-r--r--)                            | permisos base (666): 110 110 110 <br> umask (0022): 000 010 010<br> NOT umask (0022): 111 101 101 |
+
+> Nota: el pimer digit (0 en aquest cás) del umask indica el permís especials (previament mencionat)
+
+Per exemple en Ubuntu s'aplica `0002` a l'usuari per defecte i `0022` pel root, resulta en que els fitxers tinguin 644 (666-022).
+
+Ho podem comprovar en la comanda `umask`
+
+![Captura comprovació umask usuario normal i root](../images/sp2/sp2-umask-normal-root.png)
+
+### ICACLS
+
+Les ACL són representacions de permisos per a elements del sistema d'arxius, que extienden els permisos natius POSIX. Donar excempcions.
+
+Per comprovar els permissos ACL que hi ha, ho podem obtenir amb `getfacl`, per exemple a la carpeta `numeros`
+
+![Getfacl 1](../images/sp2/sp2-acl-getfacl1.png)
+
+En cas per exemple no voler que el `segon` no accedeixi a la carpeta, podem afegit una exempció restrictiva amb **setfacl**
+
+setfacl -m user:segon:--- numeros
+![Afegit acl amb setacl](../images/sp2/sp2-acl-setfacl.png)
+
+I podem comprovar que el segon no pot accedir.
+![Comprovació que no podem accedir](../images/sp2/sp2-acl-comprovacio.png)
+
+Amb `setfacl -b ` numerò resetjem els permissos
+![Reset i comprovació permissos](../images/sp2/sp2-acl-reset.png)
+
+### Exercici
+
+Podem realizar algunes proves, per mostrar aixó abans he preparat l'entorn:
+
+1. He creat el grup paloma amb els integrants nick, deivy. I crear els usuaris ferran e cire
+
+```bash
+groupadd palomes
+useradd -m -G palomes -p $(openssl passwd -6 'alumne99') nick
+useradd -m -G palomes -p $(openssl passwd -6 'alumne99') deivy
+useradd -m -p $(openssl passwd -6 'alumne99') ferran
+useradd -m -p $(openssl passwd -6 'alumne99') cire
+```
+
+![Creació usuaris i grup palomes](../images/sp2/sp2-creacio-palomes.png)
+
+2. Creat una carpeta i una arxiu dintre que sera `comuna` entre els cuatre.
+
+```bash
+mkdir palomes
+echo "Palomas torcaces estofadas" > sopar.txt
+```
+
+![Creació carpeta comuna](../images/sp2/sp2-creacio-carpeta-comuna.png)
+
+A continuació hem de posar els permissos correctes, de forma que és compleixi aixó:
+
+- nick: es omnipotent, llistar, borrar, modificar
+- deivy: pot llistar, no borrar ni modificar, ni crear res
+- ferran i cire res, per a la carpeta paloemes
+
+```bash
+chown -R nick:palomes palomes
+chmod 750 palomes
+
+chgrp palomes palomes ## També podem canviar el grup amb chgrp grup directori
+```
+
+![Comprovació permissos](../images/sp2/sp2-comprovacio-permissos-sense-sticky.png)
+
+En un altre contexte a on vulguessim una carpeta colaborativa a on los del grup puguin pujar penjar coses pero no esborrar ni modificar lo dels altres, hauriem de usar el sticky bit. Per exemple:
+
+```bash
+chown -R nick:palomes palomes
+chmod 1770 palomes
+```
+
+![Comprovació permissos sticky](../images/sp2/sp2-comprovacio-permissos-sticky.png)
+
+En la captura podem veure que els arxius creats, nomes els podem modificar i eliminar els propietaris.
+
+Respecte a posar els permissos amb chmod, ho podem posar en la notació decimal o en lletres, les lletres serien:
+
+- a: tots els usuarios
+- o: els altres usuaris
+- u: propietari
+- g: grup
+
+**Proves umask**
+Respecte a l'umask per defecte, tenim diversos arxiu a on realitzar els canvis:
+
+El primer i més util seria el temporal, que seria fer servir la comanda `umask`+ mascara, aquest canvi és solament durant la sessió actual de la SHELL
+
+- En aquets cás ho he fetr en el root, posant 001, de forma que el grup root i altres tindran permisos lectura i d'escriptura i (carpetes i arxius)
+
+> Nota: el que he fet és molt mala practica, podrien colar una comanda maliciosa a l'arxiu que he creat
+
+[Comprovació umask temporal](../images/sp2/sp2-umask-temporal.png)
+
+El segon (i permanent) seria en el login.defs, previament mencionat, d'aquesta forma, a qualsevol **nou** usuari, se li aplicara el umask als arxiu/carpetes que creïi.
+
+- He posat el `umask 077` que sols dona tots els permissos a l'usuari i el seu grup
+
+![Comprovació umask permanent login.defs](../images/sp2/sp2-umask-permanent-loginDefs.png)
+
+Per ultim, també tenim el **.profile**, amb el que sols canviariem en aquell usuari específic.
+
+- Aqui he fet que sols el grup pugui llegir, els altres res (umask 027).
+
+![Comprovació .profile previ login umask](../images/sp2/sp2-umask-previ-login.png)
+
+I aquesta hauria de ser la sortida (carpeta cc)
+![Comprovació .profile post login umask, no va](../images/sp2/sp2-umask-post-login-suposada-sortida.png)
+
 ## Gestió avançada
 
 ### TTY
@@ -842,4 +998,4 @@ La "terminal" que hem estat fent servir, realment no ho és, es una pseudotermin
 
 - Resum tècnic: control d'accés, autenticació i mecanismes del sistema per administració avançada.
 
-### PAM
+![TTY 2 exemple](../images/sp2/sp2-exemple-tty2.png)
