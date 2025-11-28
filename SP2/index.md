@@ -5,7 +5,7 @@ title: 'Sprint 2: Instal·lació, configuració de programari de base i gestió 
 
 # Instal·lació i configuració programari de base i gestió de fitxers
 
-<img width="1680" height="840" alt="image" src="https://github.com/user-attachments/assets/79893fa9-e556-4565-8dc8-7d8c3467cca1" />
+![Imatge portada](../images/sp2/portada.jpg)
 
 # Índex
 
