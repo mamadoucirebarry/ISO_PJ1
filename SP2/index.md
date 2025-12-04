@@ -5,7 +5,7 @@ title: 'Sprint 2: Instal·lació, configuració de programari de base i gestió 
 
 # Instal·lació i configuració programari de base i gestió de fitxers
 
-<img width="1680" height="840" alt="image" src="https://github.com/user-attachments/assets/79893fa9-e556-4565-8dc8-7d8c3467cca1" />
+![Imatge portada](../images/sp2/portada.jpg)
 
 # Índex
 
@@ -15,7 +15,19 @@ title: 'Sprint 2: Instal·lació, configuració de programari de base i gestió 
     - [Amb GPARTED](#amb-gparted)
     - [Via linia comandes](#via-linia-comandes)
   - [Muntatge](#muntatge)
-- [Gestió d'usuaris i grups i permisos](#gestió-dusuaris-i-grups-i-permisos)
+  - [Gestió de processos](#gestió-de-processos)
+  - [Copies de seguretat i automatització tasques](#copies-de-seguretat-i-automatització-tasques)
+    - [Teoria copies seguretat](#teoria-copies-seguretat)
+    - [Practica comandes backup](#practica-comandes-backup)
+      - [cp](#cp)
+      - [rsync](#rsync)
+      - [dd](#dd)
+    - [Practica programes backups](#practica-programes-backups)
+    - [Teoria automatització scripts, cron i anacron](#teoria-automatització-scripts-cron-i-anacron)
+    - [Pràctica automatització](#pràctica-automatització)
+      - [cron](#cron)
+      - [anacron](#anacron)
+  - [Gestió d'usuaris i grups i permisos](#gestió-dusuaris-i-grups-i-permisos)
   - [Directoris i fitxers importants](#directoris-i-fitxers-importants)
     - [Directoris importants](#directoris-importants)
     - [Fitxers usuaris i grups](#fitxers-usuaris-i-grups)
@@ -58,7 +70,7 @@ Amb el temps i l’ús, els arxius es creen, esborren i modifiquen contínuament
 
 La **fragmentació interna** és quan es desaprofita espai del disc perquè els blocs són massa grans per al que s’ha de guardar dintre. Problema comú del FAT32.
 
-> Exemple: un fitxer de 8 bytes ocupa un bloc de 4096 bytes → tenim 4088 bytes desaprofitats.
+> Exemple: un fitxer de 8 bytes ocupa un bloc de 4096 bytes: tenim 4088 bytes desaprofitats.
 
 Per mirar la mida del bloc de la partició podem usar `tune2fs`, filtrar per Block
 
@@ -132,11 +144,11 @@ Els passos a seguir són:
 ![GParted creacio particio1 - 2](../images/sp2/sp2-creacioParticio1-2.png)
 ![Gparted partició 1 creada](../images/sp2/sp2-creacioParticio1-creada.png)
 
-3. Repetim el pas anterior pero a format NTFS i fem clic en **Aplicar todas las operaciones**
+3. Repetim el pas anterior pero a format NTFS i fem clic en **Aplicar totes les operacions**
 
 ![GParted creacio particio2](../images/sp2/sp2-creacioParticio2.png)
-![GParted aplicar todas las operaciones](../images/sp2/sp2-gparted-aplicaroperaciones.png)
-![GParted aplicar todas las operaciones > Aplicar](../images/sp2/sp2-gparted-aplicaroperaciones-2.png)
+![GParted aplicar totes les operacions](../images/sp2/sp2-gparted-aplicaroperaciones.png)
+![GParted aplicar totes les operacions > Aplicar](../images/sp2/sp2-gparted-aplicaroperaciones-2.png)
 ![Aplicar > Cerrar](../images/sp2/sp2-gparted-aplicaroperaciones-3.png)
 
 4. Comprovem que les dues particions és troben creades
@@ -209,15 +221,16 @@ Cada línia descriu una partició o dispositiu amb sis camps separats per espais
 - Punt de muntatge: carpeta on s’accedirà al contingut, si no existeix, no la crea, sino que falla.
 - Sistema de fitxers: tipus utilitzat. Per exemple: ext4, ntfs, vfat, xfs, etc.
 - Opcions: paràmetres de muntatge (separats per comes)
-  - defaults → valors per defecte (lectura/escriptura, execució, etc.)
-  - ro / rw → només lectura o lectura/escriptura
-  - noexec → no permet executar arxius
-  - nosuid → ignora bits SUID/SGID
-  - nodev → no permet dispositius especials
-  - auto / noauto → si es munta automàticament o no
-  - user / nouser → si usuaris normals poden muntar-la
+  - defaults: valors per defecte (lectura/escriptura, execució, etc.)
+  - ro / rw: només lectura o lectura/escriptura
+  - noexec: no permet executar arxius
+  - nosuid: ignora bits SUID/SGID
+  - nodev: no permet dispositius especials
+  - auto / noauto: si es munta automàticament o no
+  - user / nouser: si usuaris normals poden muntar-la
 - Dump: valor 0 (no es fa) o 1 (es fa).
   Controla si es fa còpia amb l’eina dump. El sistema faria ús de l’eina antiga **dump** per fer còpies de seguretat del sistema de fitxers.
+
 - Pass: ordre de verificació amb fsck durant l’arrencada.
 - Amb 0 no comprova el sistema de fitxers (es salta).
 - Amb 1 comprova primer (prioritat més alta), normalment s'aplica a l'arrel `/`
@@ -235,16 +248,323 @@ Els processos són programes en execució dins del sistema. Cada procés té un 
 
 Eines bàsiques per gestionar-los:
 
-- ps, top, htop → veure processos actius.
-- kill, pkill → finalitzar un procés per PID o nom.
-- nice, renice → ajustar la prioritat d’execució.
-- systemctl, service → controlar serveis (daemons).
+- ps, top, htop: veure processos actius.
+- kill, pkill: finalitzar un procés per PID o nom.
+- nice, renice: ajustar la prioritat d’execució.
+- systemctl, service: controlar serveis (daemons). No es exactament per a processos, així no el tocarem aqui.
 
 A nivell pràctic, cada procés hereta permisos de l’usuari que l’ha iniciat i pot estar vinculat a un servei o a una sessió d’usuari.
 
 Ara veurem com fer-les servir minimament.
 
-**> [ENCARA HO TENIM QUE FER - TODO]**
+Amb **pstree**
+
+Paràmetre Funció
+
+| Paràmetre | Funció                                              |
+| --------- | --------------------------------------------------- |
+| -p        | Mostra el PID de cada procés.                       |
+| -u        | Mostra l’usuari propietari de cada procés.          |
+| -h        | Ressalta el procés actual (útil quan es filtra).    |
+| -n        | Ordena processos per PID dins de cada arbre.        |
+| -a        | Mostra els arguments complets del procés (cmdline). |
+
+Per filtrar un procés podem usar`grep`
+
+![PSTree filtrar per usuari](../images/sp2/sp2-pstree-user.png)
+
+Aqui podem veure els processos de root i tambe filtrant per la terminal
+
+![PSTree en root ](../images/sp2/sp2-pstree-root.png)
+![PSTree en root, filtrant per la terminal amb grep](../images/sp2/sp2-pstree-root-grep.png)
+
+**ps**
+Aquesta comanda, mostra informació sobre una selecció dels processos actius.
+Si volem una actualització repetitiva de la selecció i la informació mostrada, hauriem de usar top en comptes d'això.
+
+Alguns dels parametres mes comuns són:
+
+- `a`: mostra processos de **tots els usuaris**, no només del terminal actual.
+- `u`: mostra informació en **format d’usuari**, amb columnes com `%CPU`, `%MEM`, `USER`.
+- `x`: inclou processos **sense terminal associat** (daemons i serveis).
+- `-e`: Mostra tots els processos del sistema, equivalent a -A.
+- `-o`: Permet personalitzar exactament quines columnes vols que surti.
+- i molts més
+
+![Psaux](../images/sp2/sp2-psaux.png)
+
+Podem filtrar per obtenir les terminals que l'usuari fa servir amb `ps aux | grep usuari | grep tty`
+
+Aixó, mostra els processos d’un usuari concret que s’estan executant en terminals.
+
+- **ps aux**: mostra tots els processos amb informació detallada.
+- **grep usuario**: filtra només els processos propietat de l’usuari “usuario”.
+- **grep tty**: filtra només els processos que tenen un terminal associat (tty).
+
+![psaux filtrant per usuari per obtenir la terminal](../images/sp2/sp2-psaux-grep-user.png)
+
+Si volem matar un proces, podem fer servir **kill**, te diversos modes de terminar:
+
+| Tipus de Kill      | Senyal  | Descripció                                      | Comanda        |
+| ------------------ | ------- | ----------------------------------------------- | -------------- |
+| Kill suau          | SIGTERM | Demana al procés finalitzar netament            | kill PID       |
+| Kill forçat        | SIGKILL | Mata immediatament, sense netejar recursos      | kill -9 PID    |
+| Recarregar config  | SIGHUP  | Demana al procés que recarregui la configuració | kill -1 PID    |
+| Pausa              | SIGSTOP | Pausa l’execució del procés                     | kill -STOP PID |
+| Continuar          | SIGCONT | Continua un procés pausat                       | kill -CONT PID |
+| Interrupció Ctrl-C | SIGINT  | Senyal d’interrupció (Ctrl+C)                   | kill -2 PID    |
+| Abortar            | SIGABRT | Senyal d’error abortat, sovint genera core dump | kill -6 PID    |
+
+Aqui tenim un exemple obrint xclock al fons amb el "&" i matant-lo suau, mentres comprovem amb `ps aux` que s'ha mort.
+
+![Kill xclok & - background](../images/sp2/sp2-processos-killClock.png)
+
+També tenim dos altres comandes mes simples i que ens permeten buscar pel nom del procés, que són:
+
+- pgrep: per obtenir el PID del proces
+- pkill: per matar amb el nom del procés
+
+> Nota: si estem en interficie grafica, podem usar **xprop** (necessites usar servidor X (Xorg)) per obtenir les propietats d'una finestra, que inclou també el PID.
+> I matar la ventana amb **xkill**
+
+![Pgrep i pkill](../images/sp2/sp2-processos-pgrep-pkill.png)
+
+![xprop i xkill](../images/sp2/sp2-processos-xprop-xkill.png)
+
+Per altra banda també tenim la comanda `pidof` que en retorna el PID del programa.
+
+![pidof](../images/sp2/sp2-processos-pidof.png)
+
+Amb **top**
+Poden veure els processos en temps real, del que mes consumeix a menys
+
+![Top](../images/sp2/sp2-top.png)
+
+Quan executem **top**, veiem un resum del sistema i una llista de processos amb diferents columnes:
+
+Inclou informació global del sistema:
+
+- load average: càrrega mitjana (1, 5 i 15 minuts).
+- Tasks: processos totals, en execució, dormint, aturats, zombis.
+- %Cpu(s): percentatge d'ús de CPU (user, system, idle…).
+- Mem / Swap: memòria RAM i swap disponible, usada i lliure.
+
+| Columna | Significat                                                 |
+| ------- | ---------------------------------------------------------- |
+| PID     | Identificador únic del procés.                             |
+| USER    | Usuari que ha iniciat el procés.                           |
+| PR      | Prioritat del procés (valors negatius = més prioritat).    |
+| NI      | Nice value: ajust de prioritat (-20 a +19).                |
+| VIRT    | Memòria virtual total utilitzada pel procés.               |
+| RES     | Memòria física (RAM) real utilitzada.                      |
+| SHR     | Memòria compartida amb altres processos.                   |
+| S       | Estat del procés (S = sleeping, R = running, Z = zombie…). |
+| %CPU    | Percentatge de CPU que consumeix.                          |
+| %MEM    | Percentatge de RAM que consumeix.                          |
+| TIME+   | Temps total de CPU consumit.                               |
+| COMMAND | Nom o ruta del procés executable.                          |
+
+Respecte als estats, podem troba:
+
+- Executant (Running, **R**): El procés està actiu o llest per ser assignat a la CPU.
+- Esperant (Waiting, **W**): El procés espera un recurs o un esdeveniment.
+- Aturat (Stopped, **S**): El procés ha estat detingut, normalment per un senyal, sovint durant depuració.
+- Zombi (Zombie, **Z**): El procés ha finalitzat però encara conserva una entrada a la taula de processos.
+- Trencat (**T**): Procés aturat per depuració o per senyal de trencament.
+- Dormint (**D**): Procés inactiu, esperant I/O, no pot ser interromput.
+- Idle (inactiu,**I**): El procés està completament inactiu, sense consumir CPU; molt habitual en fils del kernel.
+
+> Mes informació els tipus estats: https://tldp.org/LDP/tlk/kernel/processes.html
+
+Com usar-lo
+
+- Per sortir de la execució de la comanda, pressionem `q` o `CTRL+C`
+- Per matar un procés, ens movem amb les fletxes i pressionem `k`
+
+![Matar amb top](../images/sp2/sp2-processos-kill.png)
+
+El **numero negatiu en PR es que te major prioritat**, no podem augmentar o disminui.
+**Si augmentem el NI, disminueix la prioritat.**
+
+Per a donar mes prioritat a un proces que s'esta executant, usem **renice -n -19 -p xclock &**
+
+![Renice test](../images/sp2/sp2-processos-renice.png)
+
+A on:
+
+- `-n`: indica el valor de niceness.
+- `-19`: és el valor de nice (quasi la més alta prioritat possible).
+- `-p`: indica que li passes un PID.
+
+> Nota: Els valors de bondat van de -20 (el més favorable al procés) a 19 (el menys favorable al procés). Segon el [manual](https://linux.die.net/man/1/nice)
+> En cas posar-ho superior al limit, es mante a 0
+
+Per llançar-los directament nou processos amb una prioritat determinada usem **sudo nice -n -18 xclock**
+
+> que tambe podem canviar novament...
+> Aqui podem veure varies comprovacions del nices, inclos mirant els limits a quin valor posat. Ha posat 39 al valor negatiu mes petit (-20) i 1 al més gran (0)
+
+![Comprovacions nice i renice](../images/sp2/sp2-processos-nice-check.png)
+
+I en l'altra terminal observem la prioritat amb `htop`.
+
+![HTOP comprovacio nice i renice](../images/sp2/sp2-htop-renice-nice.png)
+
+> Nota: podem observar que el PRI és ligerament diferent, aixó es perque eines com _htop, btop_, recalculen la prioritat per mostrar la forma més intuïtiva;
+> Mentre que `top` o `ps` , mostren la prioritat real del kernel (/proc/[pid]/stat)
+
+**Detallets respecte als processos**
+
+A Linux, un procés es pot executar en primer pla (foreground) o segon pla (background).
+
+- Primer pla: La terminal està “ocupada” amb aquest procés. No pots escriure altres ordres fins que s'acabi o ho passis a segon pla.
+- Segon pla: El procés continua executant-se, però pots continuar usant la terminal.
+
+En una comanda que hem executat, amb **CRTL+Z** podem aturar momentaniament (durant el que duri la sessió) un procés.
+I podem observar que es troba com "treball" de fons amb **jobs** veiem els processos en segon pla/stop que hem posat
+
+- També en les columnes de htop/top, etc, el stat posar **T**, de aturat.
+
+> Nota: - (actual) i + (previ) són marcadors especials de treball, que indiquen prioritat per a certes operacions del shell.
+
+![Control + Z + jobs](../images/sp2/sp2-processos-background-jobs.png)
+
+La comanda **fg** per tornar/ reanudar un treball (per defecte a primer pla)
+
+- Si no afegim paràmetre, reanudara l'ultim, sino el número del treball (de **jobs**)
+
+![Jobs i fg](../images/sp2/sp2-jobs-fg.png)
+
+També tenim **bg** reanuda un proces susp (STOP) en segon pla.
+
+![Bg proves](../images/sp2/sp2-processos-bg.png)
+
+Respecte a iniciar processos directament en segon pla, per tenir lliure la terminal.
+
+- Podem afegir el ampersand (**&**) que es un metacaracter especial per posar processos en segon pla.
+
+![Segon pla amb &](../images/sp2/sp2-processos-segon-pla.png)
+
+El **htop** es el top en esteroides amb colors i més visual i interactiu.
+
+![HTOP](../images/sp2/sp2-htop.png)
+
+El **btop** el mateix per més modern i en més animacions.
+
+![BTOP interficie, buscant amb / al sleep previ](../images/sp2/sp2-processos-btop.png)
+
+## Copies de seguretat i automatització tasques
+
+### Teoria copies seguretat
+
+Una còpia de seguretat (còpia de seguretat) és una còpia de dades pensada per a la recuperació en cas de pèrdua, corrupció o desastre. S'emmagatzema de forma independent de l'origen (idealment en un altre lloc/servidor/servei cloud), i sovint segueix polítiques de retenció, versions i proves de restauració.
+
+Tipus comuns: completa, incremental i diferencial.
+| Tipus de còpia | Què copia? | Velocitat | Espai ocupat | Avantatges | Inconvenients |
+|----------------|------------|-----------|--------------|------------|----------------|
+| **Completa** | Totes les dades cada vegada | Lenta | Molt | Molt segura i fàcil de restaurar | Necessita més temps i espai |
+| **Incremental** | Només els canvis des de l'última còpia (de qualsevol tipus) | Molt ràpida | Poc | Estalvia molt espai i temps | Restauració més lenta (cal la completa + totes les incrementals) |
+| **Diferencial** | Canvis des de l’última còpia completa | Ràpida | Mitjà | Restauració més simple que incremental | Cada dia ocupa més espai fins a la següent completa |
+
+---
+
+Ejemples:
+| Tipus de còpia | Exemple de còpies fetes | Si perds un fitxer el dijous, què necessites per recuperar-lo? | Explicació senzilla |
+|----------------|--------------------------|---------------------------------------------------------------|----------------------|
+| **Completa** | Dilluns (completa), Dimarts (completa), Dimecres (completa) | La còpia completa de **dimecres** | Cada dia tens una còpia total nova. Només agafes l’última (la de dimecres) i ho tens tot fins ahir. |
+| **Incremental** | Dilluns (completa), Dimarts (incremental), Dimecres (incremental) | **Dilluns + Dimarts + Dimecres** | Es necessita la cadena: la completa de dilluns i totes les incrementals fins al dimecres, perquè cadascuna només guarda els petits canvis del dia. |
+| **Diferencial** | Dilluns (completa), Dimarts (diferencial), Dimecres (diferencial) | **Dilluns + Dimecres** | La diferencial de cada dia conté tots els canvis des de dilluns. Per això només cal la completa i l’última diferencial. |
+
+---
+
+Dintre dels **sistemes d’emmagatzematge**, tenim els **RAID**, que d’unir diversos discs perquè treballin junts.
+
+- RAID 0: suma capacitat i rendiment, però si un disc falla ho perds tot. Zero seguretat.
+- RAID 1: còpia mirall. Si un disc cau, l’altre segueix funcionant.
+- RAID 5 / 6: combinen velocitat i seguretat repartint dades i “paritat” entre diversos discs.
+- RAID 10: ràpid + segur (combinació de RAID 1 i 0).
+
+> **Important**: RAID no és una còpia de seguretat.
+> Si esborrem fitxers o entra un virus, RAID replicarà l’error a tots els discs.
+
+---
+
+**Una imatge (disk image)**
+És una còpia exacta (portable) de tot un disc o partició: sistema operatiu, programes, configuracions i dades.
+Serveix per clonar equips o restaurar-ho tot tal qual estava.
+
+- Molt completa, però pesada i **lenta de crear**.
+- Pot restaurar un PC sencer en minuts.
+
+**Un snapshot**
+És una captura puntual de l'estat d'un sistema de fitxers o d'un dispositiu de blocs que normalment depèn de la tecnologia d'emmagatzematge (LVM, ZFS, Btrfs, VM snapshots, etc.). És ràpid de crear i sovint és incremental: només registra els canvis des del moment del snapshot. Els snapshots són ideals per a punts de recuperació ràpids o per a proves, però solament són segurs com a còpia de seguretat si s'emmagatzemen fora del mateix suport físic (un snapshot local no protegeix contra fallades del mateix disc).
+
+Diferències clau (resum):
+
+La còpia de seguretat guarda les teves dades en un lloc segur per recuperar-les, la imatge del disc copia tot el sistema exactament tal com és, i el snapshot és una foto ràpida de l’estat actual per tornar enrere però no és segur si es guarda al mateix disc.
+
+> Nota: no confiar només en snapshots locals com a única protecció; implementar una estratègia que combini snapshots per recuperacions ràpides i còpies de seguretat fora del lloc per a desastres.
+
+### Practica comandes backup
+
+##### cp
+
+És una copia simple no intel·ligent, només transfereix fitxers localment, es molt simple d'utilitzar però no optimitzar.
+
+##### rsync
+
+És una eina intel·ligent que només copia els fitxers modificats i la sincronització pot ser local o en remot (via SSH).
+
+##### dd
+
+És una eina per a clonar discos o particions i no es intel·ligent, copia tots els sectors.
+
+### Practica programes backups
+
+Previ a les practiques hem afegit dos discos d'1 GB i formatat (fdisk)
+
+![Discos VirtualBox](../images/sp2/sp2-bck-discos-afegits.png)
+![Particionat](../images/sp2/sp2-bck-particionat.png)
+
+Per a la comanda `cp`, podem comprovar que la copia es simple i el que esborrem de la font original no afecta la la nova:
+
+```bash
+cd Documents
+mkdir prova
+touch prova2
+
+cd /var
+mkdir copies
+mount -t ext4 /dev/sdb1 /var /copies
+
+cp -R /home/ubuntu-cire/Documents/* /var/copies
+ls copies
+touch /home/ubuntu-cire/Documents/hola
+rm -r /home/ubuntu-cire/Documents/prova
+cp -R /home/ubuntu-cire/Documents/hola
+
+ls copies/
+```
+
+![Copia amb CP](../images/sp2/sp2-bckp-cp1.png)
+
+Amb **rsync** si esborrem algo a l'origen perdem a la copia
+
+```bash
+mkdir /home/ubuntu-cire/Documents/adeu
+rm /home/ubuntu-cire/Documents/hola
+rsync -ay --delete /home/ubuntu-cire/Documents /var/copies
+```
+
+![Copia amb rsync](../images/sp2/sp2-bck-rsync.png)
+
+### Teoria automatització scripts, cron i anacron
+
+### Pràctica automatització
+
+##### cron
+
+##### anacron
 
 ## Gestió d'usuaris i grups i permisos
 
@@ -459,20 +779,6 @@ usuari : contrasenya_xifrada : últim_canvi : mínim : màxim : avís : inactiu 
 | contrasenya_xifrada | Hash SHA‑512 o indicador: ! (bloquejat) o \* (sense login). |
 | últim_canvi         | Dies des de l’1/1/1970 de l’últim canvi de contrasenya.     |
 | mínim/màxim         | Dies mínims/màxims entre canvis de contrasenya.             |
-| avís                | Dies abans de la caducitat per avisar l’usuari.             |
-| inactiu             | Dies d’inactivitat abans de desactivar el compte.           |
-| caducitat           | Data de fi de compte (en dies des de l’1/1/1970).           |
-| reserva             | Camp reservat (no usat).                                    |
-
-![Captura /etc/shadow, remarcant la contrasenya xifrada](../images/sp2/sp2-etc-shadow-1.png)
-
-**Arxiu `/etc/gshadow`**
-En aquest grup a diferencia del shadow, podem veure l'administrador del grup, mentre en l'altre sols els grups i usuaris.
-
-- És la versió segura de /etc/group, només accessible per root.
-- Inclou contrasenyes de grup (si n’hi ha) i administradors.
-
-Te el següent format:
 
 ```bash
 nom_grup : contrasenya_xifrada : administradors : membres
@@ -849,7 +1155,13 @@ A banda existeixen permissos especials, com:
 
 **SUID**, user + s (pecial)
 
-Un fitxer amb SUID sempre s'executa com a l'usuari propietari del fitxer, independentment de si l'usuari passa l'ordre. Si el propietari del fitxer no té permisos d'execució, feu servir una S majúscula aquí.
+Un fitxer amb SUID sempre s'executa com a l'usuari propietari del fitxer, independentment de si l'usuari passa l'ordre. Si el propietari del fitxer no té permisos d'execució, fa servir una S majúscula aquí.
+
+> Important: A la majoria de distribucions Linux modernes, SUID en scripts de shell no funcionen per seguretat. En executables binaris sí funciona.
+> Així que en un script .sh normal, es faria servir usuari actual.
+> Font: https://linuxvox.com/blog/suid-not-working-with-shell-script/
+
+![SUID Test, no va i actua com l'usuari actual](../images/sp2/sp2-suid-test.png)
 
 **SGID**, other + t (sticky)
 
@@ -895,13 +1207,18 @@ Per comprovar els permissos ACL que hi ha, ho podem obtenir amb `getfacl`, per e
 
 En cas per exemple no voler que el `segon` no accedeixi a la carpeta, podem afegit una exempció restrictiva amb **setfacl**
 
+```bash
 setfacl -m user:segon:--- numeros
+```
+
 ![Afegit acl amb setacl](../images/sp2/sp2-acl-setfacl.png)
 
 I podem comprovar que el segon no pot accedir.
+
 ![Comprovació que no podem accedir](../images/sp2/sp2-acl-comprovacio.png)
 
 Amb `setfacl -b ` numerò resetjem els permissos
+
 ![Reset i comprovació permissos](../images/sp2/sp2-acl-reset.png)
 
 ### Exercici
