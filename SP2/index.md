@@ -22,6 +22,7 @@ title: 'Sprint 2: Instal·lació, configuració de programari de base i gestió 
       - [cp](#cp)
       - [rsync](#rsync)
       - [dd](#dd)
+    - [Quotes de disc](#quotes-de-disc)
     - [Practica programes backups](#practica-programes-backups)
     - [Teoria automatització scripts, cron i anacron](#teoria-automatització-scripts-cron-i-anacron)
     - [Pràctica automatització](#pràctica-automatització)
@@ -463,7 +464,7 @@ Tipus comuns: completa, incremental i diferencial.
 | Tipus de còpia | Què copia? | Velocitat | Espai ocupat | Avantatges | Inconvenients |
 |----------------|------------|-----------|--------------|------------|----------------|
 | **Completa** | Totes les dades cada vegada | Lenta | Molt | Molt segura i fàcil de restaurar | Necessita més temps i espai |
-| **Incremental** | Només els canvis des de l'última còpia (de qualsevol tipus) | Molt ràpida | Poc | Estalvia molt espai i temps | Restauració més lenta (cal la completa + totes les incrementals) |
+| **Incremental** | Només els canvis des de l'última còpia (de qualsevol tipus) | Molt ràpida | Poc | Estalvia molt espai i temps | Restauració més lenta (**cal la completa + totes les incrementals**) |
 | **Diferencial** | Canvis des de l’última còpia completa | Ràpida | Mitjà | Restauració més simple que incremental | Cada dia ocupa més espai fins a la següent completa |
 
 ---
@@ -507,26 +508,17 @@ La còpia de seguretat guarda les teves dades en un lloc segur per recuperar-les
 
 ### Practica comandes backup
 
-##### cp
-
-És una copia simple no intel·ligent, només transfereix fitxers localment, es molt simple d'utilitzar però no optimitzar.
-
-##### rsync
-
-És una eina intel·ligent que només copia els fitxers modificats i la sincronització pot ser local o en remot (via SSH).
-
-##### dd
-
-És una eina per a clonar discos o particions i no es intel·ligent, copia tots els sectors.
-
-### Practica programes backups
-
 Previ a les practiques hem afegit dos discos d'1 GB i formatat (fdisk)
 
 ![Discos VirtualBox](../images/sp2/sp2-bck-discos-afegits.png)
 ![Particionat](../images/sp2/sp2-bck-particionat.png)
 
-Per a la comanda `cp`, podem comprovar que la copia es simple i el que esborrem de la font original no afecta la la nova:
+##### cp
+
+És una copia simple no intel·ligent, només transfereix fitxers localment, es molt simple d'utilitzar però no optimitzar.
+
+Per a comanda `cp`, podem comprovar que la copia es simple i el que esborrem de la font original no afecta la la nova:
+El paràmetre `-R` és per realitzar la copia recursivament.
 
 ```bash
 cd Documents
@@ -548,23 +540,407 @@ ls copies/
 
 ![Copia amb CP](../images/sp2/sp2-bckp-cp1.png)
 
+##### rsync
+
+És una eina intel·ligent que només copia els fitxers modificats i la sincronització pot ser local o en remot (via SSH).
 Amb **rsync** si esborrem algo a l'origen perdem a la copia
+
+- **-a**: _archive_: còpia recursiva i conserva permisos, propietaris, dates, etc.
+- **-v**: per a mostrar e seu procés (verbose)
+- **--delete**: elimina al destí els fitxers que ja no existeixen a l’origen.
+- **Origen**: `/home/ubuntu-cire/Documents`
+- **Destí**: `/var/copies`
 
 ```bash
 mkdir /home/ubuntu-cire/Documents/adeu
 rm /home/ubuntu-cire/Documents/hola
-rsync -ay --delete /home/ubuntu-cire/Documents /var/copies
+rsync -av --delete /home/ubuntu-cire/Documents /var/copies
 ```
 
 ![Copia amb rsync](../images/sp2/sp2-bck-rsync.png)
 
+##### dd
+
+És una eina per a clonar discos o particions i no es intel·ligent, copia tots els sectors.
+
+```bash
+dd if=/dev/sdb1 of=/dev/sdc1 bs=1M status=progress
+```
+
+- `if=/dev/sdb1`: fitxer o dispositiu d'entrada (origen).
+- `of=/dev/sdc1`: fitxer o dispositiu de sortida (destí — se sobreescriu).
+- `bs=1M`: mida de bloc 1 MiB (1048576 bytes); redueix trucades al sistema i sol accelerar la còpia.
+- `status=progress`: mostra progrés i comptadors durant l'operació.
+
+Per exemple, en la següent comprovació, he fet una copia dels sectors del _sdb1_ al _sdc1_ i comprovat el **checksum** (un valor únic de l'arxiu per a verificar integritat de dades), que és igual.
+
+![DD Test + checksum](../images/sp2/sp2-dd-checksum.png)
+
+Recomanació curta: per backups regulars i sincronització usa rsync; per clonar imatges bit-a-bit o migrar discos usa dd (o ddrescue per discos danyats). Sempre provar amb --dry-run (rsync) i verificar checksums (dd).
+
+### Quotes de disc
+
+Les quotes de disc limiten l'espai i el nombre d'inodes que un usuari o un grup pot utilitzar en un sistema de fitxers. Permeten evitar que un usuari esgoti tot el disc i poden definir límits "soft" (temporals, amb període de gràcia) i "hard" (absoluts).
+
+El paquet habitual s'anomena quota (i les seves comandes principals són `quotacheck, quotaon, edquota, repquota, quota`). A sistemes amb XFS és habitual usar xfs_quota.
+
+---
+
+> Nota:
+>
+> - Cal ser root per configurar.
+> - El sistema de fitxers ha de suportar quotas; XFS requereix eines i opcions específiques (xfs_quota i, a vegades, `prjquota` per project quotas).
+> - Si canviem fstab i no veus efecte, remunta la partició o reinicia i executa `quotacheck` abans d'activar.
+
+---
+
+Durant aquesta practica hem usat:
+
+equota -u usuari --> veure quotes d'un usuari
+setquota -u usuari --> establir quotes d'un usuari
+repquota /dev/sdc1 --> informe quotes de tots els usuaris el que ocupen
+
+quotaon /mnt/dades --> activar quotes
+quotaoff /mnt/dades --> desactivar quotes
+quotacheck -cug /mnt/dades --> crear arxius per a quotes d'usuari i grup si no estan per defecte
+
+setquota -T -u primer 1296000 1296000 /mnt/dades --> establir temps de gràcies a 1 usuari i en segons (el dies)
+setquota -t --> modificar el període de gràcia per a tots per defecte
+
+## Amb dd hem anat creat arxius simple fent servir copiant de l'arxiu especial zero: `dd if=/dev/zero of=nom_arxiu bs=1K count=800`
+
+Aquesta és la configuració bàsica que hem seguit:
+
+1. Instal·lar el paquet:
+
+- Debian/Ubuntu: `sudo apt update && sudo apt install quota`
+- RHEL/CentOS/Fedora: `sudo yum install quota` o `sudo dnf install quota`
+
+![Quota installation](../images/sp2/sp2-quotaInstall.png)
+
+2. Afegir opcions al /etc/fstab per la partició (exemple per ext4): `/dev/sdc1 / ext4 defaults,usrquota,grpquota 0 0`
+
+![Configuració fstab usrquota i grpquota](../images/sp2/sp2-usrquota-grpquota.png)
+
+3. Muntar la partició o reiniciar: `sudo mount -a`
+
+- Després comprovem amb `df -T` o en comrpovar que en /mnt/dades s'han creat els fitxer aquota.\* (avegades surten avegades no) o el lost+found
+- I si no estan els arxius de aquota, els creem amb `quotacheck -cug /mnt/dades` `sudo quotacheck -avugm`
+
+![Muntatge i creació](../images/sp2/sp2-mnt-quotachek.png)
+
+5. Activar les quotes amb `sudo quotaon -av`
+
+I les podem desactivar amb `quotaoff`
+
+![Activar i desactivar quotes amb quotaon i quotaoff](../images/sp2/sp2-quotaoff-quotacheck.png)
+
+Podem comprovar si un usuari te quota amb `quota -u  usuari`
+
+![Comprovació quota amb quota i el paràmetre -u ](../images/sp2/sp2-quota-u-usuari.png)
+
+6. Assignar límits a un usuari o grup: `sudo edquota -u nom_usuari`
+   > (editar soft/hard blocks i inodes)
+
+Quan executem `sudo edquota -o usuari` apareix un bloc similar a:
+
+```bash
+Filesystem  blocks  soft  hard  grace  files  soft  hard  grace
+/dev/sda1   20480   10000 12000        512    100   150
+```
+
+| Columna          | Significat                                             | Comportament / Notes                                                                                                      |
+| ---------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| Filesystem       | Dispositiu o punt de muntatge on s’apliquen les quotes | Exemples: /dev/sda1, /home                                                                                                |
+| blocks (ús)      | Espai utilitzat actualment per l’usuari                | ≤ soft: dins del límit. <br> soft < blocks ≤ hard: permès, entra en gràcia. <br> > hard: bloqueig d’escriptura.           |
+| soft (límit tou) | Llindar d’avís; en superar-lo comença la gràcia        | Si és 0 → cap límit tou configurat.                                                                                       |
+| hard (límit dur) | Límite absolut, no superable                           | Si s’arriba o supera, les escriptures fallen fins reduir l’ús.                                                            |
+| grace            | Temps restant del període de gràcia                    | Actiu quan se supera soft. <br> Si expira, el sistema actua com si s’hagués superat hard.                                 |
+| files (inodes)   | Fitxers/directoris utilitzats per l’usuari             | Igual que blocks: <br> ≤ soft: correcte. <br> soft < files ≤ hard: en gràcia. <br> > hard: no es poden crear més fitxers. |
+
+![Edició quota amb edquota](../images/sp2/sp2-edquota.png)
+
+7. Per consultar informes: `sudo repquota -a` i `quota -u nom_usuari`
+
+![Consulta informe primer arxiu dd](../images/sp2/sp2-repquota.png)
+
+I finalment accedim a l'usuari, creem un arxiu amb algun tamany (jo he fet de 1K) i comprovem amb `repquota` que ha consumit
+
+![Comprovacio soft limit](../images/sp2/sp2-compr-quota-dd.png)
+
+I al crear el segon de 1K, superem el soft, pero no el hard aixi que encara podem seguir.
+
+- En arribar al hard el podem superar duran 7 dies, posterior a aquells, no deixara escriure més
+
+| Imatge 1                                                   | Imatge 2                                                   |
+| ---------------------------------------------------------- | ---------------------------------------------------------- |
+| ![Arribant al soft](../images/sp2/sp2-compr-softLimit.png) | ![Arribant al hard](../images/sp2/sp2-compr-hardLimit.png) |
+
+Per establir un període de gràcia específic per a un usuari, utilitzem
+
+```bash
+setquota -T -u primer 1296000 1296000 /mnt/dades
+```
+
+> La primera columna de numeros són blocks (15 dies) i la segona inodes (15 també)
+
+![alt text](../images/sp2/sp2-quota-conf.png)
+
+Per establir el període de gràcia per a tots els usuaris, utilitzem `setquota -t 259200 259200 -a`
+
+![Estableix el període per a tots](../images/sp2/sp2-setquota-t.png)
+
+Finalment desactivem les quotes i l'usuari pot seguir escrivint.
+
+![Desactivant les quotes, pot seguir escrivint](../images/sp2/sp2-quotaoffFinal-potEscriure.png)
+
+### Practica programes backups
+
+Previament tinc un disc dur d'1GB per a guardar les proves.
+
+A banda del ja mencionat Timeshif en el sprint 1, n'hi han molts més programes que tenen caracteristiques diferents, com:
+
+- Borg Backup: CLI, incremental per defecte, deduplicació per blocs, molt eficaç per backups locals i remots.
+- Restic: CLI, escrit en Rust, complet + incremental, deduplicació i encriptació AES.
+- Duplicati: GUI web (o CLI), optimitzat per a backups incrementals, amb suport per remots i encriptació.
+- Deja-dup: GUI GTK, usa duplicity per a backups complets i incrementals, fàcil d’integrar a GNOME.
+
+Jo per a la prova he fet servir duplicati, primer he descarregat amb wget el `binari` .deb i instal·lat
+
+```bash
+wget -q https://updates.duplicati.com/stable/duplicati-2.2.0.1_stable_2025-11-09-linux-x64-gui.deb
+dpkg -i duplicati-2.2.0.1_stable_2025-11-09-linux-x64-gui.deb
+```
+
+![Instalacio duplicati](../images/sp2/sp2-duplicati-installation.png)
+
+Després d'instal·lar, he accedit i seguit els següents passos:
+
+1. Preparat les carpetes de prova
+
+```bash
+mkdir duplicati-test
+cp -r Descargas Documentos duplicati-test/
+
+```
+
+![Preparació entorn](../images/sp2/sp2-prep-entorn.png)
+
+2. He creat el backup complet (primer backup)
+
+Accedint mitjançant web al port 8200, afegint ja des de l'inici una contrasenya
+
+![Passphrase duplicati](../images/sp2/sp2-passhrase-duplicati.png)
+
+Seguidament he anat fent el següent:
+
+- GUI: New Backup → Configure a new backup
+- Source: ~/duplicati-test - Destination: /mnt/particio-backups
+- Sols l'executare a la 1:45 de la nit els dijous
+- Backup type: Complete → Run now
+
+Que seria l'equivament a:
+
+```bash
+duplicati-cli backup "file:///mnt/particio-backups" ~/duplicati-test
+```
+
+| ![Fer clic a Add a new backup](../images/sp2/sp2-creantBackup-Duplicati.png)  | ![General backup setting screen 1](../images/sp2/sp2-generalBackup-Dup-s1.png) |
+| ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| ![Backup destionation](../images/sp2/sp2-generalBackup-Dup-s2Destination.png) | ![Source data](../images/sp2/sp2-generalBackup-Dup-s3Source.png)               |
+| ![Schedule](../images/sp2/sp2-generalBackup-Dup-s4Schedule.png)               | ![Other options](../images/sp2/sp2-generalBackup-Dup-s5Other.png)              |
+
+3. Per no haver d'esperar, l'he executat, ha tardat 0.3 segons amb 14.27 Kib de pes
+
+I efectivament, s'ha fet la copia en la ruta, amb compressió + encryptació AES de les dades.
+
+![Mostrant la duració i pes de la copia feta+ que s'ha fet amb AES](../images/sp2/sp2-durationSizeAES.png)
+
+També si mirem en Restore que si estan llistats els arxiu.
+
+![Mostrant llista copia en Restore](../images/sp2/sp2-generalBackup-Dup-Restore.png)
+
+Per a veure la "copia incremental", simplement he afegit una altra carpeta a l'origen i tornat a executar la copia, observem que la mida no varia tant, perque sóls ha enregistrat els canvis.
+
+| ![Movent carpetes arxius](../images/sp2/sp2-movent.png)                         | ![Executant de nou la copia](../images/sp2/sp2-duplicatiNovaCopia.png) |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| ![Mostrant les dues copies en Restore](../images/sp2/sp2-duesCopiesRestore.png) |                                                                        |
+
+He fet un canvi en un dels arxius del mateix, i esborat un arxiu, per mostrar que en la recuperació tenim l'arxiu novament i el canvi és manté
+
+- Donat el cas d'esborrar sense voler, en recuperar amb Restore, recuperem tot, i podem observar que és troben tots els arxius.
+
+|       ![Canvi text en arxiu i esborrar](../images/sp2/sp2-recoveryDuplicati-p1.png)        | ![Recuperació part 1 - seleccionar arxius](../images/sp2/sp2-recoveryDuplicati-previ.png) |
+| :----------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------: |
+| ![Recuperació part 2 - opcions de restauració](../images/sp2/sp2-recoveryDuplicaty-p2.png) |          ![Recuperació finalitzada](../images/sp2/sp2-recoveryDuplicati-fin.png)          |
+|            ![Compració recuperació](../images/sp2/sp2-comprRecu-duplicati.png)             |                                                                                           |
+
 ### Teoria automatització scripts, cron i anacron
+
+Són dos eines de automatització per a executar tasques periodiques.
+
+**Cron vs anacron**
+cron executa tasques programade en una data i hora especifiques, si el sistema esta apagat, la tasca es perd.
+
+- Es ideal per a tasques en dates i hores concretes i per a accions especifiques d'un usuari.
+
+- Però...
+  Cron té un entorn molt limitat.
+  Això vol dir:
+- No veu el DISPLAY ni la sessió gràfica → notificacions visuals fallen si no especifiques.
+- No veu el PATH ampliat que tens a la terminal → moltes comandes no funcionen si no poses la ruta completa
+
+**anacron**
+Ideal per a tasques periodiques, a on o cal una data i hora especifiques, normalment s'utitlitza per a tasques de manteniment del sistema.
+
+I no requereix que el sistema estiqui obert, perqué quan s'obrigue, s'executara, no es perd la tasca com al cron
 
 ### Pràctica automatització
 
 ##### cron
 
+La configuració de l'arxiu `/etc/crontab`, afecta a tots els usuaris.
+Les seves columnes són:
+
+```bash
+# .---------------- minut (0 - 59)
+# |  .------------- hora (0 - 23)
+# |  |  .---------- dia del mes (1 - 31)
+# |  |  |  .------- mes (1 - 12) O bé jan,feb,mar,apr ...
+# |  |  |  |  .---- dia de la setmana (0 - 6) (Diumenge = 0 o 7) O bé sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  *  usuari  comanda
+```
+
+![Configuració /etc/crontab](../images/sp2/sp2-conf-crontab.png)
+
+**Valors especials de cron**
+
+A més de la sintaxi normal amb `minut hora dia mes dia_setmana`, cron permet algunes **paraules clau predeterminates** per simplificar la programació de tasques comunes:
+
+| Valor                   | Que fa                                                      | Exemple                              |
+| ----------------------- | ----------------------------------------------------------- | ------------------------------------ |
+| `@reboot`               | Executa la tasca **una sola vegada** al arrencar el sistema | `@reboot /home/usuari/inici.sh`      |
+| `@yearly` o `@annually` | Cada any, equivalent a `0 0 1 1 *`                          | `@yearly /home/usuari/backup.sh`     |
+| `@monthly`              | Cada mes, equivalent a `0 0 1 * *`                          | `@monthly /home/usuari/llistat.sh`   |
+| `@weekly`               | Cada setmana, equivalent a `0 0 * * 0`                      | `@weekly /home/usuari/neteja.sh`     |
+| `@daily` o `@midnight`  | Cada dia, equivalent a `0 0 * * *`                          | `@daily /home/usuari/alerta.sh`      |
+| `@hourly`               | Cada hora, equivalent a `0 * * * *`                         | `@hourly /home/usuari/actualitza.sh` |
+
+---
+
+**Prova feta a classe**
+
+Per a configurar la tasca a un usuari especific, executem:
+
+```bash
+crontab -e -u usuari
+```
+
+![Edició contrab usuari](../images/sp2/sp2-crontabUsuari.png)
+
+![Edició contrab usuari 2](../images/sp2/sp2-crontabUsuari2.png)
+
+En /etc/cron.\* tenim carpetes que els scripts que posem, anacron els executara
+
+![Carpetes cron](../images/sp2/sp2-cron-folders.png)
+
+La prova que hes fet es un script simple que faci copia de segurat del directori Descargas a Documentos a les **13:35**
+
+![Prova cron a les 13:35](../images/sp2/sp2-prova-cron13.png)
+
+I podrem comprovar en la hora i minut, és fa i els arxius estan.
+
+![Comprovació funcionament cron](../images/sp2/sp2-compr-func-cron.png)
+
+---
+
+**La meva propia prova**
+
+La meva propia prova que he fet és executar una alterta cada 2 min, per recordar guardar el que sigui.
+
+- Aixó per al cron
+
+![Configuració cron](../images/sp2/sp2-Prova-recordatori-cron-config.png)
+![Comprovació alerta](../images/sp2/sp2-check1-recordatori-cron.png)
+![Comprovació log alerta](../images/sp2/sp2-check2-recordatori.png)
+
 ##### anacron
+
+**Prova feta a classe**
+
+Per a realitzar la mateixa prova amb l'anacron, seria el mateix, afegint-hi l'escript en /etc/cron.daily/ sense l'extensió .sh
+
+![Prova anacron](../images/sp2/sp2-anacron.png)
+
+Editat l'arxiu /etc/anacrontab , per a canviar els minuts en que tarda en executar a 1 minut (la segona columna)
+
+![Edició configuració anacrontab](../images/sp2/sp2-conf-anacrontab.png)
+
+L'arxiu té les següents opcions:
+
+```bash
+periode_en_dies   retard   identificador   comanda
+```
+
+1. **period**: cada quants dies s’ha d’executar la tasca.
+
+Exemples:
+
+- `1` → cada dia
+- `7` → cada setmana
+- `@monthly` → cada mes
+
+2. **delay** minuts d’espera després d’arrencar el sistema abans d’executar la tasca.
+3. **job-id**: identificador de la tasca (per als logs i el control d’execució).
+4. **command**: comanda o script que s’ha d’executar.
+
+I finalment hem d'eliminar la marca del cron.daily per a que torni a executar en aquest dia.
+
+En `/var/spool/anacron/cron.daily`
+
+![Creació cron daily](../images/sp2/sp2-cronDaily.png)
+
+I posterior a reiniciar, ja l'ha executat novament.
+
+![Comprovació cron](../images/sp2/sp2-compr-cron.png)
+
+---
+
+**La meva propia prova**
+
+Per a l'anacron he fet que en inicia, recopili informació del sistema:
+-Temps d’arrencada del PC
+-Estat actual de rendiment
+-Dades verificables i objectives
+
+Fent ús del següent script:
+
+```bash
+#!/bin/bash
+
+LOG="$HOME/INFORMACIO.log"
+
+{
+  echo "===== $(date) ====="
+  systemd-analyze
+  systemd-analyze blame
+  uptime -p
+  free -h
+  df -h /
+} >> "$LOG"
+
+```
+
+L'he guardat al `cron.daily` i en el anacrontab, modificada la primera entrada del run-parts per a que s'executi al minut d'iniciar.
+
+![Configuració anacron](../images/sp2/sp2-anacron-conf.png)
+
+Posterior d'esborrar la marca de que s'ha executat cron ja i en reinicar, podem veure l'arxiu.
+
+![Esborrar imprempta i reinici](../images/sp2/sp2-cronDaily-reboot.png)
+
+![Comprovació anacron funciona recopilació sistema](../images/sp2/sp2-compr-anacron-system.png)
 
 ## Gestió d'usuaris i grups i permisos
 
