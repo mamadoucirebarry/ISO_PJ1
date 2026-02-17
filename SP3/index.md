@@ -15,9 +15,9 @@ title: 'Sprint 3: Administració de dominis i seguretat (20h)'
   - [Configuració previa](#configuració-previa)
   - [Creació i configuració servidors](#creació-i-configuració-servidors)
   - [Configuració client](#configuració-client)
-  - [Entorn gràfic](#configuració-client)
-- [Ús de les comandes](#us-comandes)
-- [Samba](#servidor-samba)
+  - [Entorn gràfic](#entorn-gràfic)
+- [Ús de les comandes](#us-de-les-comandes)
+- [Servidor samba](#servidor-samba)
   - [Configuració server smb](#configuració-server-smb)
   - [Configuració client smb](#configuració-client-smb)
     - [Test amb l'usuari anonim](#test-amb-lusuari-anonim)
@@ -27,10 +27,12 @@ title: 'Sprint 3: Administració de dominis i seguretat (20h)'
   - [Integració OpenLDAP](#integració-openldap)
     - [Configuració server](#configuració-server)
     - [Proves client](#proves-client)
-
-- [NFS](#servidor-nfs)
+- [Servidor NFS](#servidor-nfs)
   - [Configuració server NFS](#configuració-server-nfs)
   - [Configuració client NFS](#configuració-client-nfs)
+  - [Exercicis](#exercicis)
+    - [Exercici Ubuntu](#Ubuntu)
+    - [Exercici Windows](#Windows)
 
 # Conceptes bàsics
 
@@ -81,8 +83,9 @@ Posteriorment he modificat el ou.ldif (amb `sed`), usu.ldif i el de grups, per c
 
 I finalment he afegit la unitat amb `ldapadd -c -x -D "cn=admin,dc=cire,dc=cat" -W -f ` i els arxius.
 
-![Creació unitats, usuaris i grups 1](../images/sp3/image-10.png)
-![Creació unitats, usuaris i grups 2](../images/sp3/image-10-1.png)
+|                Creació unitats, usuaris i grups 1                 |                 Creació unitats, usuaris i grups 2                  |
+| :---------------------------------------------------------------: | :-----------------------------------------------------------------: |
+| ![Creació unitats, usuaris i grups 1](../images/sp3/image-10.png) | ![Creació unitats, usuaris i grups 2](../images/sp3/image-10-1.png) |
 
 I podrem veure al slapcat que s'han creat.
 
@@ -104,8 +107,10 @@ En el prompt que surt en l'instal·lació, he posat la IP del servidor i emplena
 
 En principi podriem reconfigurar amb el paquet el ldap-auth-config, que es practicament mateix que surt a l'instal·lació
 
-| ![Pantalla 1 debconf SI](../images/sp3/image-20.png) | ![Pantalla 2 ldap require login](../images/sp3/image-21.png) |
-| ![Pantalla 3 usuari administrador](../images/sp3/image-22.png) | ![Pantalla 4 ldap root account password](../images/sp3/image-23.png) | ![Pantalla 5 ldap root account password encryption](../images/sp3/image-24.png) |
+|              ![Pantalla 1 debconf YES](../images/sp3/image-20.png)              |     ![Pantalla 2 ldap require login](../images/sp3/image-21.png)     |
+| :-----------------------------------------------------------------------------: | :------------------------------------------------------------------: |
+|         ![Pantalla 3 usuari administrador](../images/sp3/image-22.png)          | ![Pantalla 4 ldap root account password](../images/sp3/image-23.png) |
+| ![Pantalla 5 ldap root account password encryption](../images/sp3/image-24.png) |                                                                      |
 
 Després al `/etc/nsswitch.conf` he afegit la base `ldap` abans de totes, per a que cerqui ahi usuari, contrasenyes i grups
 
@@ -256,6 +261,7 @@ Captura comprovament reconfigure (tot _net_):
 He carregat els usuaris `ldapadd -x -D cn=admin,dc=cire,dc=cat -W -f dades_pt1.ldif`
 
 Creació
+
 ![alt text](../images/sp3/image-59.png)
 
 Comprovació slapcat
@@ -418,9 +424,12 @@ ldapsearch -x -b "dc=cire,dc=cat" "(&(sn=R\*)(uidNumber>=1004))" cn uidNumber sn
 
 15. Mostra quins usuaris formen part del grup informàtica o aquells usuaris que tinguis de cognom Pallarés
 
+```bash
 ldapsearch -x -LLL -b "dc=cire,dc=cat" "(&(objectClass=inetOrgPerson)(|(gidNumber=1001)(sn=Pallarés)))" gidNumber sn
+```
 
 He usat un _or_
+
 ![alt text](../images/sp3/image-75.png)
 
 # Servidor samba
@@ -431,6 +440,7 @@ L'autentificació es a **nivell d'usuari** no de host com NFS, poden ser usuaris
 ## Configuració server smb
 
 El paquet requerit instal·lat és **samba**
+
 ![alt text](../images/sp3/image-76.png)
 
 A continuació he creat la carpeta a compartir amb permissos totals a tots, sense usuari i grup propietari
@@ -590,6 +600,140 @@ Comprovació en terminal que es veu millor:
 Un servidor samba ens permet compartir recursos (fitxers, impressores), tant en equips Windows com Linux
 L'autentificació es a **nivell d'usuari** no de host com NFS, poden ser usuaris propis de Samba o d'ldap.
 
+És un protocol que ens permet compartir fitxers, directoris (no impressores) a traves d'una xarxa local.
+
+- L'autentificació es a nivell de hosts, no d'usuari, a diferencia de Samba; poden accedir-hi tant clients Windows i Linux.
+
 ## Configuració server NFS
 
+El paquet instal·lat és `nfs-kernel-server`.
+
+![alt text](../images/sp3/image-104.png)
+
+Creem el recurs compartit, sense que li perteneixi a algú.
+
+```bash
+mkdir /1exercici
+chmod 777
+chown nobody:nogroup
+```
+
+![alt text](../images/sp3/image-105.png)
+
+A continuació editem l'arxiu de configuració `/etc/exports`, de forma que ha quedat aixi:
+
+```bash
+/1exercici *(rw,sync,no_subtree_check)
+```
+
+Explicació de la configuració:
+
+- `/1exercici` - Ruta del directori a compartir
+- `*` - Permet l'accés a qualsevol host/client
+- `rw` - Permisos de lectura i escriptura
+- `sync` - Els canvis es sincronitzen immediatament al servidor
+- `no_subtree_check` - Desactiva la verificació de subdirectoris (millora rendiment)
+
+![alt text](../images/sp3/image-106.png)
+
+Reiniciem el servei i afegim un arxiu que posteriorment consultarem al client.
+
+[alt text](../images/sp3/image-107.png)
+
 ## Configuració client NFS
+
+El paquet instal·lat és `nfs-common` i `rpcbind`.
+
+![alt text](../images/sp3/image-108.png)
+
+I montem el recurs a una carpeta (usant el **fstab**), després de comprovar que podem accedir
+
+```bash
+mkdir /proves && chmod 777 /proves && chown nobody:nogroup /proves
+
+10.0.2.15:/1exercici /proves nfs auto,noatime,nolock,bg,nfsvers=3,intr,tcp,actimeo=1800 0 0
+```
+
+![alt text](../images/sp3/image-109.png)
+
+També podriem temporalment amb:
+
+```bash
+mount -t nfs 10.0.2.15:/1exercici /proves
+```
+
+![alt text](../images/sp3/image-110.png)
+
+## Exercicis
+
+exercicis >:(
+
+### Ubuntu
+
+En aquest exercici l'objectiu es canviar la ruta dels "homes" del usuaris i que estigui disponible per NFS
+
+Per aixó he creat el directori i repetit tot el procés anterior (ja se veu el resultat).
+
+![alt text](../images/sp3/image-111.png)
+
+Per a que els usuaris del domini es creien en aquest ruta, he usat un script per que canvie les propietats dels usuaris.
+
+- Primer he comprovat quins usuaris hi han.
+
+![Comprovació usuaris](../images/sp3/image-112.png)
+
+El script de bash que fa la faena:
+
+```bash
+#!/bin/bash
+
+# El domini hauria de estar al /etc/hosts
+domain="cire.cat"
+password="alumne"
+
+# Realizar la búsqueda de usuarios y generar los cambios en homeDirectory
+ldapsearch -xLLL -H "ldap://$domain" -D "cn=admin,dc=cire,dc=cat" -w "$password" -b "ou=rrhhh,dc=cire,dc=cat" uid | grep "^uid: " | awk '{print $2}' | while read user; do
+    echo "dn: cn=$user,ou=rrhhh,dc=cire,dc=cat"
+    echo "changetype: modify"
+    echo "replace: homeDirectory"
+    echo "homeDirectory: /homes/$user"
+    echo ""
+done > modify_home.ldif
+
+# Ejecutar el ldapmodify, indicando el servidor con -H
+#ldapmodify -x -H "ldap://$domain" -D "cn=admin,dc=cire,dc=cat" -w "$password" -f modify_home.ldif
+```
+
+![alt text](../images/sp3/image-113.png)
+![alt text](../images/sp3/image-114.png)
+
+En el client he configurat el fstab tambe
+
+![alt text](../images/sp3/image-117.png)
+![alt text](../images/sp3/image-118.png)
+
+En el client en iniciar, podem comprovar que crear les carpetes i tot.
+
+|             Iniciant sessió              |           La carpeta és creada           |
+| :--------------------------------------: | :--------------------------------------: |
+| ![alt text](../images/sp3/image-115.png) | ![alt text](../images/sp3/image-116.png) |
+
+|           El client pot entrar           |  En el servidor tenim la carpeta creada  |
+| :--------------------------------------: | :--------------------------------------: |
+| ![alt text](../images/sp3/image-120.png) | ![alt text](../images/sp3/image-119.png) |
+
+### Windows
+
+He activitat la caracteristica de Servei per a NFS en el Panell control > Programes > Programes i caracteristiques
+
+![alt text](../images/sp3/image-121.png)
+
+I en aixó he pogut visualitzar el directori, usant la connexió d'unitat xarxa.
+
+|                           Pas 1: Connexió unitat xarxa                            |                          Pas 2: Especificar dades                           |
+| :-------------------------------------------------------------------------------: | :-------------------------------------------------------------------------: |
+| ![1r pas, clic dret a xarxa > Connectat a unitat...](../images/sp3/image-122.png) | ![2n pas, expecifiquem les dades i finalitzem](../images/sp3/image-123.png) |
+
+|                      Pas 3: Verificació                       |
+| :-----------------------------------------------------------: |
+| ![3r pas, disfrutem si funciona](../images/sp3/image-124.png) |
