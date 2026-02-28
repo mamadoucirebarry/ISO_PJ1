@@ -638,7 +638,7 @@ Explicació de la configuració:
 
 Reiniciem el servei i afegim un arxiu que posteriorment consultarem al client.
 
-[alt text](../images/sp3/image-107.png)
+![alt text](../images/sp3/image-107.png)
 
 ## Configuració client NFS
 
@@ -665,8 +665,6 @@ mount -t nfs 10.0.2.15:/1exercici /proves
 ![alt text](../images/sp3/image-110.png)
 
 ## Exercicis
-
-exercicis >:(
 
 ### Ubuntu
 
