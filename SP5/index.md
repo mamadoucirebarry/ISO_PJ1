@@ -19,6 +19,7 @@ title: 'Sprint 5: Monitoratge, Auditories i Programari Client/Servidor (20h)'
     - [Proves](#proves)
       - [Linux](#linux)
       - [Windows](#windows)
+- [Servidor d'actualitzacions](#servidor-dactualitzacions)
 
 # Monitoratge logs
 
@@ -190,3 +191,76 @@ En el servidor observarem el trafic si mirem al syslog (podria realment estar al
 ```bash
 New-NetFirewallRule -DisplayName "NXLog Sortida TCP 514" -Direction Outbound -Protocol TCP -LocalPort Any -RemotePort 514 -Action Allow -Profile Any
 ```
+
+# Servidor d'actualitzacions
+
+## Server
+
+Servidor d’actualitzacions
+És un `servidor`/ equip que gestiona i distribueix les actualitzacions de programari als altres ordinadors o sistemes de la xarxa.
+Permet descarregar, emmagatzemar i instal·lar actualitzacions del sistema (com paquets de Linux) perquè els equips es mantinguin segurs i actualitzats.
+
+Per compartir paquets, en aquesta practica farem servir apache2 i apt-mirror per a `configurar` el servidor.
+
+![alt text](../images/sp5/image-24.0.png)
+
+Fet aixó editem el llistat de 'mirrors' de repositoris, per comentar els altres (pa no descargar tants)
+I posem els que volem, en aquest cás sols he posat el repositori per al paquet de google-chome
+
+```bash
+deb [arch=amd64] http://dl.google.com/linux/chrome/deb stable main
+```
+
+![alt text](../images/sp5/image-25.png)
+
+| Amb la comanda `apt-mirror` descarreguem el paquet. | Observem que s'ha descarregat el paquet en `/var/spool/apt-mirror/mirror`.I ho enllaçem (amb `ln -s`) al directori arrel de apache |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| ![Configuració](../images/sp5/image-26.png)         | ![Resultat](../images/sp5/image-27.png)                                                                                            |
+
+En aixó ja tenim la configuració del server
+
+## Client
+
+Per al client simplement, afegim el repositori al sources.list o dintre del directori.
+
+- Obviament a la nostra IP.
+- I `d'extra` signem el paquet.
+
+```bash
+deb [arch=amd64] http://10.0.2.15/dl.google.com/linux/chrome/deb stable main
+wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -
+```
+
+![alt text](../images/sp5/image-28.png)
+
+Observem que al actualitzar i instal·lar, que consulta al server.
+
+![alt text](../images/sp5/image-29.png)
+
+## Exercici
+
+He elegit el paquet de php, que no té un d'oficial.
+Però he usat el de `Ondřej Surý`.
+
+```bash
+deb [arch=amd64] https://packages.sury.org/php noble main
+```
+
+![alt text](../images/sp5/image-30.png)
+
+He enllaçat
+
+![alt text](../images/sp5/image-24.1.png)
+
+I en el client afegit el repositori i signat
+
+```bash
+deb http://10.0.2.15/packages.sury.org/php bullseye main
+wget -q -O - https://packages.sury.org/php/apt.gpg | apt-key add -
+```
+
+![alt text](../images/sp5/image-24.2.png)
+
+En instal·lar observem que s'instal·la d'ahí.
+
+![alt text](../images/sp5/image-24.3.png)
