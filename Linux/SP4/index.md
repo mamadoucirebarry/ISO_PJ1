@@ -8,7 +8,7 @@ title: 'Sprint 4: Configuració del programari de Base i Sistemes emmagatzematge
 # Sprint 4: Configuració del programari de Base i Sistemes d'emmagatzematge en Ubuntu
 - [RAID](#raid)
   - [Configuració](#configuracio)
-  - [Comprovacions](#inserir-log)
+  - [Comprovacions](#comprovacions)
 
 # RAID
 
@@ -72,11 +72,11 @@ Aquests són típics volums que podem trobar-hi.
 
 Previ hem de posar dos discos (que configurarem RAID 1).
 
-![alt text](../images/sp4/image.png)
+![alt text](./../images/sp4/image.png)
 
 Hem d'instal·lar **mdadm** per configurar el raid.
 
-![alt text](../images/sp4/image-1.png)
+![alt text](./../images/sp4/image-1.png)
 
 Obtenim els dos dos discos de 2 GB (fdisk -l) i els creem las particions
 
@@ -86,7 +86,7 @@ fdisk /dev/sdc
 ```
 | Particions | Comprovar |
 |--------------------------|--------------------------|
-| ![alt text](../images/sp4/image-2.png) | ![alt text](../images/sp4/image-3.png) |
+| ![alt text](./../images/sp4/image-2.png) | ![alt text](./../images/sp4/image-3.png) |
 
 Creen ka caroeta raid1 amb permis total
 
@@ -95,11 +95,11 @@ mkdir /mnt/raid1
 chmod 777 /mnt/raid1
 ```
 
-![alt text](../images/sp4/image-4.png)
+![alt text](./../images/sp4/image-4.png)
 
 Creem el raid amb `mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sdb1 /dev/sdc1`
 
-![alt text](../images/sp4/image-5.png)
+![alt text](./../images/sp4/image-5.png)
 
 Formatem el disc creat en format ext4 (mkfs.ext4 /dev/md0)
 - Comprovem els detalls del disc `mdadm --detail /dev/md0`
@@ -107,9 +107,9 @@ Formatem el disc creat en format ext4 (mkfs.ext4 /dev/md0)
 
 I editem l'arxiu per afegir també el disc /dev/sdb1 i /dev/sdc1
 
-![alt text](../images/sp4/image-6.png)
-![alt text](../images/sp4/image-7.png)
-![alt text](../images/sp4/image-10.png)
+![alt text](./../images/sp4/image-6.png)
+![alt text](./../images/sp4/image-7.png)
+![alt text](./../images/sp4/image-10.png)
 
 Per a que és mantengui la configuració ho posem en `/etc/fstab`.
 
@@ -117,12 +117,12 @@ Per a que és mantengui la configuració ho posem en `/etc/fstab`.
 /dev/md0 /mnt/raid1 ext4 default  0 0
 ```
 
-![alt text](../images/sp4/image-8.png)
+![alt text](./../images/sp4/image-8.png)
 
 Comprovem que amb `mount -a' que és muntara correctament
 El `update-initramfs -u -k all` perque el RAID ho requereix.
 
-![alt text](../images/sp4/image-9.png)
+![alt text](./../images/sp4/image-9.png)
 
 Després de reiniciar comprovem que tot funciona en el següent apartat.
 
@@ -133,11 +133,11 @@ Mirem el detail i veurem que están actius.
 mdadm --detail /dev/md0
 ```
 
-![alt text](../images/sp4/image-11.png)
+![alt text](./../images/sp4/image-11.png)
 
 Creem una carpeta en contingut
 
-![alt text](../images/sp4/image-12.png)
+![alt text](./../images/sp4/image-12.png)
 
 Fem que falli el disco 1 (/dev/sda1)
 
@@ -145,7 +145,7 @@ Fem que falli el disco 1 (/dev/sda1)
 mdadm /dev/md0 -f /dev/sdb1
 ```
 
-![alt text](../images/sp4/image-13.png)
+![alt text](./../images/sp4/image-13.png)
 
 Per a sustituir-lo primer l'hem de traure
 
@@ -154,7 +154,7 @@ mdadm /dev/md0 -r /dev/sdb1
 mdadm --detail /dev/md0
 ```
 
-![alt text](../images/sp4/image-14.png)
+![alt text](./../images/sp4/image-14.png)
 
 Comprovem que encara podem escriure
 
@@ -162,7 +162,7 @@ Comprovem que encara podem escriure
 touch nose2
 ```
 
-![alt text](../images/sp4/image-15.png)
+![alt text](./../images/sp4/image-15.png)
 
 Ara imaginem que tenim el nou disco, simplement l'afegim amb:
 
@@ -175,8 +175,8 @@ mdadm --detail /dev/md0
 
 Veure que s'esta construint
 
-![alt text](../images/sp4/image-16.png)
+![alt text](./../images/sp4/image-16.png)
 
 I finalment esta sincronitzat.
 
-![alt text](../images/sp4/image-17.png)
+![alt text](./../images/sp4/image-17.png)
