@@ -1,11 +1,11 @@
 ---
 layout: default
-title: 'Sprint 1: Instal·lació, Configuració Inicial i Programari de Base'
+title: 'Sprint 1: Instal·lació, Configuració Inicial i Programari de Base (8h)'
 ---
 
 ![Portada](https://i.blogs.es/99faa0/portada/1366_2000.jpg)
 
-# Instal·lació, Configuració Inicial i Programari de Base
+# Instal·lació, Configuració Inicial i Programari de Base (8h)
 
 - [Instal·lació, Configuració Inicial i Programari de Base](#installació-configuració-inicial-i-programari-de-base)
   - [Fase 1 - Instal·lació del sistema operatiu](#fase-1---instalació-del-sistema-operatiu)
