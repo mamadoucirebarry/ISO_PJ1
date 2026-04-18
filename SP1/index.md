@@ -53,29 +53,29 @@ En iniciar, el programari de VirtualBox creem una nova màquina virtual, amb la 
 - Xarxa: NAT, l'entorn que farem servir serà un de proves i perquè permet aïllar la màquina virtual.
 - Posem l'ISO d'Ubuntu.
 
-![ConfiguracioMaquina](../images/sp1/ConfiguracioMaquina.png)
+![ConfiguracioMaquina](./../images/sp1/ConfiguracioMaquina.png)
 
 ## Procediment animat
 
 En iniciar seguim els passos que mostra al vídeo, fins a arribar al particionat.
 
-![ConfiguracióMaquina](../images/sp1/instalacioAnimada_1.gif)
+![ConfiguracióMaquina](./../images/sp1/instalacioAnimada_1.gif)
 
 En el particionat s'ha creat l'arrel, que és la partició a on es troba tot el sistema de fitxers i el **swap** que és la partició arxiu que es farà servir en cas que la RAM no sigui prou.
 
-![ConfiguracióMaquina](../images/sp1/instalacioAnimada_2.gif)
+![ConfiguracióMaquina](./../images/sp1/instalacioAnimada_2.gif)
 
 ## Instal·lació guiada
 
 Posteriorment d'iniciar, pressionem **Enter** per iniciar l'instal·lador.
 
-![Inici instal·lador](../images/sp1/pressEnter.png)
+![Inici instal·lador](./../images/sp1/pressEnter.png)
 
 Seguim el procés d'instal·lació seleccionant les nostres opcions.
 
 > Per més informació mirar la part del [procediment animat](#procediment-animat)
 
-![Pantalla llenguatge 1](../images/sp1/pantallaLlenguatge.png)
+![Pantalla llenguatge 1](./../images/sp1/pantallaLlenguatge.png)
 
 En les particions he creat les següents bàsiques:
 
@@ -85,11 +85,11 @@ En les particions he creat les següents bàsiques:
 
 Fent servir el sistema de fitxers ext4 que és el més comú fet servir en Ubuntu, que menys problemes dona.
 
-![particionat](../images/sp1/particionat.png)
+![particionat](./../images/sp1/particionat.png)
 
 I finalment tenim l'Ubuntu:
 
-![instalat](../images/sp1/instalat.png)
+![instalat](./../images/sp1/instalat.png)
 
 ## Gestors d'arrencada per a instal·lacions dual
 
@@ -119,21 +119,21 @@ En primer lloc, hem de realitzar canvis en la configuració de VirtualBox perqu�
 
 Afegida l'ISO de Windows i iniciat.
 
-![Preconfiguració](../images/sp1/preconfiguracio.png)
+![Preconfiguració](./../images/sp1/preconfiguracio.png)
 
 Realitzem el procés d'instal·lació normal fins a la finestra de particions a on seleccionem la buida. I esperem fins que finalitzi i continuem el procés d'instal·lació.
 
 | Pas 1                                                                        | Pas 2                                                                               |
 | :--------------------------------------------------------------------------- | :---------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 1, continuem endavant](../images/sp1/installWin1.png) | ![Instal·lació Windows 2, seleccionem personalitzat](../images/sp1/installWin2.png) |
+| ![Instal·lació Windows 1, continuem endavant](./../images/sp1/installWin1.png) | ![Instal·lació Windows 2, seleccionem personalitzat](./../images/sp1/installWin2.png) |
 
 | Pas 3                                                                          | Pas 4                                                                             |
 | :----------------------------------------------------------------------------- | :-------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 3, seleccionem la buida](../images/sp1/installWin3.png) | ![Instal·lació Windows 4, esperem que s'instal·li](../images/sp1/installWin4.png) |
+| ![Instal·lació Windows 3, seleccionem la buida](./../images/sp1/installWin3.png) | ![Instal·lació Windows 4, esperem que s'instal·li](./../images/sp1/installWin4.png) |
 
 | Pas 5                                                                       | Pas 6                                                                              |
 | :-------------------------------------------------------------------------- | :--------------------------------------------------------------------------------- |
-| ![Instal·lació Windows 5, seguim els passos](../images/sp1/installWin5.png) | ![Instal·lació Windows 6, instal·lació finalitzada](../images/sp1/installWin6.png) |
+| ![Instal·lació Windows 5, seguim els passos](./../images/sp1/installWin5.png) | ![Instal·lació Windows 6, instal·lació finalitzada](./../images/sp1/installWin6.png) |
 
 ### Recuperació escenari 1
 
@@ -142,7 +142,7 @@ Podem comprovar que el GRUB no es troba perquè inicia automàticament i surt "*
 
 | Comprovació que grub no inicia                                        | Imatge grub rescue error                                          |
 | --------------------------------------------------------------------- | ----------------------------------------------------------------- |
-| ![Comprovació que grub no inicia](../images/sp1/grub-notstarting.png) | ![Imatge grub rescue error](../images/sp1/grub_rescue_prompt.png) |
+| ![Comprovació que grub no inicia](./../images/sp1/grub-notstarting.png) | ![Imatge grub rescue error](./../images/sp1/grub_rescue_prompt.png) |
 
 #### Super Grub Disk
 
@@ -150,7 +150,7 @@ Aquesta eina ens permet detectar i inicia el sistema que no es troba, posteriorm
 
 | Pas 1                                                | Pas 2                                                           |
 | ---------------------------------------------------- | --------------------------------------------------------------- |
-| ![Fem clic a detectar](../images/sp1/supergrub1.png) | ![Baixem fins l'entrada d'Ubuntu](../images/sp1/supergrub2.png) |
+| ![Fem clic a detectar](./../images/sp1/supergrub1.png) | ![Baixem fins l'entrada d'Ubuntu](./../images/sp1/supergrub2.png) |
 
 #### Live ISO
 
@@ -158,7 +158,7 @@ Inserim la imatge i iniciem el sistema en **mode Live**.
 
 1. Identifiquem la partició arrel de Linux amb **`lsblk`** o **`fdisk -l`**.
 
-![Identifiquem partició arrel](../images/sp1/lsblk_fdisk.png)
+![Identifiquem partició arrel](./../images/sp1/lsblk_fdisk.png)
 
 2. Muntem la partició:
 
@@ -182,11 +182,11 @@ sudo chroot /mnt
 | /sys      | Pseudosistema que mostra dispositius i controladors del kernel | Permet detectar particions, controladors i configuracions de maquinari reals                 |
 | /run      | Conté fitxers d’estat temporals i sockets actius               | Necessari per serveis que esperen que aquests sockets existeixin mentre estem en chroot      |
 
-![Muntatge i Chroot](../images/sp1/mountChroot.png)
+![Muntatge i Chroot](./../images/sp1/mountChroot.png)
 
 4. Editem l'arxiu de grub `/etc/default/grub` i activem la detecció de sistemes, canviant el valor a false en `GRUB_DISABLE_OS_PROBER`
 
-![Enable OS Prober](../images/sp1/os-prober.png.png)
+![Enable OS Prober](./../images/sp1/os-prober.png.png)
 
 5. Reinstal·lem GRUB al disc principal i actualitzem les entrades.
 
@@ -194,7 +194,7 @@ sudo chroot /mnt
 grub-install /dev/sda; update-grub; exit
 ```
 
-![Reinstal·lació Grub](../images/sp1/grub-reinstall.png)
+![Reinstal·lació Grub](./../images/sp1/grub-reinstall.png)
 
 6. Entrada **Windows**, error amb EFI
 
@@ -214,13 +214,13 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
 update-grub
 ```
 
-![Grub EFI](../images/sp1/grubEFI.png)
+![Grub EFI](./../images/sp1/grubEFI.png)
 
 7. Desmuntem i podem comprovar en reiniciar que el GRUB es troba recuperat.
 
 | Desmuntem tot amb **`umount -a`**         | Comprovem que el grub es troba recuperat            |
 | ----------------------------------------- | --------------------------------------------------- |
-| ![Desmuntem](../images/sp1/desmuntem.png) | ![Grub Recuperat](../images/sp1/grub-recuperat.png) |
+| ![Desmuntem](./../images/sp1/desmuntem.png) | ![Grub Recuperat](./../images/sp1/grub-recuperat.png) |
 
 ## Punts de restauració
 
@@ -232,23 +232,23 @@ Timeshift és una eina Linux que crea aquestes instantànies per protegir dades 
 
 Afegim un nou disc a on guardarem la instantània.
 
-![Disc instantània](../images/sp1/discInstantanea.png)
+![Disc instantània](./../images/sp1/discInstantanea.png)
 
 Instal·lem **timeshift** amb `sudo apt install timeshift -y`
 
-![installTimeshift](../images/sp1/installTimeshift.png)
+![installTimeshift](./../images/sp1/installTimeshift.png)
 
 Amb **`fdisk`** creem la partició (`n`) al disc nou identificat (sdb) amb `**lsblk**` .
 
 - De tipus primària (`p`), fent ús de tot l'espai. I escrivim els canvis amb `w`
 
-![Creació partició instantània](../images/sp1/creacioParticioInstant.png)
+![Creació partició instantània](./../images/sp1/creacioParticioInstant.png)
 
 > L'error que surt de **ioctl()**, és normal després de canviar particion; el kernel no reconeix els canvis. S'arreglaria amb **sudo partprobe /dev/sda5** o amb un **reinici**
 
 I l'he formatat a **ext4** amb `sudo mkfs.ext4 /dev/sdb1`.
 
-![Format ext4](../images/sp1/formatExt4.png)
+![Format ext4](./../images/sp1/formatExt4.png)
 
 ### Creació còpia
 
@@ -259,23 +259,23 @@ I posteriorment fent la còpia, excloent els directoris no volem.
 - Després d’esborrar l'arxiu l'he recuperat fent clic en **Restaurar**
 - Podem observar que s'ha recuperat.
 
-![Creació arxiu](../images/sp1/creaciotxt.png)
+![Creació arxiu](./../images/sp1/creaciotxt.png)
 
 Aquest és el destí de la còpia (la partició que creada).
 
-| ![SeleccionarDesti1](../images/sp1/seleccioDesti1.png) | ![SeleccionarDesti2](../images/sp1/seleccioDesti2.png) |
+| ![SeleccionarDesti1](./../images/sp1/seleccioDesti1.png) | ![SeleccionarDesti2](./../images/sp1/seleccioDesti2.png) |
 | ------------------------------------------------------ | ------------------------------------------------------ |
 
 Podem veure que la còpia s'ha fet i he esborrat l'arxiu.
 
-| ![CopiaFeta](../images/sp1/copiaFeta.png) | ![EliminantArxiu](../images/sp1/eliminarArxiu.png) |
+| ![CopiaFeta](./../images/sp1/copiaFeta.png) | ![EliminantArxiu](./../images/sp1/eliminarArxiu.png) |
 | ----------------------------------------- | -------------------------------------------------- |
 
 Posterior he recuperat (el programa reinicia el sistema) i podem observar que l'arxiu s'ha recuperat.
 
-| ![Recuperació 1](../images/sp1/recuperacio1.png) | ![Recuperació 2](../images/sp1/recuperacio2.png)   |
+| ![Recuperació 1](./../images/sp1/recuperacio1.png) | ![Recuperació 2](./../images/sp1/recuperacio2.png)   |
 | ------------------------------------------------ | -------------------------------------------------- |
-| ![Recuperació 3](../images/sp1/recuperacio4.png) | ![Recuperació 4](../images/sp1/arxiuRecuperat.png) |
+| ![Recuperació 3](./../images/sp1/recuperacio4.png) | ![Recuperació 4](./../images/sp1/arxiuRecuperat.png) |
 
 ## Configuració de la xarxa
 
@@ -289,7 +289,7 @@ En la configuració, creem un nou perfil, especifiquem la IP, màscara (pot ser 
 
 | Configuració IP                                                        | Comprovació d'Internet                                 |
 | ---------------------------------------------------------------------- | ------------------------------------------------------ |
-| ![Configuració IP interfície gràfica](../images/sp1/confIPGrafica.png) | ![Comprovació Internet 1](../images/sp1/internet1.png) |
+| ![Configuració IP interfície gràfica](./../images/sp1/confIPGrafica.png) | ![Comprovació Internet 1](./../images/sp1/internet1.png) |
 
 ### Netplan
 
@@ -312,7 +312,7 @@ Apliquem la configuració amb **`netplan apply`** i comprovem que tenim internet
 
 | Configuració Netplan                                      | Comprovació d'Internet                               |
 | --------------------------------------------------------- | ---------------------------------------------------- |
-| ![Configuració Netlan ](../images/sp1/netplanAplicat.png) | ![ComprovacióInternet2](../images/sp1/internet2.png) |
+| ![Configuració Netlan ](./../images/sp1/netplanAplicat.png) | ![ComprovacióInternet2](./../images/sp1/internet2.png) |
 
 ## Comandes generals i instal·lacions
 
@@ -322,7 +322,7 @@ A banda de la instal·lació habitual de "**apt install**" i "**dpkg**", tenim l
 
 1. En primer lloc, per llistar les versions del paquet que tenim als repositoris, hi ha diverses formes. A continuació faré servir d'exemple el paquet "`grep`" a la versió 3.8-5.
 
-![Grep amb color](../images/sp1/grepColor.png)
+![Grep amb color](./../images/sp1/grepColor.png)
 
 Amb l'opció `list` i el paràmetre `-a` (que mostra tots):
 
@@ -332,7 +332,7 @@ apt list -a grep
 
 Amb el `apt-cache policy`, a on:
 
-![Apt list i cache policy](../images/sp1/aptListCache.png)
+![Apt list i cache policy](./../images/sp1/aptListCache.png)
 
 - **apt-cache**: mostra gran part de la informació emmagatzemada a la base de dades interna d'APT.
 - **policy**: mostra les prioritats dels repositoris o dels paquets.
@@ -351,7 +351,7 @@ He afegit el repositori a `/etc/apt/source.list.d/` i afegit l'arxiu amb el nom 
 
 > El subdomini **`old-releases`** es on és troben les versions Ubuntu 'no' suportades.
 
-![Afegint repositori i actualitzant](../images/sp1/addOldRelease.png)
+![Afegint repositori i actualitzant](./../images/sp1/addOldRelease.png)
 
 ### Pinning i instal·lació
 
@@ -367,7 +367,7 @@ Pin: release n=lunar
 Pin-Priority: 100
 ```
 
-![Preferences Lunar Grep](../images/sp1/preferenceLunarGrep.png)
+![Preferences Lunar Grep](./../images/sp1/preferenceLunarGrep.png)
 
 i ja podem instal·lar.
 
@@ -375,8 +375,8 @@ i ja podem instal·lar.
 sudo apt install grep=3.8-5build1
 ```
 
-![Instal·lació Grep](../images/sp1/grepInstall.png)
+![Instal·lació Grep](./../images/sp1/grepInstall.png)
 
 Comprovem que efectivament tenim la versió correcta.
 
-![Grep comprovació](../images/sp1/grepComprovacio.png)
+![Grep comprovació](./../images/sp1/grepComprovacio.png)

@@ -61,7 +61,7 @@ La mida del bloc y cluster així com el sistema de fitxers pot ser diferent a ca
 
 Si llistem amb `fdisk -l` per trobar la nostra partició
 
-![Particio fdisk mida block](../images/sp2/particioFDISK_midaBlock.png)
+![Particio fdisk mida block](./../images/sp2/particioFDISK_midaBlock.png)
 
 > Podem observar que la mida del sector es 512 bytes
 
@@ -75,15 +75,15 @@ La **fragmentació interna** és quan es desaprofita espai del disc perquè els 
 
 Per mirar la mida del bloc de la partició podem usar `tune2fs`, filtrar per Block
 
-![Informe tune2fs](../images/sp2/tune2fsBlock.png)
+![Informe tune2fs](./../images/sp2/tune2fsBlock.png)
 
 Per a la fragmentacio externa amb la comanda "e4defrag" ens indica si una partició fa falta fragmentar.
 
-![Informe e4defrag](../images/sp2/informeE4defrag.png)
+![Informe e4defrag](./../images/sp2/informeE4defrag.png)
 
 En cas de haver desfragmentar, traiem el paràmetre `-c`
 
-![Fragmentant](../images/sp2/fragmentantE4defrag.png)
+![Fragmentant](./../images/sp2/fragmentantE4defrag.png)
 
 Sistemes de fitxers habituals:
 
@@ -111,7 +111,7 @@ Podem veure l'espai desaprofitat amb una simple prova.
 echo "Bon dia" > hola
 ```
 
-![Bytes arxiu text pla 8 Bytes reals](../images/sp2/bytesArxiu.png)
+![Bytes arxiu text pla 8 Bytes reals](./../images/sp2/bytesArxiu.png)
 
 Això significa que hi ha fragmentació interna de 4096 − 8 = 4088 bytes, és a dir, espai desaprofitat dins del bloc.
 
@@ -130,31 +130,31 @@ Els passos a seguir són:
 
 1. Iniciem l'eina i Seleccionem el disk dalt a la dreta
 
-| ![Logo GPARTED](../images/sp2/sp2-logoGparted.png)        | ![Prompt contrasenya root per iniciar com root GPARTED](../images/sp2/sp2-polkitGParted.png) |
+| ![Logo GPARTED](./../images/sp2/sp2-logoGparted.png)        | ![Prompt contrasenya root per iniciar com root GPARTED](./../images/sp2/sp2-polkitGParted.png) |
 | --------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| ![GPARTED iniciat](../images/sp2/sp2-gparted-iniciat.png) | ![Gparted seleccionant disc](../images/sp2/sp2-gparted1.png)                                 |
+| ![GPARTED iniciat](./../images/sp2/sp2-gparted-iniciat.png) | ![Gparted seleccionant disc](./../images/sp2/sp2-gparted1.png)                                 |
 
 2. Creem nova taula particions GPT
 
-![Gparted creació taula particions 1](../images/sp2/sp2-GPARTED-taula-particions.png)
-![Gparted creació taula particions 2](../images/sp2/sp2-GPARTED-taula-particions-2.png)
+![Gparted creació taula particions 1](./../images/sp2/sp2-GPARTED-taula-particions.png)
+![Gparted creació taula particions 2](./../images/sp2/sp2-GPARTED-taula-particions-2.png)
 
 2. Creem nova partició i la formatem a EXT4
 
-![GParted creacio particio1 - 1](../images/sp2/sp2-creacioParticio1.png)
-![GParted creacio particio1 - 2](../images/sp2/sp2-creacioParticio1-2.png)
-![Gparted partició 1 creada](../images/sp2/sp2-creacioParticio1-creada.png)
+![GParted creacio particio1 - 1](./../images/sp2/sp2-creacioParticio1.png)
+![GParted creacio particio1 - 2](./../images/sp2/sp2-creacioParticio1-2.png)
+![Gparted partició 1 creada](./../images/sp2/sp2-creacioParticio1-creada.png)
 
 3. Repetim el pas anterior pero a format NTFS i fem clic en **Aplicar todas las operaciones**
 
-![GParted creacio particio2](../images/sp2/sp2-creacioParticio2.png)
-![GParted aplicar todas las operaciones](../images/sp2/sp2-gparted-aplicaroperaciones.png)
-![GParted aplicar todas las operaciones > Aplicar](../images/sp2/sp2-gparted-aplicaroperaciones-2.png)
-![Aplicar > Cerrar](../images/sp2/sp2-gparted-aplicaroperaciones-3.png)
+![GParted creacio particio2](./../images/sp2/sp2-creacioParticio2.png)
+![GParted aplicar todas las operaciones](./../images/sp2/sp2-gparted-aplicaroperaciones.png)
+![GParted aplicar todas las operaciones > Aplicar](./../images/sp2/sp2-gparted-aplicaroperaciones-2.png)
+![Aplicar > Cerrar](./../images/sp2/sp2-gparted-aplicaroperaciones-3.png)
 
 4. Comprovem que les dues particions és troben creades
 
-![GParted comprovacions particions creades](../images/sp2/sp2-comprovacions.png)
+![GParted comprovacions particions creades](./../images/sp2/sp2-comprovacions.png)
 
 ### Via linia comandes
 
@@ -162,28 +162,28 @@ Amb `fdisk` podem crear i modificar particions manuals.
 
 Posterior d'identificar el disc amb el paràmetre `-l`, he creat una partició nova primaria fins al sector 204600
 
-![Creant particio 1 fdisk](../images/sp2/sp2-partitioningSDB1.png)
+![Creant particio 1 fdisk](./../images/sp2/sp2-partitioningSDB1.png)
 
 I una altra en el que resta, comprovem amb `fdisk` que ho tenim creat.
 
-![Creant particio 2 fdisk](../images/sp2/sp2-partitioningdb2.png)
-![Comprovació particions creadesfdisk](../images/sp2/comprovacioExisteix.png)
+![Creant particio 2 fdisk](./../images/sp2/sp2-partitioningdb2.png)
+![Comprovació particions creadesfdisk](./../images/sp2/comprovacioExisteix.png)
 
 Posteriorment, amb `mkfs.exta4 -b 2048 /dev/sdb1`estem formatant amb una mida de block diferent a la partició 1
 
-![Formatant particio 1 mida bloc 2048 i en EXT4](../images/sp2/sp2-formatExt4-2048bytes.png)
+![Formatant particio 1 mida bloc 2048 i en EXT4](./../images/sp2/sp2-formatExt4-2048bytes.png)
 
 I podem comprovar amb `tune2fs -l /dev/sdb1 | grep Block`
 
-![Comprovació mida bloc tune2fs](../images/sp2/sp2-tune2fsSDB1.png)
+![Comprovació mida bloc tune2fs](./../images/sp2/sp2-tune2fsSDB1.png)
 
 I a l'altra partició com a NTFS per a que Windows ho reconegui `mkfs.ntfs /dev/sdb1`
 
-![Formatant particio 2 a NTFS](../images/sp2/sp2-formatNTFS-SB2.png)
+![Formatant particio 2 a NTFS](./../images/sp2/sp2-formatNTFS-SB2.png)
 
 En el GParted podem comprovar que es troben les particions
 
-![Comprovació particions en GParted](../images/sp2/sp2-gparted-comprovacio.png)
+![Comprovació particions en GParted](./../images/sp2/sp2-gparted-comprovacio.png)
 
 ## Muntatge
 
@@ -191,19 +191,19 @@ Per treballar amb aquestes particions les hem de muntar, per això, se sol reali
 
 He creat les dues carpetes a on muntare cadascun de les particions
 
-![Creació carpetes muntatge](../images/sp2/sp2-creaciocarpetes.png)
+![Creació carpetes muntatge](./../images/sp2/sp2-creaciocarpetes.png)
 
 Afegim un arxiu per a despres de muntar, comprovar que no es trobara dintre.
 
-![Creació arxius pre-muntatge](../images/sp2/sp2-creacioArxiu.png)
+![Creació arxius pre-muntatge](./../images/sp2/sp2-creacioArxiu.png)
 
 Montem "temporalment" amb `mount -t ext4 /dev/sdb1 /mnt/particio-linux`, i afegim un arxiu dintre
 
-![Muntatge temporal partició 1 EXT4](../images/sp2/sp2-muntatge1.png)
+![Muntatge temporal partició 1 EXT4](./../images/sp2/sp2-muntatge1.png)
 
 En reiniciar no tornem a veure l'arxiu, de fet ni es troba muntat.
 
-![Comprovació post muntatge i reinici, l'arxiu no es troba](../images/sp2/sp2-despresReinici1.png)
+![Comprovació post muntatge i reinici, l'arxiu no es troba](./../images/sp2/sp2-despresReinici1.png)
 
 Si volem fer-ho permanent, ho afegim al `/etc/fstab`, la linia que he afegit ha sigut
 
@@ -236,11 +236,11 @@ Cada línia descriu una partició o dispositiu amb sis camps separats per espais
 - Amb 1 comprova primer (prioritat més alta), normalment s'aplica a l'arrel `/`
 - Amb 2 o superior comprova després de la 1, en segon pla (qualsevol valor >= 2 es tracta igual que 2.)
 
-![Afegir muntatge a inici sistema amb fstab](../images/sp2/sp2-fstab.png)
+![Afegir muntatge a inici sistema amb fstab](./../images/sp2/sp2-fstab.png)
 
 Ara en reiniciar, es `guarda` el muntatge i veiem l'arxiu
 
-![Comprovació post muntatge i reinici, l'arxiu es troba](../images/sp2/sp2-despresReinici2.png)
+![Comprovació post muntatge i reinici, l'arxiu es troba](./../images/sp2/sp2-despresReinici2.png)
 
 # Gestió de processos
 
@@ -312,14 +312,14 @@ nom_usuari : x : UID : GID : GECOS : directori_home : shell
 | directori_home | Carpeta personal (p. ex. /home/usuari).                                      |
 | shell          | Intèrpret d’ordres per defecte (p. ex. `/bin/bash`, `/usr/sbin/nologin`).    |
 
-![Captura /etc/passwd](../images/sp2/sp2-passwd1.png)
+![Captura /etc/passwd](./../images/sp2/sp2-passwd1.png)
 
 Podem identificar que és usuari que podem iniciar sessió per:
 
 - Té un directori /home/usuari o qualsevol altra ruta.
 - Té un shell vàlid (no `/usr/sbin/nologin` ni `/bin/false`).
 
-![grep bash /etc/passwd](../images/sp2/sp2-grep_shell_passwd.png)
+![grep bash /etc/passwd](./../images/sp2/sp2-grep_shell_passwd.png)
 
 **Arxiu `/etc/group`**
 
@@ -338,7 +338,7 @@ nom_grup : x : GID : membres
 | GID      | Identificador únic del grup.         |
 | membres  | Llista d’usuaris separats per comes. |
 
-![Captura /etc/group acortat](../images/sp2/sp2-etc_group-1.png)
+![Captura /etc/group acortat](./../images/sp2/sp2-etc_group-1.png)
 
 **Arxiu `/etc/shadow`**
 Fitxer restringit a root, conté les contrasenyes xifrades i paràmetres de caducitat.
@@ -360,7 +360,7 @@ usuari : contrasenya_xifrada : últim_canvi : mínim : màxim : avís : inactiu 
 | caducitat           | Data de fi de compte (en dies des de l’1/1/1970).           |
 | reserva             | Camp reservat (no usat).                                    |
 
-![Captura /etc/shadow, remarcant la contrasenya xifrada](../images/sp2/sp2-etc-shadow-1.png)
+![Captura /etc/shadow, remarcant la contrasenya xifrada](./../images/sp2/sp2-etc-shadow-1.png)
 
 **Arxiu `/etc/gshadow`**
 En aquest grup a diferencia del shadow, podem veure l'administrador del grup, mentre en l'altre sols els grups i usuaris.
@@ -383,7 +383,7 @@ nom_grup : contrasenya_xifrada : administradors : membres
 
 Captura `gshadow`, excloent (`-v`) els bloquejats amb `grep`:
 
-![Captura gshadow excloent](../images/sp2/sp2-gshadow-1.png)
+![Captura gshadow excloent](./../images/sp2/sp2-gshadow-1.png)
 
 ## Comandes bàsiques / gestió
 
@@ -418,7 +418,7 @@ Paràmetres importants:
 - -p <hash>: Defineix la contrasenya xifrada de l'usuari
   - openssl passwd -6: Genera el hash SHA-512 compatible amb /etc/shadow
 
-![Creació usuari exercici exemple windows10](../images/sp2/sp2-exercici1-useadd-win10.png)
+![Creació usuari exercici exemple windows10](./../images/sp2/sp2-exercici1-useadd-win10.png)
 
 #### Canvia nom usuari
 
@@ -438,18 +438,18 @@ sudo usermod -d /home/nou_nom -m nou_nom #
 
 > He canviat el nom de windows10 a windows11, el 10 ja no rep actualitzacions, ja es bon sistema.
 
-![Canvi de windows10 a windows11, marcant tots els canvi](../images/sp2/sp2-exercici2-canvi-nom-usuari.png)
+![Canvi de windows10 a windows11, marcant tots els canvi](./../images/sp2/sp2-exercici2-canvi-nom-usuari.png)
 
 ### Gestió bàsica d’usuaris i grups
 
 En distribucions basades en Ubuntu, la configuració gràfica permet afegir o eliminar usuaris bàsics des del panell de **Configuració **> **Sistema** > **Usuaris**.
 
-| ![Accedir a configuracio > Sistema > usuaris](../images/sp2/sp2-conf-sistema-usuaris.png) | ![Opcions d'usuaris nous](../images/sp2/sp2-conf-usuaris-opcions.png) |
+| ![Accedir a configuracio > Sistema > usuaris](./../images/sp2/sp2-conf-sistema-usuaris.png) | ![Opcions d'usuaris nous](./../images/sp2/sp2-conf-usuaris-opcions.png) |
 | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
 
 També tenim l'utilitat que ve en instal·lar _`gnome-system-tools`_. Que permet un poquet més.
 
-![Gnome system Tools](../images/sp2/sp2-gnome-system-tools.png)
+![Gnome system Tools](./../images/sp2/sp2-gnome-system-tools.png)
 
 Encara que és més comú fer servir comandes, que veurem a continuació.
 
@@ -465,11 +465,11 @@ Aquesta **comanda és interactiva**, demana **contrasenya** i **opcionalment nom
 
 - Si només pressionem **Enter**, això deixa els camps opcionals (_GECOS_) buits.
 
-![Creacio usuari cire](../images/sp2/sp2-adduser-cire.png)
+![Creacio usuari cire](./../images/sp2/sp2-adduser-cire.png)
 
 Després de crear-lo, podem comprovar el resultat a `/etc/passwd` o amb `id`:
 
-![Comprovar en passwd la creacio de cire](../images/sp2/sp2-check-cire-passwd.png)
+![Comprovar en passwd la creacio de cire](./../images/sp2/sp2-check-cire-passwd.png)
 
 I veure que s’ha creat automàticament:
 
@@ -480,12 +480,12 @@ I veure que s’ha creat automàticament:
 
 I tambe el seu grup:
 
-![Comprovar en group la creacio de cire](../images/sp2/sp2-check-cire-group.png)
+![Comprovar en group la creacio de cire](./../images/sp2/sp2-check-cire-group.png)
 
 També podrem iniciar sessió gràficament amb aquest usuari.
 
-![Comprovar inici sessió cire 1](../images/sp2/sp2-check-cire-log1.png)
-![Comprovar inici sessió cire 2](../images/sp2/sp2-check-cire-log2.png)
+![Comprovar inici sessió cire 1](./../images/sp2/sp2-check-cire-log1.png)
+![Comprovar inici sessió cire 2](./../images/sp2/sp2-check-cire-log2.png)
 
 ---
 
@@ -499,7 +499,7 @@ _És la versió més amigable de **groupadd**, disponible a Ubuntu i derivades._
 sudo addgroup nomgrup
 ```
 
-![Creacio grup alumnes i comprovacio que es troba](../images/sp2/sp2-addgroup-etc-group.png)
+![Creacio grup alumnes i comprovacio que es troba](./../images/sp2/sp2-addgroup-etc-group.png)
 
 ### useradd/ groupadd
 
@@ -512,7 +512,7 @@ I assigna l'interpret SH (Dash Shell), en sistemes anteriors es possibles que as
 sudo useradd nomusuari
 ```
 
-![Creacio Jesus amb useradd](../images/sp2/sp2-useradd-jesus.png)
+![Creacio Jesus amb useradd](./../images/sp2/sp2-useradd-jesus.png)
 
 Podem canviar l'interpret amb la comanda **usermod** i el paràmetre `-s`
 
@@ -520,7 +520,7 @@ Podem canviar l'interpret amb la comanda **usermod** i el paràmetre `-s`
 sudo usermod -s /bin/bash nomusuari
 ```
 
-![Canvi d'interpret Jesus](../images/sp2/sp2-canvi-interpret-jesus.png)
+![Canvi d'interpret Jesus](./../images/sp2/sp2-canvi-interpret-jesus.png)
 
 Per a la carpeta d'usuari, primer l'hauriem de crear amb `mkdir` i canviar els permisos amb `chown`
 
@@ -531,7 +531,7 @@ sudo mkdir /home/nomusuari
 sudo chown -R nomusuari:nomusuari /home/nomusuari
 ```
 
-![Creació $HOME Jesus ](../images/sp2/sp2-creacio-home-jesus.png)
+![Creació $HOME Jesus ](./../images/sp2/sp2-creacio-home-jesus.png)
 
 Finalment hem d'assignar contrasenya a l'usuari, per a poder accedir-hi, podem comprovar al shadow que no n'hi ha. Això ho podem realitzat amb `passwd`
 
@@ -539,7 +539,7 @@ Finalment hem d'assignar contrasenya a l'usuari, per a poder accedir-hi, podem c
 sudo passwd nomusuari
 ```
 
-![Afegir contrasenya jesus ](../images/sp2/sp2-add-passwd-jesus.png)
+![Afegir contrasenya jesus ](./../images/sp2/sp2-add-passwd-jesus.png)
 
 En resum, per crear un usuari amb useradd minim hem d'afegir, ja sigui amb els paràmetres o nosaltres manualment:
 
@@ -551,9 +551,9 @@ En resum, per crear un usuari amb useradd minim hem d'afegir, ja sigui amb els p
 
 | Login amb su a jesus                                          | Login gràfic jesus                                                 |
 | ------------------------------------------------------------- | ------------------------------------------------------------------ |
-| ![Login amb su a jesus](../images/sp2/sp2-su-login-jesus.png) | ![Login gràfic jesus](../images/sp2/sp2-graphic-login-jesus-1.png) |
+| ![Login amb su a jesus](./../images/sp2/sp2-su-login-jesus.png) | ![Login gràfic jesus](./../images/sp2/sp2-graphic-login-jesus-1.png) |
 
-![Login gràfic jesus](../images/sp2/sp2-graphic-login-jesus-2.png)
+![Login gràfic jesus](./../images/sp2/sp2-graphic-login-jesus-2.png)
 
 > En cás de voler bloquejar un usuari ho podem fer amb el paràmetre `-L` amb `usermod`, al `passwd` identifiquem que és troba bloquejat per l'exclamació a l'inici `!`
 
@@ -584,12 +584,12 @@ passwd -u nomusuari
 
 | Bloquejant i desploquejant amb usermod -L i -U                    | Bloquejant i desploquejant passwd -l i -u                       |
 | ----------------------------------------------------------------- | --------------------------------------------------------------- |
-| ![Amb usermod](../images/sp2/sp2-block-unblock-usermod-jesus.png) | ![Amb passwd](../images/sp2/sp2-block-unblock-passwd-jesus.png) |
+| ![Amb usermod](./../images/sp2/sp2-block-unblock-usermod-jesus.png) | ![Amb passwd](./../images/sp2/sp2-block-unblock-passwd-jesus.png) |
 
 > En l'inic gràfic amb els dos mètodes, sortiria el següent error de "Fallada autenticació en contrasenya":
 > De fet ni sortirá l'usuari, l'haurem de posar nosaltres
 
-![Fail login amb contrasenya jesus](../images/sp2/sp2-fail-login-jesus.png)
+![Fail login amb contrasenya jesus](./../images/sp2/sp2-fail-login-jesus.png)
 
 > Nota: els usuaris creats, per defecte no tenen permisos admin (sudo), com podem observar.
 
@@ -617,7 +617,7 @@ Exemples:
 |   2 | GID específic       | sudo groupadd -g 1500 alumnes3, el GID és 1500                                               |
 |   3 | Grup de sistema     | sudo groupadd -r alumne4, en el arxiu groups, el GID es inferior als 1000, al ser de sistema |
 
-![Creació grups i comprovació grups ](../images/sp2/sp2-creacioGrups-groupadd.png)
+![Creació grups i comprovació grups ](./../images/sp2/sp2-creacioGrups-groupadd.png)
 
 ### usermod / grupmod
 
@@ -636,7 +636,7 @@ sudo usermod -aG sudo nomusuari   # afegir a un grup
 sudo usermod -d /nou/home -m nomusuari  # canviar carpeta personal, movent el contingut
 ```
 
-![Afegit a jesus a grup root i modificant $HOME](../images/sp2/sp2-usermod-root-home.png)
+![Afegit a jesus a grup root i modificant $HOME](./../images/sp2/sp2-usermod-root-home.png)
 
 ### adduser / gpasswd
 
@@ -646,7 +646,7 @@ El mètode més simple per afegir l'usuari a un grup és amb `adduser`, el prime
 sudo adduser nomusuari nomgrup
 ```
 
-![Afegint usuari cire a grup alumnes](../images/sp2/sp2-adduser-cire-alumnes.png)
+![Afegint usuari cire a grup alumnes](./../images/sp2/sp2-adduser-cire-alumnes.png)
 
 L'altre metode és amb el paràmetre `-a` amb `gpasswd`
 
@@ -654,7 +654,7 @@ L'altre metode és amb el paràmetre `-a` amb `gpasswd`
 sudo gpasswd -a nomusuari nomgrup
 ```
 
-![Afegint usuari cire i jesus a grup alumnes2](../images/sp2/sp2-gpasswd-cire-jesus-alumnes2.png)
+![Afegint usuari cire i jesus a grup alumnes2](./../images/sp2/sp2-gpasswd-cire-jesus-alumnes2.png)
 
 També está `sudo usermod -aG`, previament mencionat.
 
@@ -669,17 +669,17 @@ sudo userdel -r nomusuari
 
 | Sense el paràmetre                                                   | Amb el paràmetre                                                 |
 | -------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| ![userdel sense recursiu](../images/sp2/sp2-userdel-norecursive.png) | ![userdel amb recursiu](../images/sp2/sp2-userdel-recursive.png) |
+| ![userdel sense recursiu](./../images/sp2/sp2-userdel-norecursive.png) | ![userdel amb recursiu](./../images/sp2/sp2-userdel-recursive.png) |
 
 Per borrar un grup podem simplement amb `grupdel` o `delgroup`
 
-![Eliminacio completa jesus](../images/sp2/sp2-deluser-jesus.png)
+![Eliminacio completa jesus](./../images/sp2/sp2-deluser-jesus.png)
 
 ```bash
 sudo groupdel nomgrup
 ```
 
-![Eliminació basica amb delgroup i groupdel ](../images/sp2/sp2-grupdel-delgroup-basic.png)
+![Eliminació basica amb delgroup i groupdel ](./../images/sp2/sp2-grupdel-delgroup-basic.png)
 
 També podem fer servir **`deluser`** amb `--remove-all-files` o `--remove-home`, normalment si esborrem un usuari, és problable que vulguem tots els seus arxius fora.
 
