@@ -413,3 +413,6 @@ Torna a la consola com a admin i escriu: `icacls "D:\Projectes"` i veuràs algun
 Això confirma que el grup té control total i alumne2 té només lectura
 
 ![alt text](sp2/image-53.png)
+
+> [!NOTE]
+> No funciona, per a la captura, he llevat el Grup limitats....
