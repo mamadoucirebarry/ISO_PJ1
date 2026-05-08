@@ -11,7 +11,7 @@ title: 'Sprint 3: Administració de Dominis i Seguretat (10h)'
 
 # Configuració server
 
-![alt text](image.# Configuració clientpng)
+![alt text](sp3/image.png)
 
 Afegit funcionalitat domini i promover (nou bosc `mcire.local`)
 
