@@ -6,9 +6,11 @@ title: 'Sprint 5: Monitoratge, Auditories i Programari Client/Servidor (10h)'
 ![Portada](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhm6OLUnXzpB2mW7aazTnE-hi9dwZLtufdAmh7eADffraol-f3WmDsixLYPudEi5h4QpVM2NPrdEumUjH2Rbl4o8hyphenhyphenKQhgERgsthPqEpIJ-g-rCNyPqeZKFIpU3GarlZOIhKiNqIHgzmPYi/s1600/lupaWindows.jpg)
 
 # Índex
+
 - 1. [Configuració directives](#configuració-directives)
 - 2. [Preparació entorn](#preparació-entorn)
 - 3. [Comprovacions](#comprovacions)
+- 4. [Monitorització i rendiment](#monitoritzacio-i-rendiment)
 
 # Configuració directives
 
@@ -22,6 +24,7 @@ Les següents directives
 
 1. **Auditar eventos de inició de sesión**.
 2. **Auditar eventos de inició de sesión de cuenta**.
+
 - La diferencia és que la primera directiva té un abast més gran, **`qualsevol` tipus d'inici de sessió**.
 - Mentres que la segona **qualsevol tipus d'inici de sessió d'objectes del sistema**
 
@@ -30,7 +33,7 @@ Les següents directives
 També he activat unes quantes directives básiques més,
 
 3. **Auditar el cambio de directivas**, directiva important, si un 'usuari' aconsegueix canviar/assignar-se politiques
-per eludir (o qualsevol altra raó), com a admin. és essencial tindre registre d'aixo, juntament amb les següents directives.
+   per eludir (o qualsevol altra raó), com a admin. és essencial tindre registre d'aixo, juntament amb les següents directives.
 4. **Auditar el seguimiento de procesos**, per monitorar activació de programes, sortida de processos, duplicació de controls i accés indirecte a objectes.
 5. **Auditar la administración de cuentas** , per detectar canvis en permisos, propietats... dels comptes.
 6. **Auditar el acceso a objetos**, els objectes en Windows poden ser diverses coses (fitxers, carpetes,registres, etc).
@@ -68,8 +71,8 @@ En l'usuari `alumne` unit al domini en un altre equip (màquina virtual), he rea
 
 1. Iniciat sessió al domini , per a que es generin logs d'inici sessió
 
-|                           |                           |
-| ------------------------- | ------------------------- |
+|                               |                               |
+| ----------------------------- | ----------------------------- |
 | ![alt text](sp5/image-09.png) | ![alt text](sp5/image-10.png) |
 
 2. Obert el quadre de diàleg d'Executar per obrir la CMD, per al seguiment processos.
@@ -90,8 +93,8 @@ Un cop realitzat, en el visor d'esdeveniments (`eventvwr.msc`), en `Registros de
 
 ![alt text](sp5/image-12.png)
 
-|                           |                           |
-| ------------------------- | ------------------------- |
+|                               |                               |
+| ----------------------------- | ----------------------------- |
 | ![alt text](sp5/image-13.png) | ![alt text](sp5/image-14.png) |
 
 S'han obert **MpCmdRun.exe** (que és el que quadre de diàleg)+ altres processos (cmd.exe, explorer...)
@@ -110,3 +113,30 @@ També aprofito per veure els registres de canvis de directives
 
 ![alt text](sp5/image-17.png)
 ![alt text](sp5/image-18.png)
+
+# 4. Monitorització i rendiment
+
+## Administrador de tareas
+
+| Imagen 1               | Imagen 2                 |
+| ---------------------- | ------------------------ |
+| ![alt text](sp5/M-image.png) | ![alt text](sp5/M-image-1.png) |
+
+| Imagen 3                 | Imagen 4                 |
+| ------------------------ | ------------------------ |
+| ![alt text](sp5/M-image-3.png) | ![alt text](sp5/M-image-2.png) |
+
+| Imagen 5                 | Imagen 6                 |
+| ------------------------ | ------------------------ |
+| ![alt text](sp5/M-image-4.png) | ![alt text](sp5/M-image-5.png) |
+
+
+## Monitor recursos
+
+| Imagen 1                 | Imagen 2                 |
+| ------------------------ | ------------------------ |
+| ![alt text](sp5/M-image-6.png) | ![alt text](sp5/M-image-7.png) |
+
+| Imagen 3                 | Imagen 4                 |
+| ------------------------ | ------------------------ |
+| ![alt text](sp5/M-image-8.png) | ![alt text](sp5/M-image-9.png) |
