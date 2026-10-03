@@ -1,40 +1,69 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: Curs d'Administració de Sistemes
+description: Projectes i pràctiques d'Implantació de sistemes operatius
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
+  tagline: Projectes, pràctiques i documentació d'Implantació de sistemes operatius.
   image:
     file: ../../assets/houston.webp
   actions:
-    - text: Example Guide
-      link: default/guides/example/
+    - text: Veure Linux
+      link: linux/sp1
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
+    - text: Veure Windows
+      link: windows/sp1
+      icon: right-arrow
       variant: minimal
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Badge, Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-## Next steps
+## Sobre el projecte
 
-<CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+Aquest repositori conté els projectes elaborats durant el curs d'**Implantació de sistemes operatius**, amb pràctiques, configuracions, proves i documentació de diferents entorns.
+
+<Badge text="Linux" variant="success" />{' '}
+<Badge text="Windows" variant="note" />{' '}
+<Badge text="Documentació" variant="tip" />
+
+## Contingut
+
+<CardGrid>
+
+<Card title="Linux" icon="linux">
+Documentació de les pràctiques realitzades sobre Ubuntu i altres eines de l'entorn Linux.
+
+<LinkCard
+  title="Obrir documentació Linux"
+  href="/linux/"
+  description="SP1 → SP5"
+/>
+
+</Card>
+
+<Card title="Windows" icon="seti:windows">
+Pràctiques relacionades amb la instal·lació, configuració, administració i seguretat de sistemes Windows.
+
+<LinkCard
+  title="Obrir documentació Windows"
+  href="/windows/"
+  description="SP1 → SP5"
+/>
+
+</Card>
+
 </CardGrid>
+
+:::note[GitHub]
+Aquest projecte es troba preparat per ser publicat amb **GitHub Pages**.
+
+[Veure el repositori a GitHub](https://github.com/mamadoucirebarry/ISO_PJ1)
+:::
+
+## Llicència
+
+El contingut es distribueix sota la llicència **Creative Commons BY-NC-SA 4.0 ES**.
+
+---
+
+© 2025 Mamadou Cire Barry
