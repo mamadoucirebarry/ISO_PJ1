@@ -5,7 +5,7 @@ import starlightImageZoom from 'starlight-image-zoom'
 
 export default defineConfig({
   site: 'https://mamadoucirebarry.github.io',
-  base: '/',
+  base: '/ISO_PJ1',
   integrations: [
    starlight({
       title: 'ISO - Sistemes Operatius',
