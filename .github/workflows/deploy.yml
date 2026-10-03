@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: withastro/action@v6
-      - with:
+        with:
           path: ./documentacio
 
   deploy:
